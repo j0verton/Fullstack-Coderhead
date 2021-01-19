@@ -23,6 +23,16 @@ const ShowTag = ({ tag }) => {
     setIsEditing(false);
     setTagEdits("");
   };
+  const saveTagEdit = (tag, tagId) => {
+    console.log({ name: tag, id: tagId });
+    fetch(`api/tag/${tagId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: tagId, name: tag }),
+    }).then((_) => setTagEdits(""));
+  };
   return (
     <div className="justify-content-between row">
       {isEditing ? (
@@ -34,7 +44,9 @@ const ShowTag = ({ tag }) => {
               value={tagEdits}
             />
             <ButtonGroup size="sm">
-              <Button onClick={showEditForm}>Save</Button>
+              <Button onClick={(e) => saveTagEdit(tagEdits, tag.id)}>
+                Save
+              </Button>
               <Button outline color="danger" onClick={hideEditForm}>
                 Cancel
               </Button>

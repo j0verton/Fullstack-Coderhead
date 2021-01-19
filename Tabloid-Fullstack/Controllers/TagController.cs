@@ -45,5 +45,18 @@ namespace Tabloid_Fullstack.Controllers
             _repo.Add(tag);
             return CreatedAtAction("Get", new { id = tag.Id }, tag);
         }
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Tag tag)
+        {
+            if (id != tag.Id || tag.Id < 0)
+            {
+                return BadRequest();
+            }
+            var existingTag = _repo.GetById(tag.Id);
+            if (existingTag == null) { return BadRequest(); }
+            existingTag.Name = tag.Name;
+            _repo.Update(existingTag);
+            return NoContent();
+        }
     }
 }
