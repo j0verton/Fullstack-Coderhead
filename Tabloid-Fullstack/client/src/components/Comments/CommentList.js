@@ -13,7 +13,7 @@ import {
 
 export const CommentList = ({ postComments }) => {
     return (
-        <div className="float-left">
+        <div>
             {postComments.map((postComment) => (
                 <Card key={postComment.id} className="mt-2">
                     <CardHeader>{postComment.subject}</CardHeader>

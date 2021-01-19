@@ -56,13 +56,18 @@ const PostDetails = () => {
           </div>
         </div>
         <div className="text-justify post-details__content">{post.content}</div>
+
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} />
         </div>
-        <div className="my-4 text-left">
+        <line></line>
+        <hr />
+
+        <div className="col float left my-4 text-left">
           <CommentList postComments={comments} />
           <CommentForm />
         </div>
+
       </div>
     </div>
   );

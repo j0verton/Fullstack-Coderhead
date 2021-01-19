@@ -10,7 +10,6 @@ import { CommentForm } from "./Comments/CommentForm";
 import ProfileManager from "../pages/ProfileManager"
 import TagForm from "./TagForm";
 import Tags from "../pages/Tags";
-import ProfileManager from "../pages/ProfileManager";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
