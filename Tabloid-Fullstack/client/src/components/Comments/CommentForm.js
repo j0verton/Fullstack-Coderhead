@@ -56,10 +56,10 @@ export const CommentForm = (props) => {
                     </FormGroup>
                     <FormGroup>
                         <Label for="content">Content</Label>
-                        <textarea
+                        <Input type="textarea"
                             id="content"
                             onChange={(e) => setContent(e.target.value)}
-                        >Enter Comment</textarea>
+                        >Enter Comment</Input>
                     </FormGroup>
 
                 </Form>

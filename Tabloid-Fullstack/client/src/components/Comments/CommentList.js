@@ -8,6 +8,7 @@ import {
     CardHeader,
     Input,
     Button,
+    CardFooter,
 } from "reactstrap";
 
 export const CommentList = ({ postComments }) => {
@@ -19,17 +20,18 @@ export const CommentList = ({ postComments }) => {
                     <CardBody>
                         {postComment.content}
                     </CardBody>
-                    <Button color="info"
-                    // onClick={ }
-                    >
-                        Delete
+                    <CardFooter className="row">
+                        <Button color="info"
+                        // onClick={ }
+                        >
+                            Delete
             </Button>
-                    <Button color="info"
-                    // onClick={ }
-                    >
-                        Edit
+                        <Button color="info"
+                        // onClick={ }
+                        >
+                            Edit
             </Button>
-
+                    </CardFooter>
                 </Card>
             ))}
         </div>
