@@ -18,9 +18,10 @@ export const CommentForm = (props) => {
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
     const { postId } = useParams()
+    const history = useHistory()
 
     const addComment = (comment) => {
-        getToken().then((token) => {
+        return getToken().then((token) => {
             fetch('/api/comment', {
                 method: 'POST',
                 headers: {
@@ -42,13 +43,14 @@ export const CommentForm = (props) => {
         };
         console.log(comment)
         addComment(comment)
+            .then(() => history.push(`/post/${postId}`))
     }
 
     return (
         <Card className="mt-2">
             <CardHeader>Add A New Comment</CardHeader>
             <CardBody>
-                <Form>
+                <Form onSubmit={submit}>
                     <FormGroup>
                         <Label for="subject">Subject</Label>
                         <Input
@@ -61,13 +63,15 @@ export const CommentForm = (props) => {
                         <Input type="textarea"
                             id="content"
                             onChange={(e) => setContent(e.target.value)}
-                        >Enter Comment</Input>
+                            placeholder="Enter Comment"
+                        />
+
                     </FormGroup>
 
-                </Form>
-                <Button color="info" size="sm" onClick={submit}>
-                    SUBMIT
+                    <Button type="submit" color="info" size="sm">
+                        SUBMIT
             </Button>
+                </Form>
             </CardBody>
         </Card>
 
