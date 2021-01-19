@@ -63,7 +63,7 @@ export const CommentForm = (props) => {
                     </FormGroup>
 
                 </Form>
-                <Button color="info" onClick={submit}>
+                <Button color="info" size="sm" onClick={submit}>
                     SUBMIT
             </Button>
             </CardBody>

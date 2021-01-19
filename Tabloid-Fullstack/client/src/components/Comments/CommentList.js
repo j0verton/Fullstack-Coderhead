@@ -21,12 +21,12 @@ export const CommentList = ({ postComments }) => {
                         {postComment.content}
                     </CardBody>
                     <CardFooter className="row">
-                        <Button color="info"
+                        <Button color="info" size="sm"
                         // onClick={ }
                         >
                             Delete
             </Button>
-                        <Button color="info"
+                        <Button color="info" size="sm"
                         // onClick={ }
                         >
                             Edit
