@@ -24,6 +24,9 @@ const ApplicationViews = () => {
       <Route path="/categories">
         {isLoggedIn ? <CategoryManager /> : <Redirect to="/login" />}
       </Route>
+      <Route path="/profiles">
+        {isLoggedIn ? <CategoryManager /> : <Redirect to="/login" />}
+      </Route>
       <Route path="/login">
         <Login />
       </Route>
