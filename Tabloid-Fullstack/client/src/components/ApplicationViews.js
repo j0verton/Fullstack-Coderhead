@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PostDetails from "../pages/PostDetails";
 import CategoryManager from "../pages/CategoryManager";
+import ProfileManager from "../pages/ProfileManager"
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -25,7 +26,7 @@ const ApplicationViews = () => {
         {isLoggedIn ? <CategoryManager /> : <Redirect to="/login" />}
       </Route>
       <Route path="/profiles">
-        {isLoggedIn ? <CategoryManager /> : <Redirect to="/login" />}
+        {isLoggedIn ? <ProfileManager /> : <Redirect to="/login" />}
       </Route>
       <Route path="/login">
         <Login />
