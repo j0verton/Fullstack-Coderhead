@@ -8,7 +8,7 @@ using Tabloid_Fullstack.Models;
 
 namespace Tabloid_Fullstack.Repositories
 {
-    public class CommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private ApplicationDbContext _context;
 
@@ -27,7 +27,8 @@ namespace Tabloid_Fullstack.Repositories
 
         public void Add(Comment comment)
         {
-            try {
+            try
+            {
 
                 _context.Add(comment);
                 _context.SaveChanges();
@@ -35,8 +36,8 @@ namespace Tabloid_Fullstack.Repositories
 
             }
             catch (Exception ex)
-            { 
-            
+            {
+
             }
         }
 
