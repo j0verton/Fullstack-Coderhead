@@ -8,6 +8,9 @@ import PostDetails from "../pages/PostDetails";
 import CategoryManager from "../pages/CategoryManager";
 import { CommentForm } from "./Comments/CommentForm";
 import ProfileManager from "../pages/ProfileManager"
+import TagForm from "./TagForm";
+import Tags from "../pages/Tags";
+import ProfileManager from "../pages/ProfileManager";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -28,6 +31,12 @@ const ApplicationViews = () => {
       </Route>
       <Route path="/comment/:postId">
         {isLoggedIn ? <CommentForm /> : <Redirect to="/login" />}
+      </Route>
+      <Route path="/Tags">
+        {isLoggedIn ? <Tags /> : <Redirect to="/login" />}
+      </Route>
+      <Route path="/Create/Tags">
+        {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
       </Route>
       <Route path="/profiles">
         {isLoggedIn ? <ProfileManager /> : <Redirect to="/login" />}
