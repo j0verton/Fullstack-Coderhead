@@ -38,12 +38,13 @@ namespace Tabloid_Fullstack.Controllers
             {
                 return NotFound();
             }
-            var comments = _commentRepo.GetCommentsByPostId(id)
+            var comments = _commentRepo.GetCommentsByPostId(id);
             var reactionCounts = _repo.GetReactionCounts(id);
             var postDetails = new PostDetails()
             {
                 Post = post,
-                ReactionCounts = reactionCounts
+                ReactionCounts = reactionCounts,
+                Comments = comments
             };
             return Ok(postDetails);
         }
