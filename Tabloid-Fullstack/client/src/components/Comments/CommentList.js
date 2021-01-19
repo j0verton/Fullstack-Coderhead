@@ -15,7 +15,7 @@ export const CommentList = ({ postComments }) => {
     return (
         <div className="float-left">
             {postComments.map((postComment) => (
-                <Card key={postComment.id}>
+                <Card key={postComment.id} className="mt-2">
                     <CardHeader>{postComment.subject}</CardHeader>
                     <CardBody>
                         {postComment.content}

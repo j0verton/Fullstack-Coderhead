@@ -59,7 +59,7 @@ const PostDetails = () => {
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} />
         </div>
-        <div className="my-4">
+        <div className="my-4 text-left">
           <CommentList postComments={comments} />
           <CommentForm />
         </div>

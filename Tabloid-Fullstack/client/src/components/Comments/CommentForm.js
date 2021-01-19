@@ -8,6 +8,7 @@ import {
     Label,
     Input,
     Button,
+    CardHeader,
 } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
@@ -44,7 +45,8 @@ export const CommentForm = (props) => {
     }
 
     return (
-        <Card className="col-sm-12 col-lg-6">
+        <Card className="mt-2">
+            <CardHeader>Add A New Comment</CardHeader>
             <CardBody>
                 <Form>
                     <FormGroup>
