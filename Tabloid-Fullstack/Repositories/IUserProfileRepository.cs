@@ -1,9 +1,10 @@
-﻿using Tabloid_Fullstack.Models;
+﻿using System.Collections.Generic;
+using Tabloid_Fullstack.Models;
 
 namespace Tabloid_Fullstack.Repositories
 {
-    public interface IUserProfileRepository
-    {
+    public interface IUserProfileRepository { 
+        List<UserProfile> GetProfiles();
         void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
     }

@@ -53,9 +53,23 @@ const AppHeader = () => {
                   </NavLink>
                 </NavItem>
                 {isAdmin() && (
+                  <>
+                    <NavItem>
+                      <NavLink to="/categories" tag={Link}>
+                        Categories
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink to="/tags" tag={Link}>
+                        Tags
+                      </NavLink>
+                    </NavItem>
+                  </>
+                )}
+                {isAdmin() && (
                   <NavItem>
-                    <NavLink to="/categories" tag={Link}>
-                      Categories
+                    <NavLink to="/profiles" tag={Link}>
+                      Profiles
                     </NavLink>
                   </NavItem>
                 )}
