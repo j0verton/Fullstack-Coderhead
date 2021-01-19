@@ -19,7 +19,7 @@ export const CommentForm = (props) => {
     const { postId } = useParams()
 
     const addComment = (comment) => {
-        return getToken().then((token) =>
+        getToken().then((token) => {
             fetch('/api/comment', {
                 method: 'POST',
                 headers: {
@@ -28,8 +28,8 @@ export const CommentForm = (props) => {
                 },
                 body: JSON.stringify(comment)
             })
-        )
-            .then(res => res.json());
+        })
+        // .then(res => res.json());
     }
 
 

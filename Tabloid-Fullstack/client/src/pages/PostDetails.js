@@ -5,6 +5,8 @@ import { Jumbotron } from "reactstrap";
 import PostReactions from "../components/PostReactions";
 import formatDate from "../utils/dateFormatter";
 import "./PostDetails.css";
+import { CommentForm } from "../components/Comments/CommentForm"
+import { CommentList } from "../components/Comments/CommentList"
 
 const PostDetails = () => {
   const { postId } = useParams();
@@ -53,6 +55,10 @@ const PostDetails = () => {
         <div className="text-justify post-details__content">{post.content}</div>
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} />
+        </div>
+        <div className="my-4">
+          <CommentList />
+          <CommentForm />
         </div>
       </div>
     </div>

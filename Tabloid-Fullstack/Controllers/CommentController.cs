@@ -44,7 +44,7 @@ namespace Tabloid_Fullstack.Controllers
             comment.UserProfileId = GetCurrentUserProfile().Id;
                 comment.CreateDateTime = DateTime.Now;
             _commentRepository.Add(comment);
-            return CreatedAtAction("Get", new { id = comment.Id }, comment);
+            return Ok();
         }
 
         private UserProfile GetCurrentUserProfile()
