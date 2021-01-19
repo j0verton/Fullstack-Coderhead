@@ -23,10 +23,11 @@ namespace Tabloid_Fullstack.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+     //   [Authorize] will be authorized only to admin
         public IActionResult GetAllUsers()
         {
-            return Ok(_repo.GetProfiles());
+            var profiles = _repo.GetProfiles();
+            return Ok(profiles);
         }
 
         [HttpGet("{firebaseUserId}")]
