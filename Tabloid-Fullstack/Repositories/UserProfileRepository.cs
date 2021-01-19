@@ -18,6 +18,15 @@ namespace Tabloid_Fullstack.Repositories
             _context = context;
         }
 
+        public List<UserProfile> GetProfiles()
+        {
+            return _context.UserProfile
+                .Include(up => up.UserType)
+                .Include(up => up.Post)
+                .OrderBy(up => up.DisplayName)
+                .ToList();
+        }
+
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
             return _context.UserProfile
