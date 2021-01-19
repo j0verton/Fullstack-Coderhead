@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { useHistory, useState } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {
     Form,
     FormGroup,
@@ -16,11 +16,22 @@ export const CommentForm = (props) => {
     const { getToken } = useContext(UserProfileContext)
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
-    const { commentId } = useParams()
+    const { postId } = useParams()
 
     const addComment = (comment) => {
-
+        return getToken().then((token) =>
+            fetch('/api/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(comment)
+            })
+        )
+            .then(res => res.json());
     }
+
 
     const submit = (e) => {
         const comment = {
@@ -28,6 +39,7 @@ export const CommentForm = (props) => {
             content,
             postId
         };
+        console.log(comment)
         addComment(comment)
     }
 

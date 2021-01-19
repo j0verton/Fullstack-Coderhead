@@ -37,7 +37,7 @@ namespace Tabloid_Fullstack.Controllers
         public IActionResult Post(Comment comment)
         {
             Post post = _postRepository.GetById(comment.PostId); 
-            if (comment.Subject.Length > 255 || post != null)
+            if (comment.Subject.Length > 255 || post == null)
             {
                 return BadRequest();
             }
