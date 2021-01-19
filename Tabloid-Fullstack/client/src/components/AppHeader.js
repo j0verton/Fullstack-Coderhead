@@ -66,6 +66,13 @@ const AppHeader = () => {
                     </NavItem>
                   </>
                 )}
+                {isAdmin() && (
+                  <NavItem>
+                    <NavLink to="/profiles" tag={Link}>
+                      Profiles
+                    </NavLink>
+                  </NavItem>
+                )}
                 <NavItem>
                   <NavLink tag={Link} onClick={logoutAndReturn}>
                     Logout
@@ -73,19 +80,19 @@ const AppHeader = () => {
                 </NavItem>
               </>
             ) : (
-              <>
-                <NavItem>
-                  <NavLink to="/login" tag={Link}>
-                    Login
+                <>
+                  <NavItem>
+                    <NavLink to="/login" tag={Link}>
+                      Login
                   </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink to="/register" tag={Link}>
-                    Register
+                  </NavItem>
+                  <NavItem>
+                    <NavLink to="/register" tag={Link}>
+                      Register
                   </NavLink>
-                </NavItem>
-              </>
-            )}
+                  </NavItem>
+                </>
+              )}
           </Nav>
           {user ? (
             <NavbarText className="d-sm-none d-md-block">

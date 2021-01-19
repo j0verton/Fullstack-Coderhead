@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tabloid_Fullstack.Models;
 using Tabloid_Fullstack.Repositories;
+ 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,6 +20,14 @@ namespace Tabloid_Fullstack.Controllers
         public UserProfileController(IUserProfileRepository repo)
         {
             _repo = repo;
+        }
+
+        [HttpGet]
+     //   [Authorize] will be authorized only to admin
+        public IActionResult GetAllUsers()
+        {
+            var profiles = _repo.GetProfiles();
+            return Ok(profiles);
         }
 
         [HttpGet("{firebaseUserId}")]

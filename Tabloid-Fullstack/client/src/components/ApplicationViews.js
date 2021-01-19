@@ -8,6 +8,7 @@ import PostDetails from "../pages/PostDetails";
 import CategoryManager from "../pages/CategoryManager";
 import TagForm from "./TagForm";
 import Tags from "../pages/Tags";
+import ProfileManager from "../pages/ProfileManager";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -31,6 +32,9 @@ const ApplicationViews = () => {
       </Route>
       <Route path="/Create/Tags">
         {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
+      </Route>
+      <Route path="/profiles">
+        {isLoggedIn ? <ProfileManager /> : <Redirect to="/login" />}
       </Route>
       <Route path="/login">
         <Login />
