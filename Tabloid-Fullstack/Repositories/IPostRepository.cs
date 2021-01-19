@@ -9,7 +9,8 @@ namespace Tabloid_Fullstack.Repositories
         List<PostSummary> Get();
         Post GetById(int id);
         List<ReactionCount> GetReactionCounts(int postId);
-
-
+        void Add(Post post);
+        void Update(Post post);
+        void Delete(int id);
     }
 }
