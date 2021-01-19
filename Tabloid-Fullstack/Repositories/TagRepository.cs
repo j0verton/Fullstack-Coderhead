@@ -26,6 +26,10 @@ namespace Tabloid_Fullstack.Repositories
                 .Where(t => t.Id == id)
                 .FirstOrDefault();
         }
+        //public List<Tag> GetByPostId(int id)
+        //{
+        //return _context.Tag.Where(t => t.Posts.Any(p => p.Id == id)).ToList();
+        //}
         public void Add(Tag tag)
         {
             _context.Add(tag);
