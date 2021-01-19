@@ -26,7 +26,6 @@ const PostForm = (props) => {
     const handleChange = (e) => {
         const newPost = { ...post }
         newPost[e.target.name] = e.target.value
-        console.log(newPost);
         setPost(newPost)
     }
 
