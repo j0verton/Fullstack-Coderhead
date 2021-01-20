@@ -39,6 +39,8 @@ namespace Tabloid_Fullstack.Controllers
             }
             return Ok(tag);
         }
+
+
         [HttpPost]
         public IActionResult Post(Tag tag)
         {
