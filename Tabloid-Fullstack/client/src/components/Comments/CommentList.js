@@ -6,7 +6,7 @@ export const CommentList = ({ getPost, postComments }) => {
     return (
         <div>
             {postComments.map((postComment) => (
-                <CommentCard comment={postComment} getPost={GetPost} />
+                <CommentCard comment={postComment} getPost={getPost} />
             ))}
         </div>
     );

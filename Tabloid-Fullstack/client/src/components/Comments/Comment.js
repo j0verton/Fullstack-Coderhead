@@ -10,6 +10,8 @@ import {
     Button,
     CardFooter,
 } from "reactstrap";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
+
 export const CommentCard = (comment, getPost) => {
 
     const [user, setUser] = useState()
@@ -25,7 +27,6 @@ export const CommentCard = (comment, getPost) => {
     useEffect(() => {
         setUser(getCurrentUser())
         console.log("user", user)
-        console.table(comments)
     }, [])
     return (
 
