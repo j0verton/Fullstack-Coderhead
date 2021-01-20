@@ -22,14 +22,11 @@ const ShowTag = ({ tag, getTags }) => {
 
   const { getToken } = useContext(UserProfileContext);
 
-  //space
-  //space
   const showEditForm = (_) => {
     setIsEditing(true);
     setTagEdits(tag.name);
   };
-  //space
-  //space
+
   const hideEditForm = (_) => {
     setIsEditing(false);
     setTagEdits("");
