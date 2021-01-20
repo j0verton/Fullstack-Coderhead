@@ -59,7 +59,6 @@ const Tags = () => {
         className="bg-danger rounded-circle"
       />
       <h1>Tag Management</h1>
-      <Link to="/create/tags">Add A Tag</Link>
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-8 col-md-6">
           <ListGroup>
