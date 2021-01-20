@@ -13,7 +13,7 @@ import {
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const CommentForm = (props) => {
+export const CommentForm = (props, GetPost) => {
     const { getToken } = useContext(UserProfileContext)
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
@@ -30,7 +30,7 @@ export const CommentForm = (props) => {
                 },
                 body: JSON.stringify(comment)
             })
-        })
+        }).then(() => GetPost())
         // .then(res => res.json());
     }
 
@@ -43,7 +43,6 @@ export const CommentForm = (props) => {
         };
         console.log(comment)
         addComment(comment)
-            .then(() => history.push(`/post/${postId}`))
     }
 
     return (
