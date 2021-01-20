@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
     Form,
@@ -13,10 +13,12 @@ import {
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const CommentForm = (props, GetPost) => {
+export const CommentForm = (commentId, GetPost) => {
     const { getToken } = useContext(UserProfileContext)
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
+
     const { postId } = useParams()
     const history = useHistory()
 
@@ -31,7 +33,6 @@ export const CommentForm = (props, GetPost) => {
                 body: JSON.stringify(comment)
             })
         }).then(() => GetPost())
-        // .then(res => res.json());
     }
 
 
@@ -45,6 +46,24 @@ export const CommentForm = (props, GetPost) => {
         addComment(comment)
     }
 
+    useEffect(() => {
+        if (commentId) {
+
+            return getToken().then((token) => {
+                fetch(`/api/comment/${commentId}`)
+                    .then(data => {
+                        setSubject(data.subject)
+                        setContent(data.content)
+                        setIsLoading(false)
+
+                    })
+
+            })
+        } else {
+            setIsLoading(false)
+        }
+    }, [])
+
     return (
         <Card className="mt-2">
             <CardHeader>Add A New Comment</CardHeader>
@@ -55,6 +74,7 @@ export const CommentForm = (props, GetPost) => {
                         <Input
                             id="subject"
                             type="text"
+                            defaultValue={subject}
                             onChange={(e) => setSubject(e.target.value)} />
                     </FormGroup>
                     <FormGroup>
@@ -62,6 +82,7 @@ export const CommentForm = (props, GetPost) => {
                         <Input type="textarea"
                             id="content"
                             onChange={(e) => setContent(e.target.value)}
+                            defaultValue={content}
                             placeholder="Enter Comment"
                         />
 
