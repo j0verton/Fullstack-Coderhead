@@ -19,29 +19,11 @@ namespace Tabloid_Fullstack.Controllers
         private readonly IUserProfileRepository _userProfileRepository;
         private ICommentRepository _commentRepo;
 
-        public PostController(IPostRepository repo, ICommentRepository commentRepo)
+        public PostController(IPostRepository repo, ICommentRepository commentRepo, IUserProfileRepository userProfileRepository)
         {
             _repo = repo;
             _commentRepo = commentRepo;
-
-        private readonly IPostRepository _repo;
-        private readonly IUserProfileRepository _userProfileRepository;
-
-        public PostController(IPostRepository repo, IUserProfileRepository userProfileRepository)
-        {
-            _repo = repo;
             _userProfileRepository = userProfileRepository;
-
-
-        private readonly IPostRepository _repo;
-        private readonly IUserProfileRepository _userProfileRepository;
-
-        public PostController(IPostRepository repo, IUserProfileRepository userProfileRepository)
-        {
-            _repo = repo;
-            _userProfileRepository = userProfileRepository;
-
->>>>>>>>> Temporary merge branch 2
         }
 
 
@@ -69,6 +51,48 @@ namespace Tabloid_Fullstack.Controllers
                 Comments = comments
             };
             return Ok(postDetails);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            post.CreateDateTime = DateTime.Now;
+            post.IsApproved = true;
+            post.UserProfileId = GetCurrentUserProfile().Id;
+            _repo.Add(post);
+            return CreatedAtAction("Get", new { id = post.Id }, post);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Post post)
+        {
+            if (id != post.Id)
+            {
+                return BadRequest();
+            }
+
+            _repo.Update(post);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _repo.Delete(id);
+            return NoContent();
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            try
+            {
+                var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
