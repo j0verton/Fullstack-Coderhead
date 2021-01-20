@@ -8,6 +8,7 @@ import {
     Label,
     Input,
     Button,
+    CardHeader,
 } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
@@ -17,9 +18,10 @@ export const CommentForm = (props) => {
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
     const { postId } = useParams()
+    const history = useHistory()
 
     const addComment = (comment) => {
-        getToken().then((token) => {
+        return getToken().then((token) => {
             fetch('/api/comment', {
                 method: 'POST',
                 headers: {
@@ -41,39 +43,38 @@ export const CommentForm = (props) => {
         };
         console.log(comment)
         addComment(comment)
+            .then(() => history.push(`/post/${postId}`))
     }
 
     return (
-        <div className="container pt-4">
-            <div className="row justify-content-center">
-                <Card className="col-sm-12 col-lg-6">
-                    <CardBody>
-                        <Form>
-                            <FormGroup>
-                                <Label for="subject">Subject</Label>
-                                <Input
-                                    id="subject"
-                                    type="text"
-                                    onChange={(e) => setSubject(e.target.value)} />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="content">Content</Label>
-                                <textarea
-                                    id="content"
-                                    onChange={(e) => setContent(e.target.value)}
-                                >Enter Comment</textarea>
-                            </FormGroup>
+        <Card className="mt-2">
+            <CardHeader>Add A New Comment</CardHeader>
+            <CardBody>
+                <Form onSubmit={submit}>
+                    <FormGroup>
+                        <Label for="subject">Subject</Label>
+                        <Input
+                            id="subject"
+                            type="text"
+                            onChange={(e) => setSubject(e.target.value)} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="content">Content</Label>
+                        <Input type="textarea"
+                            id="content"
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="Enter Comment"
+                        />
 
-                        </Form>
-                        <Button color="info" onClick={submit}>
-                            SUBMIT
+                    </FormGroup>
+
+                    <Button type="submit" color="info" size="sm">
+                        SUBMIT
             </Button>
-                    </CardBody>
-                </Card>
-            </div>
+                </Form>
+            </CardBody>
+        </Card>
 
-
-        </div>
 
     )
 

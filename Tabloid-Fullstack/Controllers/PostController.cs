@@ -15,13 +15,33 @@ namespace Tabloid_Fullstack.Controllers
     public class PostController : ControllerBase
     {
 
-        private IPostRepository _repo;
+        private readonly IPostRepository _repo;
+        private readonly IUserProfileRepository _userProfileRepository;
+        private ICommentRepository _commentRepo;
+
+        public PostController(IPostRepository repo, ICommentRepository commentRepo)
+        {
+            _repo = repo;
+            _commentRepo = commentRepo;
+
+        private readonly IPostRepository _repo;
+        private readonly IUserProfileRepository _userProfileRepository;
 
         public PostController(IPostRepository repo, IUserProfileRepository userProfileRepository)
         {
             _repo = repo;
             _userProfileRepository = userProfileRepository;
 
+
+        private readonly IPostRepository _repo;
+        private readonly IUserProfileRepository _userProfileRepository;
+
+        public PostController(IPostRepository repo, IUserProfileRepository userProfileRepository)
+        {
+            _repo = repo;
+            _userProfileRepository = userProfileRepository;
+
+>>>>>>>>> Temporary merge branch 2
         }
 
 
@@ -40,12 +60,13 @@ namespace Tabloid_Fullstack.Controllers
             {
                 return NotFound();
             }
-            var comments = _commentRepo.GetCommentsByPostId(id)
+            var comments = _commentRepo.GetCommentsByPostId(id);
             var reactionCounts = _repo.GetReactionCounts(id);
             var postDetails = new PostDetails()
             {
                 Post = post,
-                ReactionCounts = reactionCounts
+                ReactionCounts = reactionCounts,
+                Comments = comments
             };
             return Ok(postDetails);
         }

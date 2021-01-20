@@ -22,6 +22,7 @@ namespace Tabloid_Fullstack.Repositories
             return _context.Comment
                 .Include(c => c.User)
                     .Where(c => c.PostId == id)
+                    .OrderByDescending(c => c.CreateDateTime )
                     .ToList();
         }
 

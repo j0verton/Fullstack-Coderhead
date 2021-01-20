@@ -1,23 +1,37 @@
 import React, { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { CardHeader } from "reactstrap";
+import {
+    Form,
+    FormGroup,
+    Card,
+    CardBody,
+    CardHeader,
+    Input,
+    Button,
+    CardFooter,
+} from "reactstrap";
 
 export const CommentList = ({ postComments }) => {
     return (
-        <div className="float-left">
+        <div>
             {postComments.map((postComment) => (
-                <Card key={postComment.id} className="col-sm-12 col-lg-6">
-                    <CardHeader>{postComment.Subject}</CardHeader>
+                <Card key={postComment.id} className="mt-2">
+                    <CardHeader>{postComment.subject}</CardHeader>
                     <CardBody>
-                        {postComment.Content}
+                        {postComment.content}
                     </CardBody>
-                    <Button color="info" onClick={ }>
-                        Delete
+                    <CardFooter className="row">
+                        <Button color="info" size="sm"
+                        // onClick={ }
+                        >
+                            Delete
             </Button>
-                    <Button color="info" onClick={ }>
-                        Edit
+                        <Button color="info" size="sm"
+                        // onClick={ }
+                        >
+                            Edit
             </Button>
-
+                    </CardFooter>
                 </Card>
             ))}
         </div>
