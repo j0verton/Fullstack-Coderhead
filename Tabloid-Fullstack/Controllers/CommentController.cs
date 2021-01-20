@@ -64,7 +64,7 @@ namespace Tabloid_Fullstack.Controllers
             OriginalComment.Content = comment.Content;
             OriginalComment.Subject = comment.Subject;
             _commentRepository.Update(OriginalComment);
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -76,7 +76,7 @@ namespace Tabloid_Fullstack.Controllers
                 return BadRequest();
             }
             _commentRepository.Delete(id);
-            return NoContent();
+            return Ok();
         }
 
 

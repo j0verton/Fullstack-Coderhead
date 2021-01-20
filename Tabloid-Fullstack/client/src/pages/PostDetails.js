@@ -14,7 +14,7 @@ const PostDetails = () => {
   const [reactionCounts, setReactionCounts] = useState([]);
   const [comments, setComments] = useState([]);
 
-  const GetPost = () => {
+  const getPost = () => {
     fetch(`/api/post/${postId}`)
       .then((res) => {
         if (res.status === 404) {
@@ -30,7 +30,7 @@ const PostDetails = () => {
       });
   }
   useEffect(() => {
-    GetPost()
+    getPost()
   }, []);
 
   if (!post) return null;
@@ -64,8 +64,8 @@ const PostDetails = () => {
         </div>
         {comments ?
           <div className="col float-left my-4 text-left">
-            <CommentList postComments={comments} getPost={GetPost} />
-            <CommentForm getPost={GetPost} />
+            <CommentList postComments={comments} getPost={getPost} />
+            <CommentForm getPost={getPost} />
           </div> : null
         }
       </div>

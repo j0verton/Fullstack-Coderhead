@@ -14,7 +14,7 @@ import {
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
+export const CommentForm = ({ commentToEdit, getPost, cancelEdit }) => {
     const { getCurrentUser, getToken } = useContext(UserProfileContext)
     const user = getCurrentUser();
     const [subject, setSubject] = useState("")
@@ -34,12 +34,12 @@ export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
                 },
                 body: JSON.stringify(comment)
             })
-        }).then(() => GetPost())
+        }).then(() => getPost())
     }
 
     const updateComment = () => {
         getToken()
-            .then((token) =>
+            .then((token) => {
                 fetch(`/api/comment/${commentToEdit.id}`, {
                     method: "PUT",
                     headers: {
@@ -48,7 +48,10 @@ export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
                     },
                     body: JSON.stringify({ id: commentToEdit.id, subject: subject, content: content, userProfileId: user.id }),
                 })
-            ).then(GetPost).then(cancelEdit)
+            }).then(() => {
+                getPost()
+                cancelEdit()
+            })
 
     }
     const submit = (e) => {
@@ -63,6 +66,7 @@ export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
 
     useEffect(() => {
         if (commentToEdit) {
+            console.log(getPost)
             return getToken().then((token) => {
                 fetch(`/api/comment/${commentToEdit.id}`, {
                     method: "GET",
