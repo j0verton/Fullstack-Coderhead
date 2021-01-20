@@ -29,7 +29,7 @@ export const CommentList = ({ postComments }) => {
                     <CardBody>
                         {postComment.content}
                     </CardBody>
-                    { postComment.userId === getUserProfile().id ?
+                    { postComment.userId === getCurrentUser().id ?
 
                         <CardFooter className="row">
 
