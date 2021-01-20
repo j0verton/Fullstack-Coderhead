@@ -20,7 +20,10 @@ export const CommentList = ({ postComments }) => {
                     <CardBody>
                         {postComment.content}
                     </CardBody>
+
+                    { if (postComment.userId === )
                     <CardFooter className="row">
+
                         <Button color="info" size="sm"
                         // onClick={ }
                         >
@@ -32,6 +35,7 @@ export const CommentList = ({ postComments }) => {
                             Edit
             </Button>
                     </CardFooter>
+                        }
                 </Card>
             ))}
         </div>
