@@ -33,6 +33,12 @@ namespace Tabloid_Fullstack.Controllers
             return Ok(_commentRepository.GetCommentsByPostId(id));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_commentRepository.GetCommentById(id));
+        }
+
         [HttpPost]
         public IActionResult Post(Comment comment)
         {

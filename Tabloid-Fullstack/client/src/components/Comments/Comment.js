@@ -21,7 +21,7 @@ export const CommentCard = (comment, getPost) => {
 
     const Delete = (comment) => {
         getToken().then(token => {
-            return fetch(`/api/tag/${comment.id}`, {
+            return fetch(`/api/comment/${comment.id}`, {
                 metohd: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
