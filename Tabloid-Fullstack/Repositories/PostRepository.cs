@@ -11,7 +11,7 @@ namespace Tabloid_Fullstack.Repositories
 {
     public class PostRepository : IPostRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public PostRepository(ApplicationDbContext context)
         {
@@ -50,6 +50,17 @@ namespace Tabloid_Fullstack.Repositories
                 .FirstOrDefault();
         }
 
+        public List<Post> GetByUserId(int id)
+        {
+            return _context.Post
+               .Include(p => p.UserProfile)
+               .Include(p => p.Category)
+               .Include(p => p.PostTags)
+               .ThenInclude(pt => pt.Tag)
+               .Where(p => p.UserProfileId == id)
+               .ToList();
+        }
+
         public List<ReactionCount> GetReactionCounts(int postId)
         {
             return _context.Reaction
@@ -59,6 +70,25 @@ namespace Tabloid_Fullstack.Repositories
                     Count = r.PostReactions.Count(pr => pr.PostId == postId)
                 })
                 .ToList();
+        }
+
+        public void Add(Post post)
+        {
+            _context.Add(post);
+            _context.SaveChanges();
+        }
+
+        public void Update(Post post)
+        {
+            _context.Entry(post).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var post = GetById(id);
+            _context.Post.Remove(post);
+            _context.SaveChanges();
         }
     }
 }
