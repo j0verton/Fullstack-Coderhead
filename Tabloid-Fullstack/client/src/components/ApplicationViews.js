@@ -10,6 +10,7 @@ import PostForm from "../components/PostForm";
 import TagForm from "./TagForm";
 import Tags from "../pages/Tags";
 import ProfileManager from "../pages/ProfileManager";
+import MyPostList from "../components/MyPostList";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -21,6 +22,9 @@ const ApplicationViews = () => {
       </Route>
       <Route path="/explore">
         {isLoggedIn ? <Explore /> : <Redirect to="/login" />}
+      </Route>
+      <Route path="/mypost">
+        {isLoggedIn ? <MyPostList /> : <Redirect to="/login" />}
       </Route>
       <Route path="/create/post">
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}

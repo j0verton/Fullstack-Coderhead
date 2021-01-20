@@ -25,7 +25,6 @@ namespace Tabloid_Fullstack.Controllers
 
         }
 
-
         [HttpGet]
         public IActionResult Get()
         {
@@ -49,6 +48,13 @@ namespace Tabloid_Fullstack.Controllers
                 ReactionCounts = reactionCounts
             };
             return Ok(postDetails);
+        }
+
+        [HttpGet("mypost")]
+        public IActionResult GetMyPost()
+        {
+            var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
+            return Ok(posts);
         }
 
         [HttpPost]
