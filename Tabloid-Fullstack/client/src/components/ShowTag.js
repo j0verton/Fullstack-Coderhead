@@ -1,4 +1,7 @@
-const { useState } = require("react");
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+
 const {
   InputGroup,
   Input,
@@ -11,28 +14,63 @@ const {
   ModalFooter,
 } = require("reactstrap");
 
-const ShowTag = ({ tag }) => {
+const ShowTag = ({ tag, getTags }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(false);
   const [tagEdits, setTagEdits] = useState("");
+  const history = useHistory();
+
+  const { getToken } = useContext(UserProfileContext);
+
+  //space
+  //space
   const showEditForm = (_) => {
     setIsEditing(true);
     setTagEdits(tag.name);
   };
+  //space
+  //space
   const hideEditForm = (_) => {
     setIsEditing(false);
     setTagEdits("");
   };
+  //space
+  //space
+  useEffect(() => {}, []);
+  //space
+  //space
+  const Delete = (tag) => {
+    getToken()
+      .then((token) =>
+        fetch(`/api/tag/${tag.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      )
+      .then((_) => {
+        setPendingDelete(false);
+        getTags();
+      });
+  };
+  //space
+  //space
   const saveTagEdit = (tag, tagId) => {
-    console.log({ name: tag, id: tagId });
     fetch(`api/tag/${tagId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ id: tagId, name: tag }),
-    }).then((_) => setTagEdits(""));
+    }).then((_) => {
+      setTagEdits("");
+      setIsEditing(false);
+      getTags();
+    });
   };
+  //space
+  //space
   return (
     <div className="justify-content-between row">
       {isEditing ? (
@@ -77,7 +115,12 @@ const ShowTag = ({ tag }) => {
         </ModalBody>
         <ModalFooter>
           <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
-          <Button className="btn btn-outline-danger">Yes, Delete</Button>
+          <Button
+            className="btn btn-outline-danger"
+            onClick={(e) => Delete(tag)}
+          >
+            Yes, Delete
+          </Button>
         </ModalFooter>
       </Modal>
     </div>
