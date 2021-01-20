@@ -15,7 +15,7 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 export const CommentCard = (comment, getPost) => {
     const [pendingDelete, setPendingDelete] = useState(false);
-    const [user, setUser] = useState()
+    const [user, setUser] = useState(null)
     const { getCurrentUser, getToken } = useContext(UserProfileContext)
     const [isEditing, setIsEditing] = useState(false)
 
@@ -47,7 +47,7 @@ export const CommentCard = (comment, getPost) => {
         console.log("user", user)
     }, [])
 
-    return (
+    return user ? (
 
 
         <Card key={comment.id} className="mt-2">
@@ -89,5 +89,5 @@ export const CommentCard = (comment, getPost) => {
             </Modal>
 
         </Card>
-    )
+    ) : null
 } 

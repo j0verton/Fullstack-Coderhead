@@ -13,7 +13,7 @@ import {
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const CommentForm = (commentId, GetPost) => {
+export const CommentForm = (comment, GetPost) => {
     const { getToken } = useContext(UserProfileContext)
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
@@ -47,9 +47,9 @@ export const CommentForm = (commentId, GetPost) => {
     }
 
     useEffect(() => {
-        if (commentId) {
+        if (comment.id) {
             return getToken().then((token) => {
-                fetch(`/api/comment/${commentId}`, {
+                fetch(`/api/comment/${comment.id}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}` // The token gets added to the Authorization header

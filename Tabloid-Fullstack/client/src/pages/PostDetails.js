@@ -32,7 +32,7 @@ const PostDetails = () => {
   }
   useEffect(() => {
     GetPost()
-  }, [postId]);
+  }, []);
 
   if (!post) return null;
 
@@ -63,11 +63,12 @@ const PostDetails = () => {
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} />
         </div>
-        <div className="col float-left my-4 text-left">
-          <CommentList postComments={comments} getPost={GetPost} />
-          <CommentForm getPost={GetPost} />
-        </div>
-
+        {comments ?
+          <div className="col float-left my-4 text-left">
+            <CommentList postComments={comments} getPost={GetPost} />
+            <CommentForm getPost={GetPost} />
+          </div> : null
+        }
       </div>
     </div>
   );
