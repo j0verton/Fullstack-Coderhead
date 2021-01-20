@@ -23,9 +23,15 @@ namespace Tabloid_Fullstack.Repositories
             return _context.UserProfile
                 .Include(up => up.UserType)
                 .Include(up => up.Post)
-                .Include(up => up.UserStatus)
                 .OrderBy(up => up.DisplayName)
                 .ToList();
+        }
+        public UserProfile GetProfileById(int id)
+        {
+            return _context.UserProfile
+                .Include(up => up.UserType)
+                .Include(up => up.Post)
+                .FirstOrDefault(up => up.Id == id)
         }
 
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
@@ -40,6 +46,11 @@ namespace Tabloid_Fullstack.Repositories
         public void Add(UserProfile userProfile)
         {
             _context.Add(userProfile);
+            _context.SaveChanges();
+        }
+        public void Update(UserProfile userProfile)
+        {
+            _context.Entry(userProfile).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

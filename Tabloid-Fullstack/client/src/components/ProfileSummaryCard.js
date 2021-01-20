@@ -4,7 +4,7 @@ import { Card, CardImg, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import formatDate from "../utils/dateFormatter";
 import "./PostSummaryCard.css";
 
-const PostSummaryCard = ({ profile }) => {
+const PostSummaryCard = ({ profile, pendingStatus }) => {
     return (
         <Card >
             {/* <CardImg top width="50px" src={`${profile.imageLocation}`} alt="avatar" /> */}

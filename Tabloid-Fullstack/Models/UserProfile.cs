@@ -28,7 +28,6 @@ namespace Tabloid_Fullstack.Models
         public string ImageLocation { get; set; }
         public int UserTypeId { get; set; }
         public int UserStatusId { get; set; }
-        public int UserStatus { get; set; }
         public UserType UserType { get; set; }
         public List<Post> Post { get; set; }
 
