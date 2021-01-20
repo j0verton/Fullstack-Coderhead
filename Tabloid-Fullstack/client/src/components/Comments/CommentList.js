@@ -18,7 +18,9 @@ export const CommentList = ({ postComments }) => {
     const [user, setUser] = useState()
 
     useEffect(() => {
-        getCurrentUser().then(setUser)
+        setUser(getCurrentUser())
+        console.log("user", user)
+        console.table(postComments)
     }, [])
 
     return (
@@ -29,7 +31,7 @@ export const CommentList = ({ postComments }) => {
                     <CardBody>
                         {postComment.content}
                     </CardBody>
-                    { postComment.userId === getCurrentUser().id ?
+                    { postComment.userId === user.id ?
 
                         <CardFooter className="row">
 
