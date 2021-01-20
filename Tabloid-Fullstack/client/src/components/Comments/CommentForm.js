@@ -13,7 +13,7 @@ import {
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const CommentForm = (comment, GetPost) => {
+export const CommentForm = ({ comment, GetPost }) => {
     const { getToken } = useContext(UserProfileContext)
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
@@ -47,7 +47,7 @@ export const CommentForm = (comment, GetPost) => {
     }
 
     useEffect(() => {
-        if (comment.id) {
+        if (comment) {
             return getToken().then((token) => {
                 fetch(`/api/comment/${comment.id}`, {
                     method: "GET",
@@ -59,7 +59,6 @@ export const CommentForm = (comment, GetPost) => {
                         setSubject(data.subject)
                         setContent(data.content)
                         setIsLoading(false)
-
                     })
 
             })

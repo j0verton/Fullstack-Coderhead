@@ -25,10 +25,9 @@ export const CommentCard = ({ comment, getPost }) => {
     const Delete = (comment) => {
         getToken().then(token => {
             return fetch(`/api/comment/${comment.id}`, {
-                metohd: "DELETE",
+                method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${token}`,
-
                 }
             })
                 .then(() => {
@@ -45,13 +44,7 @@ export const CommentCard = ({ comment, getPost }) => {
     //     set
     // }
 
-    useEffect(() => {
-        console.log("comment", comment)
-    }, [])
-
     return (
-        // user ?
-
 
         <Card key={comment.id} className="mt-2">
             <CardHeader>{comment.subject}</CardHeader>
@@ -63,7 +56,7 @@ export const CommentCard = ({ comment, getPost }) => {
                 <CardFooter className="row">
 
                     <Button color="info" size="sm"
-                    // onClick={ }
+                        onClick={() => setPendingDelete(true)}
                     >
                         Delete
                     </Button>
@@ -92,6 +85,5 @@ export const CommentCard = ({ comment, getPost }) => {
             </Modal>
 
         </Card>
-        // : null
     )
 } 
