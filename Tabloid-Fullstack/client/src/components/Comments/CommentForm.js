@@ -48,9 +48,13 @@ export const CommentForm = (commentId, GetPost) => {
 
     useEffect(() => {
         if (commentId) {
-
             return getToken().then((token) => {
-                fetch(`/api/comment/${commentId}`)
+                fetch(`/api/comment/${commentId}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}` // The token gets added to the Authorization header
+                    }
+                })
                     .then(data => {
                         setSubject(data.subject)
                         setContent(data.content)
