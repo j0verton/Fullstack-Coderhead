@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import {
     Card, CardImg, CardText, CardBody,
-    CardTitle, Button
+    CardTitle, CardSubtitle, Button
 } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
@@ -26,9 +26,10 @@ const MyPostList = (props) => {
         <div>
             {posts.map((post) => {
                 return (<Card>
-                    <CardImg top width="100%" src={post.imageLocation} alt={post.name} />
+                    {/* <CardImg top width="100%" src={post.imageLocation} alt={post.name} /> */}
                     <CardBody>
                         <CardTitle tag="h5">{post.title}</CardTitle>
+                        <CardSubtitle tag="h6" className="mb-2 text-muted">{post.category.name}</CardSubtitle>
                         <CardText>{post.content}</CardText>
                         <Button>Edit</Button>
                         <Button>Delete</Button>
