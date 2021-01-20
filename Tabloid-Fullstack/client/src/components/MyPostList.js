@@ -11,16 +11,42 @@ const MyPostList = (props) => {
     const { getToken } = useContext(UserProfileContext);
 
     useEffect(() => {
-        getToken().then((token) =>
-            fetch(`/api/post/mypost`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }))
-            .then(res => res.json())
-            .then(p => setPosts(p))
+        getToken().then((token) => {
+            return getMyPost(token)
+        })
     }, [])
+
+    const getMyPost = (token) => {
+        return fetch(`/api/post/mypost`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(res => res.json())
+        .then(p => setPosts(p))
+    }
+
+    const deletePost = (id) => {
+        return fetch(`/api/post/mypost/${id}`, {
+            method: "DELETE",
+        })
+            .then(_ => getToken()
+                .then(getMyPost))
+    }
+
+    const editPost = (post) => {
+        return fetch(`/api/post/mypost/${post.id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        })
+            .then(res => res.json())
+            .then(_ => getToken()
+                .then(getMyPost))
+    }
 
     return (
         <div>
@@ -31,8 +57,8 @@ const MyPostList = (props) => {
                         <CardTitle tag="h5">{post.title}</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{post.category.name}</CardSubtitle>
                         <CardText>{post.content}</CardText>
-                        <Button>Edit</Button>
-                        <Button>Delete</Button>
+                        <Button onClick={e => editPost(post)}>Edit</Button>
+                        <Button onClick={e => deletePost(post.id)}>Delete</Button>
                     </CardBody>
                 </Card>)
             })}

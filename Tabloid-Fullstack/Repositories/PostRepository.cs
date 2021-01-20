@@ -87,6 +87,11 @@ namespace Tabloid_Fullstack.Repositories
         public void Delete(int id)
         {
             var post = GetById(id);
+            var reactions = _context.PostReaction.Where(pr => pr.PostId == post.Id).ToList();
+            foreach (var r in reactions)
+            {
+                _context.PostReaction.Remove(r);
+            }
             _context.Post.Remove(post);
             _context.SaveChanges();
         }

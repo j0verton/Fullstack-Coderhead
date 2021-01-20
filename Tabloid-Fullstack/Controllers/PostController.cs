@@ -69,7 +69,7 @@ namespace Tabloid_Fullstack.Controllers
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("mypost/{id}")]
         public IActionResult Put(int id, Post post)
         {
             if (id != post.Id)
@@ -81,7 +81,7 @@ namespace Tabloid_Fullstack.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("mypost/{id}")]
         public IActionResult Delete(int id)
         {
             _repo.Delete(id);
