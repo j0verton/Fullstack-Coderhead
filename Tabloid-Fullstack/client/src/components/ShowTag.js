@@ -34,11 +34,9 @@ const ShowTag = ({ tag, getTags }) => {
     setIsEditing(false);
     setTagEdits("");
   };
-  //space
-  //space
+
   useEffect(() => {}, []);
-  //space
-  //space
+
   const Delete = (tag) => {
     getToken()
       .then((token) =>
@@ -54,23 +52,26 @@ const ShowTag = ({ tag, getTags }) => {
         getTags();
       });
   };
-  //space
-  //space
+
   const saveTagEdit = (tag, tagId) => {
-    fetch(`api/tag/${tagId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: tagId, name: tag }),
-    }).then((_) => {
-      setTagEdits("");
-      setIsEditing(false);
-      getTags();
-    });
+    getToken()
+      .then((token) =>
+        fetch(`api/tag/${tagId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id: tagId, name: tag }),
+        })
+      )
+      .then((_) => {
+        setTagEdits("");
+        setIsEditing(false);
+        getTags();
+      });
   };
-  //space
-  //space
+
   return (
     <div className="justify-content-between row">
       {isEditing ? (
@@ -126,4 +127,5 @@ const ShowTag = ({ tag, getTags }) => {
     </div>
   );
 };
+
 export default ShowTag;
