@@ -19,10 +19,11 @@ namespace Tabloid_Fullstack.Controllers
         private readonly IUserProfileRepository _userProfileRepository;
         private ICommentRepository _commentRepo;
 
-        public PostController(IPostRepository repo, ICommentRepository commentRepo)
+        public PostController(IPostRepository repo, ICommentRepository commentRepo, IUserProfileRepository userProfileRepository)
         {
             _repo = repo;
             _commentRepo = commentRepo;
+            _userProfileRepository = userProfileRepository;
         }
 
 
@@ -83,8 +84,15 @@ namespace Tabloid_Fullstack.Controllers
 
         private UserProfile GetCurrentUserProfile()
         {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            try
+            {
+                var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
