@@ -13,11 +13,14 @@ import {
 } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
-export const CommentCard = (comment, getPost) => {
+export const CommentCard = ({ comment, getPost }) => {
     const [pendingDelete, setPendingDelete] = useState(false);
-    const [user, setUser] = useState(null)
+    // const [user, setUser] = useState()
     const { getCurrentUser, getToken } = useContext(UserProfileContext)
     const [isEditing, setIsEditing] = useState(false)
+    const user = getCurrentUser();
+
+
 
     const Delete = (comment) => {
         getToken().then(token => {
@@ -41,13 +44,13 @@ export const CommentCard = (comment, getPost) => {
     //     setIsEditing(true);
     //     set
     // }
+
     useEffect(() => {
-        console.log(comment)
-        setUser(getCurrentUser())
-        console.log("user", user)
+        console.log("comment", comment)
     }, [])
 
-    return user ? (
+    return (
+        // user ?
 
 
         <Card key={comment.id} className="mt-2">
@@ -76,7 +79,7 @@ export const CommentCard = (comment, getPost) => {
                 <ModalBody>
                     Are you sure you want to delete this comment? This action cannot be
                     undone.
-        </ModalBody>
+                </ModalBody>
                 <ModalFooter>
                     <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
                     <Button
@@ -84,10 +87,11 @@ export const CommentCard = (comment, getPost) => {
                         onClick={(e) => Delete(comment)}
                     >
                         Yes, Delete
-          </Button>
+                    </Button>
                 </ModalFooter>
             </Modal>
 
         </Card>
-    ) : null
+        // : null
+    )
 } 

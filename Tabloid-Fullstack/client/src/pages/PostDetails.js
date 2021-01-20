@@ -26,7 +26,6 @@ const PostDetails = () => {
       .then((data) => {
         setPost(data.post);
         setReactionCounts(data.reactionCounts);
-        console.log(data.comments)
         setComments(data.comments)
       });
   }

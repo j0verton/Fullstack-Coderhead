@@ -5,9 +5,12 @@ import { CommentCard } from "./Comment";
 export const CommentList = ({ getPost, postComments }) => {
     return (
         <div>
-            {postComments.map((postComment) => (
-                <CommentCard comment={postComment} getPost={getPost} />
-            ))}
+            {postComments.map((postComment) => {
+                return (
+                    <CommentCard key={`comment--${postComment.id}`} comment={postComment} getPost={getPost} />
+                )
+            })}
+
         </div>
     );
 
