@@ -64,7 +64,7 @@ const CategoryManager = () => {
           <ListGroup>
             {categories.map((category) => (
               <ListGroupItem key={category.id}>
-                <Category category={category} />
+                <Category category={category} getCategories={getCategories} />
               </ListGroupItem>
             ))}
           </ListGroup>
