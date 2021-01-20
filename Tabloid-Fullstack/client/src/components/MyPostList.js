@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
@@ -9,6 +10,8 @@ const MyPostList = (props) => {
 
     const [posts, setPosts] = useState([]);
     const { getToken } = useContext(UserProfileContext);
+
+    const history = useHistory();
 
     useEffect(() => {
         getToken().then((token) => {
@@ -35,19 +38,6 @@ const MyPostList = (props) => {
                 .then(getMyPost))
     }
 
-    const editPost = (post) => {
-        return fetch(`/api/post/mypost/${post.id}`, {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(post)
-        })
-            .then(res => res.json())
-            .then(_ => getToken()
-                .then(getMyPost))
-    }
-
     return (
         <div>
             {posts.map((post) => {
@@ -57,7 +47,7 @@ const MyPostList = (props) => {
                         <CardTitle tag="h5">{post.title}</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{post.category.name}</CardSubtitle>
                         <CardText>{post.content}</CardText>
-                        <Button onClick={e => editPost(post)}>Edit</Button>
+                        <Button onClick={e => history.push(`/post/edit/${post.id}`)}>Edit</Button>
                         <Button onClick={e => deletePost(post.id)}>Delete</Button>
                     </CardBody>
                 </Card>)
