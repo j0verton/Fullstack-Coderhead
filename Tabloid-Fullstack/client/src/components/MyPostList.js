@@ -31,9 +31,13 @@ const MyPostList = (props) => {
     }
 
     const deletePost = (id) => {
+        getToken().then((token) => {
         return fetch(`/api/post/mypost/${id}`, {
             method: "DELETE",
-        })
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })})
             .then(_ => getToken()
                 .then(getMyPost))
     }
