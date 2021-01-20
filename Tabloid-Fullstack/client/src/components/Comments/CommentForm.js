@@ -15,7 +15,8 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
 export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
-    const { getToken } = useContext(UserProfileContext)
+    const { getCurrentUser, getToken } = useContext(UserProfileContext)
+    const user = getCurrentUser();
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
     const [isLoading, setIsLoading] = useState(true)
@@ -37,7 +38,17 @@ export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
     }
 
     const updateComment = () => {
-
+        getToken()
+            .then((token) =>
+                fetch(`/api/comment/${commentToEdit.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ id: commentToEdit.id, subject: subject, content: content, userProfileId: user.id }),
+                })
+            ).then(GetPost).then(cancelEdit)
 
     }
     const submit = (e) => {

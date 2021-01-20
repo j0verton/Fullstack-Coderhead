@@ -18,8 +18,8 @@ export const CommentCard = ({ comment, getPost }) => {
     const [pendingDelete, setPendingDelete] = useState(false);
     // const [user, setUser] = useState()
     const { getCurrentUser, getToken } = useContext(UserProfileContext)
-    const [isEditing, setIsEditing] = useState(false)
     const user = getCurrentUser();
+    const [isEditing, setIsEditing] = useState(false)
 
 
 

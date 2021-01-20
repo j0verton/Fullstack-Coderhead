@@ -61,8 +61,9 @@ namespace Tabloid_Fullstack.Controllers
             {
                 return BadRequest();
             }
-
-            _commentRepository.Update(comment);
+            OriginalComment.Content = comment.Content;
+            OriginalComment.Subject = comment.Subject;
+            _commentRepository.Update(OriginalComment);
             return NoContent();
         }
 
