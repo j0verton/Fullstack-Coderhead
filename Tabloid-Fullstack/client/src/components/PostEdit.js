@@ -1,3 +1,4 @@
+import { getByTestId } from '@testing-library/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
@@ -45,14 +46,15 @@ const PostEdit = (props) => {
     }
 
     const updatePost = (post) => {
-        console.log(post)
-        return fetch(`/api/post/mypost/${post.id}`, {
+        getToken().then((token) =>
+        fetch(`/api/post/mypost/${post.id}`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(post),
-        })
+        }))
                 .then(e => history.push("/mypost"))
     }
 
