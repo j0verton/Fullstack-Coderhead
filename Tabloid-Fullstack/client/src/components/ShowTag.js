@@ -18,7 +18,6 @@ const ShowTag = ({ tag, getTags }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(false);
   const [tagEdits, setTagEdits] = useState("");
-  const history = useHistory();
 
   const { getToken } = useContext(UserProfileContext);
 
