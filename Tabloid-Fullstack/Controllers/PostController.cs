@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Tabloid_Fullstack.Models;
 using Tabloid_Fullstack.Models.ViewModels;
 using Tabloid_Fullstack.Repositories;
 
@@ -14,12 +16,12 @@ namespace Tabloid_Fullstack.Controllers
     {
 
         private IPostRepository _repo;
-        private ICommentRepository _commentRepo;
 
-        public PostController(IPostRepository repo, ICommentRepository commentRepo)
+        public PostController(IPostRepository repo, IUserProfileRepository userProfileRepository)
         {
             _repo = repo;
-            _commentRepo = commentRepo;
+            _userProfileRepository = userProfileRepository;
+
         }
 
 
