@@ -54,6 +54,9 @@ const AppHeader = () => {
                   <NavLink to="/create/post" tag={Link}>
                     New Post
                   </NavLink>
+                  <NavLink to="/mypost" tag={Link}>
+                    My Post
+                  </NavLink>
                 </NavItem>
                 {isAdmin() && (
                   <>
@@ -77,7 +80,7 @@ const AppHeader = () => {
                   </NavItem>
                 )}
                 <NavItem>
-                  <NavLink tag={Link} onClick={logoutAndReturn}>
+                  <NavLink tag={Link} to="/" onClick={logoutAndReturn}>
                     Logout
                   </NavLink>
                 </NavItem>

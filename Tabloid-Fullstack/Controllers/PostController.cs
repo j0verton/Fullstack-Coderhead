@@ -26,7 +26,6 @@ namespace Tabloid_Fullstack.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-
         [HttpGet]
         public IActionResult Get()
         {
@@ -51,6 +50,13 @@ namespace Tabloid_Fullstack.Controllers
                 Comments = comments
             };
             return Ok(postDetails);
+        }
+
+        [HttpGet("mypost")]
+        public IActionResult GetMyPost()
+        {
+            var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
+            return Ok(posts);
         }
 
         [HttpPost]
