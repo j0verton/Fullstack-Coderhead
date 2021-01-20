@@ -9,11 +9,12 @@ import {
     Input,
     Button,
     CardHeader,
+    ButtonGroup
 } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const CommentForm = ({ comment, GetPost }) => {
+export const CommentForm = ({ commentToEdit, GetPost, cancelEdit }) => {
     const { getToken } = useContext(UserProfileContext)
     const [subject, setSubject] = useState("")
     const [content, setContent] = useState("")
@@ -35,7 +36,10 @@ export const CommentForm = ({ comment, GetPost }) => {
         }).then(() => GetPost())
     }
 
+    const updateComment = () => {
 
+
+    }
     const submit = (e) => {
         const comment = {
             subject,
@@ -47,15 +51,16 @@ export const CommentForm = ({ comment, GetPost }) => {
     }
 
     useEffect(() => {
-        if (comment) {
+        if (commentToEdit) {
             return getToken().then((token) => {
-                fetch(`/api/comment/${comment.id}`, {
+                fetch(`/api/comment/${commentToEdit.id}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}` // The token gets added to the Authorization header
                     }
-                })
+                }).then(res => res.json())
                     .then(data => {
+                        console.log(data)
                         setSubject(data.subject)
                         setContent(data.content)
                         setIsLoading(false)
@@ -90,10 +95,19 @@ export const CommentForm = ({ comment, GetPost }) => {
                         />
 
                     </FormGroup>
+                    {commentToEdit ? <ButtonGroup size="sm">
+                        <Button onClick={updateComment}>
+                            Save
+              </Button>
+                        <Button outline color="danger" onClick={cancelEdit}>
+                            Cancel
+              </Button>
+                    </ButtonGroup> :
 
-                    <Button type="submit" color="info" size="sm">
-                        SUBMIT
+                        <Button type="submit" color="info" size="sm">
+                            SUBMIT
             </Button>
+                    }
                 </Form>
             </CardBody>
         </Card>
