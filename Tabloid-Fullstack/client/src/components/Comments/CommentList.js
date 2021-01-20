@@ -10,6 +10,8 @@ import {
     Button,
     CardFooter,
 } from "reactstrap";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
+
 
 export const CommentList = ({ postComments }) => {
     const { getUserProfile } = useContext(UserProfileContext)
@@ -22,22 +24,22 @@ export const CommentList = ({ postComments }) => {
                         {postComment.content}
                     </CardBody>
 
-                    {{ if(postComment.userId === getUserProfile.id) {
+                    {/* {{ if(postComment.userId === getUserProfile.id) { */}
 
-                        <CardFooter className="row">
+                    <CardFooter className="row">
 
-                            <Button color="info" size="sm"
-                            // onClick={ }
-                            >
-                                Delete
+                        <Button color="info" size="sm"
+                        // onClick={ }
+                        >
+                            Delete
                         </Button>
-                            <Button color="info" size="sm"
-                            // onClick={ }
-                            >
-                                Edit
+                        <Button color="info" size="sm"
+                        // onClick={ }
+                        >
+                            Edit
                         </Button>
-                        </CardFooter>
-                    } }}
+                    </CardFooter>
+                    {/* } }} */}
                 </Card>
             ))}
         </div>

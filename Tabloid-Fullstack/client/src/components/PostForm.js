@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
-const PostForm = (props) => {
+const PostForm = (props, GetPost) => {
 
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
@@ -39,7 +39,7 @@ const PostForm = (props) => {
                 },
                 body: JSON.stringify(post)
             }))
-            .then(() => history.push('/'))
+            .then(() => GetPost())
     }
 
     return (
