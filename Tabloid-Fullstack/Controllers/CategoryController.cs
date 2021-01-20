@@ -47,6 +47,27 @@ namespace Tabloid_Fullstack.Controllers
             return CreatedAtAction("Get", new { id = category.Id }, category);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Category category)
+        {
+            if (GetCurrentUserProfile().UserTypeId != 1) { return Unauthorized(); }
+            if (id != category.Id) { return BadRequest(); }
+            var existingCat = _categoryRepo.GetById(id);
+            if (existingCat == null) { return BadRequest(); }
+            existingCat.Name = category.Name;
+            _categoryRepo.Update(existingCat);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (GetCurrentUserProfile().UserTypeId != 1) { return Unauthorized(); }
+            var existingCat = _categoryRepo.GetById(id);
+            if (existingCat == null) { return BadRequest(); }
+            _categoryRepo.Delete(id);
+            return NoContent();
+        }
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
