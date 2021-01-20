@@ -76,15 +76,8 @@ namespace Tabloid_Fullstack.Controllers
 
         private UserProfile GetCurrentUserProfile()
         {
-            try
-            {
-                var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
-            }
-            catch
-            {
-                return null;
-            }
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

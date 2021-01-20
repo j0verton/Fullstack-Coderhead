@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserProfileContext } from "../providers/UserProfileProvider";
+
 import {
   Button,
   ButtonGroup,
@@ -11,10 +13,11 @@ import {
   ModalHeader,
 } from "reactstrap";
 
-const Category = ({ category }) => {
+const Category = ({ category, getCategories }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [pendingDelete, setPendingDelete] = useState(false);
   const [categoryEdits, setCategoryEdits] = useState("");
+  const { getToken } = useContext(UserProfileContext);
 
   const showEditForm = () => {
     setIsEditing(true);
@@ -24,6 +27,43 @@ const Category = ({ category }) => {
   const hideEditForm = () => {
     setIsEditing(false);
     setCategoryEdits("");
+  };
+
+  useEffect(() => {}, []);
+
+  const Delete = (cat) => {
+    getToken()
+      .then((token) =>
+        fetch(`/api/category/${cat.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      )
+      .then((_) => {
+        setPendingDelete(false);
+        getCategories();
+      });
+  };
+
+  const saveCatEdit = (cat, catId) => {
+    getToken()
+      .then((token) =>
+        fetch(`api/category/${catId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id: catId, name: cat }),
+        })
+      )
+      .then((_) => {
+        setCategoryEdits("");
+        setIsEditing(false);
+        getCategories();
+      });
   };
 
   return (
@@ -37,7 +77,9 @@ const Category = ({ category }) => {
               value={categoryEdits}
             />
             <ButtonGroup size="sm">
-              <Button onClick={showEditForm}>Save</Button>
+              <Button onClick={(e) => saveCatEdit(categoryEdits, category.id)}>
+                Save
+              </Button>
               <Button outline color="danger" onClick={hideEditForm}>
                 Cancel
               </Button>
@@ -69,7 +111,12 @@ const Category = ({ category }) => {
         </ModalBody>
         <ModalFooter>
           <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
-          <Button className="btn btn-outline-danger">Yes, Delete</Button>
+          <Button
+            className="btn btn-outline-danger"
+            onClick={(e) => Delete(category)}
+          >
+            Yes, Delete
+          </Button>
         </ModalFooter>
       </Modal>
     </div>
