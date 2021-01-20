@@ -23,6 +23,7 @@ namespace Tabloid_Fullstack.Repositories
             return _context.UserProfile
                 .Include(up => up.UserType)
                 .Include(up => up.Post)
+                .Include(up => up.UserStatus)
                 .OrderBy(up => up.DisplayName)
                 .ToList();
         }

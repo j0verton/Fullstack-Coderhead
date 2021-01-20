@@ -14,10 +14,11 @@ CREATE TABLE [UserStatus] (
   [Id] integer PRIMARY KEY IDENTITY,
   [Status] nvarchar(20) NOT NULL
 )
-set identity_insert [Reaction] on
-INSERT into UserStatus (Id, status) 
-		VALUES(1, 'Active')
-set identity_insert [Reaction] off
+
+set identity_insert [UserStatus] on
+INSERT into UserStatus (Id, status) VALUES(1, 'Active')
+INSERT into UserStatus (Id, status) VALUES(2, 'Inactive')
+set identity_insert [UserStatus] off
 
 ALTER TABLE [UserProfile]
 ADD [UserStatusId] integer DEFAULT 1 NOT NULL

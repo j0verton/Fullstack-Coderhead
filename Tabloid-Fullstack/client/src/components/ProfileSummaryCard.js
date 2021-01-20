@@ -13,6 +13,8 @@ const PostSummaryCard = ({ profile }) => {
                 <CardSubtitle tag="h6" className="mb-2 text-muted">Role: {profile.userType.name}</CardSubtitle>
                 <CardSubtitle tag="h6" className="mb-2 text-muted">Name: {profile.firstName} {profile.lastName}</CardSubtitle>
                 <CardSubtitle tag="h6" className="mb-2 text-muted">Created on: {formatDate(profile.createDateTime)}</CardSubtitle>
+                <button>Change Status</button>
+
             </CardBody>
         </Card >
     );
