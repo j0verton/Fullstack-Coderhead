@@ -9,25 +9,44 @@ import {
     Input,
     Button,
     CardFooter,
+    Modal, ModalHeader, ModalBody, ModalFooter,
 } from "reactstrap";
 import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 export const CommentCard = (comment, getPost) => {
-
+    const [pendingDelete, setPendingDelete] = useState(false);
     const [user, setUser] = useState()
-    const { getCurrentUser } = useContext(UserProfileContext)
-
+    const { getCurrentUser, getToken } = useContext(UserProfileContext)
     const [isEditing, setIsEditing] = useState(false)
 
+    const Delete = (comment) => {
+        getToken().then(token => {
+            return fetch(`/api/tag/${comment.id}`, {
+                metohd: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+
+                }
+            })
+                .then(() => {
+                    setPendingDelete(false);
+                    getPost();
+                })
+        }
+
+        )
+    }
 
     // const editComment =() => {
     //     setIsEditing(true);
     //     set
     // }
     useEffect(() => {
+        console.log(comment)
         setUser(getCurrentUser())
         console.log("user", user)
     }, [])
+
     return (
 
 
@@ -44,14 +63,30 @@ export const CommentCard = (comment, getPost) => {
                     // onClick={ }
                     >
                         Delete
-    </Button>
+                    </Button>
                     <Button color="info" size="sm"
                         onClick={() => setIsEditing(true)}
                     >
                         Edit
-    </Button>
+                    </Button>
                 </CardFooter> : null
             }
+            <Modal isOpen={pendingDelete}>
+                <ModalHeader>Delete {comment.subject}?</ModalHeader>
+                <ModalBody>
+                    Are you sure you want to delete this comment? This action cannot be
+                    undone.
+        </ModalBody>
+                <ModalFooter>
+                    <Button onClick={(e) => setPendingDelete(false)}>No, Cancel</Button>
+                    <Button
+                        className="btn btn-outline-danger"
+                        onClick={(e) => Delete(comment)}
+                    >
+                        Yes, Delete
+          </Button>
+                </ModalFooter>
+            </Modal>
 
         </Card>
     )
