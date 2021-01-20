@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import ProfileList from "../components/ProfileList"
+import getToken from "../providers/UserProfileProvider"
 
 const ProfileManager = () => {
     const [userProfile, setUserProfile] = useState([]);
@@ -11,6 +12,18 @@ const ProfileManager = () => {
                 setUserProfile(profiles)
             });
     }, [])
+
+    const ChangeUserStatus = (userProfile) => {
+        getToken().then((token) =>
+            fetch('/api/put', {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/JSON",
+                    Authorization: `Bearer ${token}`
+                },
+            }))
+    }
+
 
 
 
