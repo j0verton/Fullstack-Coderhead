@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
     Form,
@@ -14,7 +14,13 @@ import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
 export const CommentList = ({ postComments }) => {
-    const { getUserProfile } = useContext(UserProfileContext)
+    const { getCurrentUser } = useContext(UserProfileContext)
+    const [user, setUser] = useState()
+
+    useEffect(() => {
+        getCurrentUser().then(setUser)
+    }, [])
+
     return (
         <div>
             {postComments.map((postComment) => (
@@ -23,23 +29,23 @@ export const CommentList = ({ postComments }) => {
                     <CardBody>
                         {postComment.content}
                     </CardBody>
+                    { postComment.userId === getUserProfile().id ?
 
-                    {/* {{ if(postComment.userId === getUserProfile.id) { */}
+                        <CardFooter className="row">
 
-                    <CardFooter className="row">
-
-                        <Button color="info" size="sm"
-                        // onClick={ }
-                        >
-                            Delete
+                            <Button color="info" size="sm"
+                            // onClick={ }
+                            >
+                                Delete
                         </Button>
-                        <Button color="info" size="sm"
-                        // onClick={ }
-                        >
-                            Edit
+                            <Button color="info" size="sm"
+                            // onClick={ }
+                            >
+                                Edit
                         </Button>
-                    </CardFooter>
-                    {/* } }} */}
+                        </CardFooter> : null
+                    }
+
                 </Card>
             ))}
         </div>
