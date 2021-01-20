@@ -59,13 +59,13 @@ const Tags = () => {
         className="bg-danger rounded-circle"
       />
       <h1>Tag Management</h1>
-      <Link to="/create/tags">Add A Tag</Link>
       <div className="row justify-content-center">
         <div className="col-xs-12 col-sm-8 col-md-6">
           <ListGroup>
+            {console.log(tags)}
             {tags.map((tag) => (
               <ListGroupItem key={tag.id}>
-                <ShowTag tag={tag} />
+                <ShowTag tag={tag} getTags={getTags} />
               </ListGroupItem>
             ))}
           </ListGroup>
