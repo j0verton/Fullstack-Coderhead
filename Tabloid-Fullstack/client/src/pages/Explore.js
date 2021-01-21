@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostList from "../components/PostList";
+import PostSearch from "../components/PostSearch";
 
 const Explore = () => {
   const [posts, setPosts] = useState([]);
@@ -14,7 +15,7 @@ const Explore = () => {
 
   return (
     <div className="row">
-      <div className="col-lg-2 col-xs-12"></div>
+      <div className="col-lg-2 col-xs-12"><PostSearch setPosts={setPosts} /></div>
       <div className="col-lg-10 col-xs-12">
         <PostList posts={posts} />
       </div>
