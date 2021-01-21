@@ -62,6 +62,12 @@ namespace Tabloid_Fullstack.Repositories
                .ToList();
         }
 
+        public List<Tag> FilterTagsByPostId(int id, List<Tag> tags)
+        {
+            var allTags = _context.Tag.OrderBy(t => t.Name).ToList();
+            var filteredTags = allTags.FindAll(tag => !tags.Contains(tag));
+            return filteredTags;
+        }
         public List<ReactionCount> GetReactionCounts(int postId)
         {
             return _context.Reaction
@@ -83,6 +89,11 @@ namespace Tabloid_Fullstack.Repositories
         public void Add(Post post)
         {
             _context.Add(post);
+            _context.SaveChanges();
+        }
+        public void AddTagToPost(PostTag postTag)
+        {
+            _context.Add(postTag);
             _context.SaveChanges();
         }
 
