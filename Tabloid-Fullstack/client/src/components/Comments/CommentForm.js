@@ -48,7 +48,10 @@ export const CommentForm = ({ commentToEdit, getPost, cancelEdit }) => {
                     },
                     body: JSON.stringify({ id: commentToEdit.id, subject: subject, content: content, userProfileId: user.id }),
                 })
-            }).then(() => getPost())
+            }).then(() => {
+                cancelEdit();
+                getPost();
+            })
 
     }
     const submit = (e) => {
