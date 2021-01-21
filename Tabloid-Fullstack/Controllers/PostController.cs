@@ -69,6 +69,14 @@ namespace Tabloid_Fullstack.Controllers
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
+        [HttpPost("/addReaction")]
+        public IActionResult AddReaction(PostReaction postReaction)
+        {
+            postReaction.UserProfileId = GetCurrentUserProfile().Id;
+            _repo.AddReaction(postReaction);
+            return CreatedAtAction("Get", new { id = postReaction.Id }, postReaction);
+        }
+
         [HttpPut("mypost/{id}")]
         public IActionResult Put(int id, Post post)
         {
