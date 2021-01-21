@@ -38,9 +38,9 @@ export const CommentForm = ({ commentToEdit, getPost, cancelEdit }) => {
     }
 
     const updateComment = () => {
-        getToken()
+        return getToken()
             .then((token) => {
-                fetch(`/api/comment/${commentToEdit.id}`, {
+                return fetch(`/api/comment/${commentToEdit.id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -49,8 +49,8 @@ export const CommentForm = ({ commentToEdit, getPost, cancelEdit }) => {
                     body: JSON.stringify({ id: commentToEdit.id, subject: subject, content: content, userProfileId: user.id }),
                 })
             }).then(() => {
-                getPost()
-                cancelEdit()
+                // cancelEdit();
+                getPost();
             })
 
     }
