@@ -48,14 +48,9 @@ namespace Tabloid_Fullstack.Repositories
             _context.Add(userProfile);
             _context.SaveChanges();
         }
-        public void Activate(UserProfile userProfile)
+        public void Update(UserProfile userProfile)
         {
-            userProfile.UserStatusId = 1;
-            _context.SaveChanges();
-        }
-        public void DeActivate(UserProfile userProfile)
-        {
-            userProfile.UserStatusId = 2;
+            _context.Entry(userProfile).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

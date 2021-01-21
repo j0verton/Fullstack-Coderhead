@@ -25,7 +25,9 @@ export const UserStatusEdit = ({ profile }) => {
     // }
 
     const updateProfile = (profile) => {
+        console.log("change requested")
         getToken().then((token) =>
+
             fetch(`/api/userprofile/${profile.firebaseUserId}`, {
                 method: "PUT",
                 headers: {
