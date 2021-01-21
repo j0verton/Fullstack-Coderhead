@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
 
 export const UserStatusEdit = ({ profile }) => {
-    const { pendingEdit, setPendingEdit } = useState(false)
+    const [pendingEdit, setPendingEdit] = useState(false)
     const { getToken } = useContext(UserProfileContext);
 
     const history = useHistory()
@@ -29,29 +29,31 @@ export const UserStatusEdit = ({ profile }) => {
     if (profile.userStatusId == 1) {
         return <Button
             onClick={() => {
-                return setPendingEdit(true)
+                updateProfile(profile)
             }}>Deactivate</Button>
+
     }
     else if (profile.userStatusId == 2) {
         return <Button
             onClick={() => {
-                setPendingEdit(true)
+                updateProfile(profile)
             }}>Activate</Button>
     }
-    <Modal isOpen={pendingEdit}>
-        <ModalHeader>Update{profile.displayName}?</ModalHeader>
-        <ModalBody>
-            Are you sure you want to update the status?
-</ModalBody>
-        <ModalFooter>
-            <Button onClick={(e) => setPendingEdit(false)}>No, Cancel</Button>
-            <Button
-                className="btn btn-outline-danger"
-                onClick={(e) => updateProfile(profile)}
-            >
-                Yes, update
-</Button>
-        </ModalFooter>
-    </Modal>
+
+    //     <Modal isOpen={pendingEdit}>
+    //         <ModalHeader>Update{profile.displayName}?</ModalHeader>
+    //         <ModalBody>
+    //             Are you sure you want to update the status?
+    // </ModalBody>
+    //         <ModalFooter>
+    //             <Button onClick={(e) => setPendingEdit(false)}>No, Cancel</Button>
+    //             <Button
+    //                 className="btn btn-outline-danger"
+    //                 onClick={(e) => updateProfile(profile)}
+    //             >
+    //                 Yes, update
+    // </Button>
+    //         </ModalFooter>
+    //     </Modal>
 }
 export default UserStatusEdit;

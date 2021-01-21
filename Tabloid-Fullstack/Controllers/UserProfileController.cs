@@ -53,7 +53,10 @@ namespace Tabloid_Fullstack.Controllers
         public IActionResult UpdateStatus(string firebaseUserId, UserProfile userProfile)
         {
             var currentProfileStatus = _repo.GetByFirebaseUserId(firebaseUserId);
-
+            if(currentProfileStatus.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
             if (firebaseUserId != userProfile.FirebaseUserId)
             {
                 return BadRequest();
