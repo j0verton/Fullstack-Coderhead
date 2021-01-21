@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, Form, Input, Select } from 'reactstrap';
+import { Button, Form, Input, Label } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostSearch = ({ setPosts, tags }) => {
@@ -32,7 +32,7 @@ const PostSearch = ({ setPosts, tags }) => {
             <Input type="select" name="select" id="exampleSelect">
                 {tags.map(tag => {
 
-                    <option value={ }></option>
+                    <option value={tag.id}>{tag.name}</option>
                 }
 
                 )}
