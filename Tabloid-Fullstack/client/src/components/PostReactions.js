@@ -5,40 +5,34 @@ import "./PostReaction.css";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostReactions = ({ postReactions, getPost }) => {
-  const { getCurrentUser, getToken } = useContext(UserProfileContext)
-  const [hasReacted, setHasReacted] = useState(false)
-  const { postId } = useParams()
+  const { getCurrentUser, getToken } = useContext(UserProfileContext);
+  const [hasReacted, setHasReacted] = useState(false);
+  const { postId } = useParams();
   const user = getCurrentUser();
 
-
   const addReaction = (e) => {
-    console.log(e)
     let postReactionObj = {
       postId,
       userProfileId: user.id,
-      ReactionId: e.target.id
-    }
-    return getToken().then((token) => {
-      fetch('/api/post/addreaction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(postReactionObj)
+      ReactionId: e.target.id,
+    };
+    return getToken()
+      .then((token) => {
+        fetch("/api/post/addreaction", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(postReactionObj),
+        });
       })
-    }).then(() => getPost())
-
-  }
+      .then(() => getPost());
+  };
 
   useEffect(() => {
-    console.log('postReactions', postReactions)
     // if(postReactions)
-
-
-  }, [])
-
-
+  }, []);
 
   return (
     <div className="float-left">
