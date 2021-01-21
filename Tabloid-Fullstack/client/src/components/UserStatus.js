@@ -1,28 +1,15 @@
 import { getByTestId } from '@testing-library/react';
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
 
 export const UserStatusEdit = ({ profile }) => {
-
-    const [updatedStatus, setStatus] = useState({ userStatusId: 0 })
-    const [categories, setCategories] = useState([])
+    const { pendingEdit, setPendingEdit } = useState(false)
     const { getToken } = useContext(UserProfileContext);
 
     const history = useHistory()
 
-    // useEffect(() => {
-    //     getUserProfile()
-    //         .then(profile => setStatus(profile.userStatusId))
-    // })
-
-
-    // const handleChange = (e) => {
-    //     const newPost = { ...status }
-    //     updatedProfile[e.target.name] = e.target.value
-    //     setEditing(newPost)
-    // }
 
     const updateProfile = (profile) => {
         console.log("change requested")
@@ -39,21 +26,32 @@ export const UserStatusEdit = ({ profile }) => {
             .then(e => history.push("/profiles"))
     }
 
-    console.log(profile)
     if (profile.userStatusId == 1) {
-        console.log(profile.firebaseUserId)
         return <Button
-            onClick={e => {
-                e.preventDefault()
-                updateProfile(profile)
+            onClick={() => {
+                return setPendingEdit(true)
             }}>Deactivate</Button>
     }
     else if (profile.userStatusId == 2) {
         return <Button
-            onClick={e => {
-                e.preventDefault()
-                updateProfile(profile)
+            onClick={() => {
+                setPendingEdit(true)
             }}>Activate</Button>
     }
+    <Modal isOpen={pendingEdit}>
+        <ModalHeader>Update{profile.displayName}?</ModalHeader>
+        <ModalBody>
+            Are you sure you want to update the status?
+</ModalBody>
+        <ModalFooter>
+            <Button onClick={(e) => setPendingEdit(false)}>No, Cancel</Button>
+            <Button
+                className="btn btn-outline-danger"
+                onClick={(e) => updateProfile(profile)}
+            >
+                Yes, update
+</Button>
+        </ModalFooter>
+    </Modal>
 }
 export default UserStatusEdit;
