@@ -49,8 +49,7 @@ const PostDetails = () => {
     setTagId(e.target.value);
   };
 
-  const SaveTagToPost = (e) => {
-    const token = getToken();
+  const SaveTagToPost = (token) => {
     return fetch(`/api/posttag`, {
       method: "POST",
       headers: {
@@ -71,7 +70,7 @@ const PostDetails = () => {
     });
   };
 
-  const GetPost = (_) => {
+  const getPost = (_) => {
     return fetch(`/api/post/${postId}`).then((res) => {
       if (res.status === 404) {
         toast.error("This isn't the post you're looking for");
@@ -81,16 +80,14 @@ const PostDetails = () => {
     });
   };
   useEffect(() => {
-    GetPost()
-      .then((data) => {
-        setTags(data.post.postTags);
-        setPost(data.post);
-        setReactionCounts(data.reactionCounts);
-        console.log(data.comments);
-        setComments(data.comments);
-      })
-      .then(getTags);
-  }, [postId]);
+    getTags();
+    getPost().then((data) => {
+      setTags(data.post.postTags);
+      setPost(data.post);
+      setReactionCounts(data.reactionCounts);
+      setComments(data.comments);
+    });
+  }, []);
 
   if (!post) return null;
 
@@ -128,7 +125,13 @@ const PostDetails = () => {
                 </option>
               ))}
             </Input>
-            <Button onClick={(e) => SaveTagToPost()}>Save Tag</Button>{" "}
+            <Button
+              onClick={(e) => {
+                getToken().then(SaveTagToPost);
+              }}
+            >
+              Save Tag
+            </Button>{" "}
           </>
         ) : (
           ""
@@ -143,10 +146,12 @@ const PostDetails = () => {
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} />
         </div>
-        <div className="col float-left my-4 text-left">
-          <CommentList postComments={comments} />
-          <CommentForm />
-        </div>
+        {comments ? (
+          <div className="col float-left my-4 text-left">
+            <CommentList postComments={comments} getPost={getPost} />
+            <CommentForm getPost={getPost} />
+          </div>
+        ) : null}
       </div>
     </div>
   );

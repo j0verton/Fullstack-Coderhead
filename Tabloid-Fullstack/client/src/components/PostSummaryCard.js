@@ -30,6 +30,9 @@ const PostSummaryCard = ({ post }) => {
         <div className="col-lg-4 col-sm-12 mt-2 py-3 text-left">
           <p className="ml-5 text-info">Written by {post.authorName}</p>
           <p className="ml-5">
+            {post.readTime} min read
+          </p>
+          <p className="ml-5">
             Published on {formatDate(post.publishDateTime)}
           </p>
         </div>

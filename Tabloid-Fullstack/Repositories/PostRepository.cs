@@ -34,7 +34,8 @@ namespace Tabloid_Fullstack.Repositories
                     AuthorName = p.UserProfile.DisplayName,
                     AbbreviatedText = p.Content.Substring(0, 200),
                     PublishDateTime = p.PublishDateTime,
-                    Category = p.Category
+                    Category = p.Category,
+                    Content = p.Content
                 })
                 .ToList();
         }
@@ -98,6 +99,11 @@ namespace Tabloid_Fullstack.Repositories
         public void Delete(int id)
         {
             var post = GetById(id);
+            var reactions = _context.PostReaction.Where(pr => pr.PostId == post.Id).ToList();
+            foreach (var r in reactions)
+            {
+                _context.PostReaction.Remove(r);
+            }
             _context.Post.Remove(post);
             _context.SaveChanges();
         }

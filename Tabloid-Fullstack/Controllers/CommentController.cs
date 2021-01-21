@@ -33,6 +33,12 @@ namespace Tabloid_Fullstack.Controllers
             return Ok(_commentRepository.GetCommentsByPostId(id));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_commentRepository.GetCommentById(id));
+        }
+
         [HttpPost]
         public IActionResult Post(Comment comment)
         {
@@ -46,6 +52,33 @@ namespace Tabloid_Fullstack.Controllers
             _commentRepository.Add(comment);
             return Ok();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Comment comment)
+        {
+            var OriginalComment = _commentRepository.GetCommentById(id);
+            if (id != comment.Id || comment.UserProfileId != GetCurrentUserProfile().Id || OriginalComment.UserProfileId != GetCurrentUserProfile().Id)
+            {
+                return BadRequest();
+            }
+            OriginalComment.Content = comment.Content;
+            OriginalComment.Subject = comment.Subject;
+            _commentRepository.Update(OriginalComment);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var OriginalComment = _commentRepository.GetCommentById(id);
+            if (OriginalComment.UserProfileId != GetCurrentUserProfile().Id)
+            {
+                return BadRequest();
+            }
+            _commentRepository.Delete(id);
+            return Ok();
+        }
+
 
         private UserProfile GetCurrentUserProfile()
         {
