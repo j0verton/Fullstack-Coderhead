@@ -43,11 +43,13 @@ namespace Tabloid_Fullstack.Controllers
             }
             var comments = _commentRepo.GetCommentsByPostId(id);
             var reactionCounts = _repo.GetReactionCounts(id);
+            var postReactions = _repo.GetPostReactionsByPost(id);
             var postDetails = new PostDetails()
             {
                 Post = post,
                 ReactionCounts = reactionCounts,
-                Comments = comments
+                Comments = comments,
+                PostReactions = postReactions
             };
             return Ok(postDetails);
         }
@@ -67,6 +69,14 @@ namespace Tabloid_Fullstack.Controllers
             post.UserProfileId = GetCurrentUserProfile().Id;
             _repo.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
+        }
+
+        [HttpPost("addreaction")]
+        public IActionResult AddReaction(PostReaction postReaction)
+        {
+            postReaction.UserProfileId = GetCurrentUserProfile().Id;
+            _repo.AddReaction(postReaction);
+            return CreatedAtAction("Get", new { id = postReaction.Id }, postReaction);
         }
 
         [HttpPut("mypost/{id}")]
