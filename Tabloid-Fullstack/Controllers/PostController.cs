@@ -114,6 +114,18 @@ namespace Tabloid_Fullstack.Controllers
             return NoContent();
         }
 
+        [HttpGet("search")]
+        public IActionResult Search(string criterion)
+        {
+            if (criterion == null)
+            {
+                return Ok(_repo.Get());
+            }
+
+            var posts = _repo.Search(criterion);
+            return Ok(posts);
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             try
