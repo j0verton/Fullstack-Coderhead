@@ -13,5 +13,6 @@ namespace Tabloid_Fullstack.Repositories
         void Update(Post post);
         void Delete(int id);
         List<Post> GetByUserId(int id);
+        void AddTagToPost(PostTag postTag);
     }
 }
