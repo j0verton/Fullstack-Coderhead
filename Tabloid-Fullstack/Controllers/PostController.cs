@@ -26,7 +26,6 @@ namespace Tabloid_Fullstack.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-
         [HttpGet]
         public IActionResult Get()
         {
@@ -53,6 +52,13 @@ namespace Tabloid_Fullstack.Controllers
             return Ok(postDetails);
         }
 
+        [HttpGet("mypost")]
+        public IActionResult GetMyPost()
+        {
+            var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
+            return Ok(posts);
+        }
+
         [HttpPost]
         public IActionResult Post(Post post)
         {
@@ -63,21 +69,37 @@ namespace Tabloid_Fullstack.Controllers
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("mypost/{id}")]
         public IActionResult Put(int id, Post post)
         {
+            var existingPost = _repo.GetById(id);
+
             if (id != post.Id)
             {
                 return BadRequest();
             }
+            if (existingPost.UserProfileId != GetCurrentUserProfile().Id)
+            {
+                return Unauthorized();
+            }
+            existingPost.Title = post.Title;
+            existingPost.Content = post.Content;
+            existingPost.CategoryId = post.CategoryId;
 
-            _repo.Update(post);
+            _repo.Update(existingPost);
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("mypost/{id}")]
         public IActionResult Delete(int id)
         {
+            var existingPost = _repo.GetById(id);
+
+            if (existingPost.UserProfileId != GetCurrentUserProfile().Id || GetCurrentUserProfile().UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+
             _repo.Delete(id);
             return NoContent();
         }

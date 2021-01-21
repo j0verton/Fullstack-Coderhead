@@ -34,7 +34,8 @@ namespace Tabloid_Fullstack.Repositories
                     AuthorName = p.UserProfile.DisplayName,
                     AbbreviatedText = p.Content.Substring(0, 200),
                     PublishDateTime = p.PublishDateTime,
-                    Category = p.Category
+                    Category = p.Category,
+                    Content = p.Content
                 })
                 .ToList();
         }
@@ -48,6 +49,17 @@ namespace Tabloid_Fullstack.Repositories
                 .ThenInclude(pt => pt.Tag)
                 .Where(p => p.Id == id)
                 .FirstOrDefault();
+        }
+
+        public List<Post> GetByUserId(int id)
+        {
+            return _context.Post
+               .Include(p => p.UserProfile)
+               .Include(p => p.Category)
+               .Include(p => p.PostTags)
+               .ThenInclude(pt => pt.Tag)
+               .Where(p => p.UserProfileId == id)
+               .ToList();
         }
 
         public List<ReactionCount> GetReactionCounts(int postId)
@@ -76,6 +88,11 @@ namespace Tabloid_Fullstack.Repositories
         public void Delete(int id)
         {
             var post = GetById(id);
+            var reactions = _context.PostReaction.Where(pr => pr.PostId == post.Id).ToList();
+            foreach (var r in reactions)
+            {
+                _context.PostReaction.Remove(r);
+            }
             _context.Post.Remove(post);
             _context.SaveChanges();
         }

@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Card, CardImg, CardBody, CardTitle, CardSubtitle } from "reactstrap";
+import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import formatDate from "../utils/dateFormatter";
 import UserStatusEdit from "./UserStatus"
 
@@ -20,7 +19,6 @@ const PostSummaryCard = ({ profile, pendingStatus }) => {
 
       </CardBody>
     </Card >
-  );
 };
 
 export default PostSummaryCard;
