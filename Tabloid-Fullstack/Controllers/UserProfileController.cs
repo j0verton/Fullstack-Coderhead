@@ -50,14 +50,24 @@ namespace Tabloid_Fullstack.Controllers
 
 
         [HttpPut("{firebaseUserId}")]
-        public IActionResult Put(string firebaseUserId, UserProfile userProfile)
+        public IActionResult UpdateStatus(string firebaseUserId, UserProfile userProfile)
         {
             if (firebaseUserId != userProfile.FirebaseUserId)
             {
                 return BadRequest();
             }
-            _repo.Update(userProfile);
+            if (userProfile.UserStatusId == 2)
+            {
+                _repo.Activate(userProfile);
+                return NoContent();
+            }
+            else if (userProfile.UserStatusId == 1)
+            {
+                _repo.DeActivate(userProfile);
+                return NoContent();
+            }
             return NoContent();
+
         }
     }
 }

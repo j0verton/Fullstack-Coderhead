@@ -7,6 +7,7 @@ namespace Tabloid_Fullstack.Repositories
         List<UserProfile> GetProfiles();
         void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
-        void Update(UserProfile userProfile);
+        void DeActivate(UserProfile userProfile);
+        void Activate(UserProfile userProfile);
     }
 }

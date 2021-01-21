@@ -24,7 +24,7 @@ export const UserStatusEdit = ({ profile }) => {
     //     setEditing(newPost)
     // }
 
-    const updateProfile = (updatedStatus) => {
+    const updateProfile = (profile) => {
         getToken().then((token) =>
             fetch(`/api/userprofile/${profile.firebaseUserId}`, {
                 method: "PUT",
@@ -32,9 +32,9 @@ export const UserStatusEdit = ({ profile }) => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(updatedStatus),
+                body: JSON.stringify(profile),
             }))
-            .then(e => history.push("/userprofile"))
+            .then(e => history.push("/profiles"))
     }
 
     console.log(profile)
@@ -43,14 +43,14 @@ export const UserStatusEdit = ({ profile }) => {
         return <Button
             onClick={e => {
                 e.preventDefault()
-                updateProfile(1)
+                updateProfile(profile)
             }}>Deactivate</Button>
     }
     else if (profile.userStatusId == 2) {
         return <Button
             onClick={e => {
                 e.preventDefault()
-                updateProfile(2)
+                updateProfile(profile)
             }}>Activate</Button>
     }
 }

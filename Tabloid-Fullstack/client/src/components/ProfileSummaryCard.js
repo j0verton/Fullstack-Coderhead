@@ -19,6 +19,7 @@ const PostSummaryCard = ({ profile, pendingStatus }) => {
 
       </CardBody>
     </Card >
+  )
 };
 
 export default PostSummaryCard;

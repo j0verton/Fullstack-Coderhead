@@ -31,7 +31,7 @@ namespace Tabloid_Fullstack.Repositories
             return _context.UserProfile
                 .Include(up => up.UserType)
                 .Include(up => up.Post)
-                .FirstOrDefault(up => up.Id == id)
+                .FirstOrDefault(up => up.Id == id);
         }
 
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
@@ -48,9 +48,14 @@ namespace Tabloid_Fullstack.Repositories
             _context.Add(userProfile);
             _context.SaveChanges();
         }
-        public void Update(UserProfile userProfile)
+        public void Activate(UserProfile userProfile)
         {
-            _context.Entry(userProfile).State = EntityState.Modified;
+            userProfile.UserStatusId = 1;
+            _context.SaveChanges();
+        }
+        public void DeActivate(UserProfile userProfile)
+        {
+            userProfile.UserStatusId = 2;
             _context.SaveChanges();
         }
     }
