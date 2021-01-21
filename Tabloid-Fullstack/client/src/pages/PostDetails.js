@@ -56,7 +56,7 @@ const PostDetails = () => {
   };
 
   const checkUser = (_) => {
-    if (getCurrentUser().id == post.id) {
+    if (getCurrentUser().id == post.userProfileId) {
       return true;
     }
     return false;
