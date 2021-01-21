@@ -14,5 +14,7 @@ namespace Tabloid_Fullstack.Models
         public Reaction Reaction { get; set; }
 
         public int UserProfileId { get; set; }
+
+
     }
 }
