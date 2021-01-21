@@ -15,7 +15,7 @@ const PostDetails = () => {
   const [comments, setComments] = useState([]);
 
   const getPost = () => {
-    fetch(`/api/post/${postId}`)
+    return fetch(`/api/post/${postId}`)
       .then((res) => {
         if (res.status === 404) {
           toast.error("This isn't the post you're looking for");
@@ -24,6 +24,7 @@ const PostDetails = () => {
         return res.json();
       })
       .then((data) => {
+        console.log(data)
         setPost(data.post);
         setReactionCounts(data.reactionCounts);
         setComments(data.comments)

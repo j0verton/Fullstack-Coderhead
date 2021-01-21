@@ -12,5 +12,7 @@ namespace Tabloid_Fullstack.Models
         public Post Post { get; set; }
         public int ReactionId { get; set; }
         public Reaction Reaction { get; set; }
+
+        public int UserProfileId { get; set; }
     }
 }
