@@ -35,7 +35,7 @@ namespace Tabloid_Fullstack.Controllers
             var user = GetCurrentUserProfile();
             if (user.Id != post.UserProfileId && user.UserTypeId != 1) { return Unauthorized(); }
             _repo.AddTagToPost(postTag);
-            return CreatedAtAction("Get", new { id = postTag.PostId }, postTag.Post);
+            return NoContent();
         }
 
         //[HttpDelete("{id}")]

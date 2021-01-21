@@ -38,6 +38,23 @@ const PostDetails = () => {
       });
   };
 
+  const getPost = () => {
+    return fetch(`/api/post/${postId}`)
+      .then((res) => {
+        if (res.status === 404) {
+          toast.error("This isn't the post you're looking for");
+          return;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setTags(data.post.postTags);
+        setPost(data.post);
+        setReactionCounts(data.reactionCounts);
+        setComments(data.comments);
+      });
+  };
+
   const checkUser = (_) => {
     if (getCurrentUser().id == post.id) {
       return true;
@@ -57,9 +74,6 @@ const PostDetails = () => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ tagId: tagId, postId: postId }),
-    }).then((_) => {
-      history.push("/");
-      history.push(`/post/${postId}`);
     });
   };
 
@@ -70,23 +84,9 @@ const PostDetails = () => {
     });
   };
 
-  const getPost = (_) => {
-    return fetch(`/api/post/${postId}`).then((res) => {
-      if (res.status === 404) {
-        toast.error("This isn't the post you're looking for");
-        return;
-      }
-      return res.json();
-    });
-  };
   useEffect(() => {
     getTags();
-    getPost().then((data) => {
-      setTags(data.post.postTags);
-      setPost(data.post);
-      setReactionCounts(data.reactionCounts);
-      setComments(data.comments);
-    });
+    getPost();
   }, []);
 
   if (!post) return null;
@@ -127,7 +127,7 @@ const PostDetails = () => {
             </Input>
             <Button
               onClick={(e) => {
-                getToken().then(SaveTagToPost);
+                getToken().then(SaveTagToPost).then(getPost).then(getTags);
               }}
             >
               Save Tag
@@ -144,7 +144,7 @@ const PostDetails = () => {
           })}
         </div>
         <div className="my-4">
-          <PostReactions postReactions={reactionCounts} />
+          <PostReactions postReactions={reactionCounts} getPost={getPost} />
         </div>
         {comments ? (
           <div className="col float-left my-4 text-left">
