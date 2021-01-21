@@ -4,6 +4,8 @@ import PostSearch from "../components/PostSearch";
 
 const Explore = () => {
   const [posts, setPosts] = useState([]);
+  const [tags, setTags] = useState([]);
+  const { getToken } = useContext(UserProfileContext);
 
   useEffect(() => {
     fetch("/api/post")
@@ -13,9 +15,30 @@ const Explore = () => {
       });
   }, []);
 
+
+  useEffect(() => {
+    getTags();
+  }, []);
+
+  const getTags = (_) => {
+    getToken()
+      .then((token) =>
+        fetch(`/api/tag`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      )
+      .then((res) => res.json())
+      .then((tags) => {
+        setTags(tags);
+      });
+  };
+
   return (
     <div className="row">
-      <div className="col-lg-2 col-xs-12"><PostSearch setPosts={setPosts} /></div>
+      <div className="col-lg-2 col-xs-12"><PostSearch setPosts={setPosts} tags={tags} /></div>
       <div className="col-lg-10 col-xs-12">
         <PostList posts={posts} />
       </div>

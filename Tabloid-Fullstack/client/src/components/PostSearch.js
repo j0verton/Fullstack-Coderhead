@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Button, Form, Input } from 'reactstrap';
+import { Button, Form, Input, Select } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
-const PostSearch = ({ setPosts }) => {
+const PostSearch = ({ setPosts, tags }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const { getCurrentUser, getToken } = useContext(UserProfileContext)
 
@@ -28,6 +28,19 @@ const PostSearch = ({ setPosts }) => {
     return (
         <Form onSubmit={handleSubmit}>
             <Input placeholder="Search by title" onChange={e => setSearchTerm(e.target.value)} />
+            <Label for="Select">Search By Tag</Label>
+            <Input type="select" name="select" id="exampleSelect">
+                {tags.map(tag => {
+
+                    <option value={ }></option>
+                }
+
+                )}
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </Input>
             <Button type="submit">Search</Button>
         </Form>
     );
