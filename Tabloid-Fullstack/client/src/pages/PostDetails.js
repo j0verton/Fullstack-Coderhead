@@ -61,7 +61,7 @@ const PostDetails = () => {
         <div className="text-justify post-details__content">{post.content}</div>
 
         <div className="my-4">
-          <PostReactions postReactions={reactionCounts} />
+          <PostReactions postReactions={reactionCounts} getPost={getPost} />
         </div>
         {comments ?
           <div className="col float-left my-4 text-left">

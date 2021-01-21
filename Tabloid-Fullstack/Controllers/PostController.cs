@@ -33,24 +33,26 @@ namespace Tabloid_Fullstack.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            var post = _repo.GetById(id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-            var comments = _commentRepo.GetCommentsByPostId(id);
-            var reactionCounts = _repo.GetReactionCounts(id);
-            var postDetails = new PostDetails()
-            {
-                Post = post,
-                ReactionCounts = reactionCounts,
-                Comments = comments
-            };
-            return Ok(postDetails);
-        }
+        //[HttpGet("{id}")]
+        //public IActionResult GetById(int id)
+        //{
+        //    var post = _repo.GetById(id);
+        //    if (post == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var comments = _commentRepo.GetCommentsByPostId(id);
+        //    var reactionCounts = _repo.GetReactionCounts(id);
+        //    var postDetails = new PostDetails()
+        //    var postReactions = 
+        //    {
+        //        Post = post,
+        //        ReactionCounts = reactionCounts,
+        //        Comments = comments,
+        //        PostReaction =
+        //    };
+        //    return Ok(postDetails);
+        //}
 
         [HttpGet("mypost")]
         public IActionResult GetMyPost()

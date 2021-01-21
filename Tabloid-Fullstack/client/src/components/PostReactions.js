@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Badge } from "reactstrap";
+import { useParams } from "react-router-dom";
 import "./PostReaction.css";
 
-const PostReactions = ({ postReactions }) => {
+const PostReactions = ({ postReactions, getPost }) => {
+  const [hasReacted, setHasReacted] = useState(false)
+  const { postId } = useParams()
+  const addReaction = () => { }
+
+  useEffect(() => {
+    console.log('postReactions', postReactions)
+    // if(postReactions)
+
+
+  }, [])
+
   return (
     <div className="float-left">
       {postReactions.map((postReaction) => (

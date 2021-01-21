@@ -73,9 +73,22 @@ namespace Tabloid_Fullstack.Repositories
                 .ToList();
         }
 
+        public List<PostReaction> GetPostReactionsByPost(int postId)
+        {
+            return _context.PostReaction
+                .Where(pr => pr.PostId == postId)
+                .ToList();
+        }
+
         public void Add(Post post)
         {
             _context.Add(post);
+            _context.SaveChanges();
+        }
+
+        public void AddReaction(PostReaction postReaction)
+        {
+            _context.Add(postReaction);
             _context.SaveChanges();
         }
 
