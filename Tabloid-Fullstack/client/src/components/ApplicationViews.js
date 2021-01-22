@@ -7,7 +7,7 @@ import Register from "../pages/Register";
 import PostDetails from "../pages/PostDetails";
 import CategoryManager from "../pages/CategoryManager";
 import { CommentForm } from "./Comments/CommentForm";
-import ProfileManager from "../pages/ProfileManager"
+import ProfileManager from "../pages/ProfileManager";
 import PostForm from "../components/PostForm";
 import TagForm from "./TagForm";
 import Tags from "../pages/Tags";
@@ -16,6 +16,7 @@ import PostEdit from "../components/PostEdit";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
+  const { isAdmin } = useContext(UserProfileContext);
 
   return (
     <Switch>
@@ -38,19 +39,43 @@ const ApplicationViews = () => {
         {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
       </Route>
       <Route path="/categories">
-        {isLoggedIn ? <CategoryManager /> : <Redirect to="/login" />}
+        {isLoggedIn ? (
+          isAdmin() ? (
+            <CategoryManager />
+          ) : (
+            <Redirect to="/" />
+          )
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
       <Route path="/comment/:postId">
         {isLoggedIn ? <CommentForm /> : <Redirect to="/login" />}
       </Route>
       <Route path="/Tags">
-        {isLoggedIn ? <Tags /> : <Redirect to="/login" />}
+        {isLoggedIn ? (
+          isAdmin() ? (
+            <Tags />
+          ) : (
+            <Redirect to="/" />
+          )
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
       <Route path="/Create/Tags">
         {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
       </Route>
       <Route path="/profiles">
-        {isLoggedIn ? <ProfileManager /> : <Redirect to="/login" />}
+        {isLoggedIn ? (
+          isAdmin() ? (
+            <ProfileManager />
+          ) : (
+            <Redirect to="/" />
+          )
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
       <Route path="/login">
         <Login />

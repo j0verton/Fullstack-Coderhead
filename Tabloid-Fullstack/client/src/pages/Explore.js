@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import PostList from "../components/PostList";
 import PostSearch from "../components/PostSearch";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
+
 
 const Explore = () => {
   const [posts, setPosts] = useState([]);

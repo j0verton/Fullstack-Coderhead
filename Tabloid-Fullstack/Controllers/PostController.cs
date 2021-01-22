@@ -19,6 +19,7 @@ namespace Tabloid_Fullstack.Controllers
         private readonly IUserProfileRepository _userProfileRepository;
         private ICommentRepository _commentRepo;
 
+
         public PostController(IPostRepository repo, ICommentRepository commentRepo, IUserProfileRepository userProfileRepository)
         {
             _repo = repo;

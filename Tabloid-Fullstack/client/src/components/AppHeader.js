@@ -51,9 +51,13 @@ const AppHeader = () => {
                   <NavLink to="/explore" tag={Link}>
                     Explore
                   </NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink to="/create/post" tag={Link}>
                     New Post
                   </NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink to="/mypost" tag={Link}>
                     My Post
                   </NavLink>
@@ -86,19 +90,19 @@ const AppHeader = () => {
                 </NavItem>
               </>
             ) : (
-                <>
-                  <NavItem>
-                    <NavLink to="/login" tag={Link}>
-                      Login
+              <>
+                <NavItem>
+                  <NavLink to="/login" tag={Link}>
+                    Login
                   </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to="/register" tag={Link}>
-                      Register
+                </NavItem>
+                <NavItem>
+                  <NavLink to="/register" tag={Link}>
+                    Register
                   </NavLink>
-                  </NavItem>
-                </>
-              )}
+                </NavItem>
+              </>
+            )}
           </Nav>
           {user ? (
             <NavbarText className="d-sm-none d-md-block">

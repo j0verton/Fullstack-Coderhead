@@ -50,7 +50,6 @@ const ShowTag = ({ tag, getTags }) => {
   };
 
   const saveTagEdit = (tag, tagId) => {
-    console.log(tagId, tag);
     getToken()
       .then((token) =>
         fetch(`api/tag/${tagId}`, {
