@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Input, Jumbotron } from "reactstrap";
 import PostReactions from "../components/PostReactions";
@@ -20,6 +20,7 @@ const PostDetails = () => {
   const [tags, setTags] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const { getToken } = useContext(UserProfileContext);
+  const history = useHistory();
 
   const getTags = (_) => {
     getToken()
@@ -104,6 +105,13 @@ const PostDetails = () => {
   }, []);
 
   if (!post) return null;
+  if (
+    post.isApproved === false &&
+    post.userProfileId != user.id &&
+    !isAdmin()
+  ) {
+    history.push("/");
+  }
 
   return (
     <div>
