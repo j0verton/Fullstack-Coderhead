@@ -62,6 +62,11 @@ const AppHeader = () => {
                     My Post
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink to="/subscription" tag={Link}>
+                    Subscription
+                  </NavLink>
+                </NavItem>
                 {isAdmin() && (
                   <>
                     <NavItem>

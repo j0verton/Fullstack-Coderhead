@@ -13,6 +13,7 @@ import TagForm from "./TagForm";
 import Tags from "../pages/Tags";
 import MyPostList from "../components/MyPostList";
 import PostEdit from "../components/PostEdit";
+import Subscription from "../pages/Subscription";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -34,6 +35,9 @@ const ApplicationViews = () => {
       </Route>
       <Route path="/create/post">
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+      </Route>
+      <Route path="/subscription">
+        {isLoggedIn ? <Subscription /> : <Redirect to="/login" />}
       </Route>
       <Route path="/post/:postId">
         {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}

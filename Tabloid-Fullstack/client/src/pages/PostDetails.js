@@ -84,6 +84,20 @@ const PostDetails = () => {
     });
   };
 
+  const subscribe = (author) => {
+    console.log("here")
+    return getToken()
+    .then((token) => 
+    fetch('/api/subscription', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({subscriberUserProfileId: user.id, providerUserProfileId: author})
+    }))
+  }
+
   useEffect(() => {
     getTags();
     getPost();
@@ -142,6 +156,9 @@ const PostDetails = () => {
           {tags.map((tag) => {
             return `${tag.tag.name} `;
           })}
+        </div>
+        <div>
+        <Button color="danger" onClick={(e) => subscribe(post.userProfileId)}>Subscribe</Button>
         </div>
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} getPost={getPost} />
