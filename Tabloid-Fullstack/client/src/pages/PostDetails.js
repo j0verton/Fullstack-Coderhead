@@ -100,7 +100,6 @@ const PostDetails = () => {
   };
 
   const subscribe = (author) => {
-    console.log("here")
     return getToken()
     .then((token) => 
     fetch('/api/subscription', {
