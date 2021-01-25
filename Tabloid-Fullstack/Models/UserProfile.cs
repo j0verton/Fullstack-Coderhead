@@ -27,6 +27,7 @@ namespace Tabloid_Fullstack.Models
         [DataType(DataType.ImageUrl)]
         public string ImageLocation { get; set; }
         public int UserTypeId { get; set; }
+        public int UserStatusId { get; set; }
         public UserType UserType { get; set; }
         public List<Post> Post { get; set; }
 

@@ -7,7 +7,7 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import "./Login.css";
 
 const Login = () => {
-  const { login } = useContext(UserProfileContext);
+  const { login, logout } = useContext(UserProfileContext);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,8 +19,8 @@ const Login = () => {
     login(email, password)
       .then((user) => {
         setLoading(false);
-        toast.info(`Welcome back ${user.displayName}`);
-        history.push("/");
+        user.userStatusId == 2 ? toast.info('That account in inactive', logout())
+          : toast.info(`Welcome back ${user.displayName}`, history.push("/"));
       })
       .catch((err) => {
         setLoading(false);
