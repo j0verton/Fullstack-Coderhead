@@ -24,7 +24,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(p => p.Category)
                 .Where(p => p.IsApproved)
                 .Where(p => p.PublishDateTime <= DateTime.Now)
-                .OrderByDescending(p => p.PublishDateTime)
+                .OrderByDescending(p => p.CreateDateTime)
                 .Select(p => new PostSummary()
                 {
                     Id = p.Id,
@@ -35,7 +35,8 @@ namespace Tabloid_Fullstack.Repositories
                     AbbreviatedText = p.Content.Substring(0, 200),
                     PublishDateTime = p.PublishDateTime,
                     Category = p.Category,
-                    Content = p.Content
+                    Content = p.Content,
+                    IsApproved = p.IsApproved
                 })
                 .ToList();
         }
@@ -49,6 +50,26 @@ namespace Tabloid_Fullstack.Repositories
                 .ThenInclude(pt => pt.Tag)
                 .Where(p => p.Id == id)
                 .FirstOrDefault();
+        }
+        public List<Post> GetByNotApproved()
+        {
+            return _context.Post
+                .Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
+                .Where(p => p.IsApproved == false)
+                .ToList();
+        }
+        public List<Post> GetByApproved()
+        {
+            return _context.Post
+                .Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .Include(p => p.PostTags)
+                .ThenInclude(pt => pt.Tag)
+                .Where(p => p.IsApproved == true)
+                .ToList();
         }
 
         public List<Post> GetByUserId(int id)
@@ -131,29 +152,29 @@ namespace Tabloid_Fullstack.Repositories
             _context.SaveChanges();
         }
 
-        public List<PostSummary> Search(string searchTerm) 
+        public List<PostSummary> Search(string searchTerm)
 
-            {
-                return _context.Post
-                    .Include(p => p.Category)
-                    .Where(p => p.IsApproved)
-                    .Where(p => p.PublishDateTime <= DateTime.Now)
-                    .Where(p => p.Title.Contains(searchTerm) || p.Category.Name.Contains(searchTerm))
-                    .OrderByDescending(p => p.PublishDateTime)
-                    .Select(p => new PostSummary()
-                    {
-                        Id = p.Id,
-                        ImageLocation = p.ImageLocation,
-                        Title = p.Title,
-                        AuthorId = p.UserProfileId,
-                        AuthorName = p.UserProfile.DisplayName,
-                        AbbreviatedText = p.Content.Substring(0, 200),
-                        PublishDateTime = p.PublishDateTime,
-                        Category = p.Category,
-                        Content = p.Content
-                    })
-                    .ToList();
-        
-        } 
+        {
+            return _context.Post
+                .Include(p => p.Category)
+                .Where(p => p.IsApproved)
+                .Where(p => p.PublishDateTime <= DateTime.Now)
+                .Where(p => p.Title.Contains(searchTerm) || p.Category.Name.Contains(searchTerm))
+                .OrderByDescending(p => p.PublishDateTime)
+                .Select(p => new PostSummary()
+                {
+                    Id = p.Id,
+                    ImageLocation = p.ImageLocation,
+                    Title = p.Title,
+                    AuthorId = p.UserProfileId,
+                    AuthorName = p.UserProfile.DisplayName,
+                    AbbreviatedText = p.Content.Substring(0, 200),
+                    PublishDateTime = p.PublishDateTime,
+                    Category = p.Category,
+                    Content = p.Content
+                })
+                .ToList();
+
+        }
     }
 }
