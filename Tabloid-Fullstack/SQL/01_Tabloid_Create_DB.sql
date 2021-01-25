@@ -18,12 +18,18 @@ DROP TABLE IF EXISTS [Category];
 DROP TABLE IF EXISTS [Subscription];
 DROP TABLE IF EXISTS [UserProfile];
 DROP TABLE IF EXISTS [UserType];
+DROP TABLE IF EXISTS [UserStatus];
 GO
 
 
 CREATE TABLE [UserType] (
   [Id] integer PRIMARY KEY IDENTITY,
   [Name] nvarchar(20) NOT NULL
+)
+
+CREATE TABLE [UserStatus] (
+  [Id] integer PRIMARY KEY IDENTITY,
+  [Status] nvarchar(1) NOT NULL
 )
 
 CREATE TABLE [UserProfile] (
@@ -36,8 +42,10 @@ CREATE TABLE [UserProfile] (
   [CreateDateTime] datetime NOT NULL,
   [ImageLocation] nvarchar(255),
   [UserTypeId] integer NOT NULL,
+  [UserStatusId] integer NOT NULL
 
   CONSTRAINT [FK_User_UserType] FOREIGN KEY ([UserTypeId]) REFERENCES [UserType] ([Id]),
+  CONSTRAINT [FK_User_UserStatus] FOREIGN KEY ([UserStatusId]) REFERENCES [UserStatus] ([Id]),
   CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId),
   CONSTRAINT UQ_Email UNIQUE(Email)
 )
