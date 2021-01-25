@@ -18,15 +18,27 @@ namespace Tabloid_Fullstack.Controllers
         private readonly IPostRepository _repo;
         private readonly IUserProfileRepository _userProfileRepository;
         private ICommentRepository _commentRepo;
+        private readonly ITagRepository _tagRepo;
 
 
-        public PostTagController(IPostRepository repo, ICommentRepository commentRepo, IUserProfileRepository userProfileRepository)
+        public PostTagController(IPostRepository repo, ITagRepository tagRepo, ICommentRepository commentRepo, IUserProfileRepository userProfileRepository)
         {
             _repo = repo;
             _commentRepo = commentRepo;
             _userProfileRepository = userProfileRepository;
+            _tagRepo = tagRepo;
         }
 
+
+
+
+        [HttpGet("{tagid}")]
+        public IActionResult Search(int tagId)
+        {
+            var tag = _tagRepo.GetById(tagId);
+            var posts = _repo.GetPostsByTagId(tagId);
+            return Ok(posts);
+        }
 
         [HttpPost]
         public IActionResult Post(PostTag postTag)
