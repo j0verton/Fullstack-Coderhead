@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Input, Jumbotron } from "reactstrap";
 import PostReactions from "../components/PostReactions";
@@ -10,7 +10,7 @@ import { CommentList } from "../components/Comments/CommentList";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostDetails = () => {
-  const { getCurrentUser, logout, isAdmin } = useContext(UserProfileContext);
+  const { getCurrentUser, isAdmin } = useContext(UserProfileContext);
   const user = getCurrentUser();
   const { postId } = useParams();
   const [post, setPost] = useState();
@@ -20,7 +20,6 @@ const PostDetails = () => {
   const [tags, setTags] = useState([]);
   const [tagsList, setTagsList] = useState([]);
   const { getToken } = useContext(UserProfileContext);
-  const history = useHistory();
 
   const getTags = (_) => {
     getToken()
@@ -56,7 +55,7 @@ const PostDetails = () => {
   };
 
   const checkUser = (_) => {
-    if (getCurrentUser().id == post.userProfileId) {
+    if (user.id === post.userProfileId) {
       return true;
     }
     return false;
@@ -64,6 +63,21 @@ const PostDetails = () => {
 
   const handleChange = (e) => {
     setTagId(e.target.value);
+  };
+
+  const Delete = (tag) => {
+    return getToken()
+      .then((token) =>
+        fetch(`/api/posttag/${tag.id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      )
+      .then((_) => {
+        getTags();
+      });
   };
 
   const SaveTagToPost = (token) => {
@@ -139,9 +153,19 @@ const PostDetails = () => {
 
         <div>
           Tags:{" "}
-          {tags.map((tag) => {
-            return `${tag.tag.name} `;
-          })}
+          {checkUser() || isAdmin()
+            ? tags.map((tag) => {
+                return (
+                  <>
+                    <Link
+                      onClick={(e) => Delete(tag).then(getPost).then(getTags)}
+                    >
+                      {tag.tag.name}
+                    </Link>{" "}
+                  </>
+                );
+              })
+            : tags.map((tag) => `${tag.tag.name} `)}
         </div>
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} getPost={getPost} />
