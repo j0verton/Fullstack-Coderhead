@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Form, Input, Label } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
@@ -23,17 +23,32 @@ const PostSearch = ({ setPosts, tags }) => {
         })
     };
 
+    const handleSelect = e => {
+        console.log(e.target.value)
+        // return getToken().then((token) => {
+        //     fetch(`/api/post/search?criterion=${searchTerm}`, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             Authorization: `Bearer ${token}`
+        //         },
+        //     })
+        //         .then((res) => res.json())
+        //         .then((posts) => {
+        //             setPosts(posts);
+        //         });
+        // })
 
+    }
 
     return (
         <Form onSubmit={handleSubmit}>
             <Input placeholder="Search by title or category" onChange={e => setSearchTerm(e.target.value)} />
-            <Label for="Select">Search By Tag</Label>
             <Button type="submit">Search</Button>
-            <Input type="select" name="select" id="exampleSelect">
+            <Input type="select" name="select" id="TagSelect" onChange={(e) => handleSelect(e)}>
+                <option value="0">Search by Tag</option>
                 {tags.map(tag => {
-
-                    <option value={tag.id}>{tag.name}</option>
+                    return <option value={tag.id} key={tag.id}>{tag.name}</option>
                 }
 
                 )}

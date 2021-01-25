@@ -22,7 +22,7 @@ const Explore = () => {
     getTags();
   }, []);
 
-  const getTags = (_) => {
+  const getTags = () => {
     getToken()
       .then((token) =>
         fetch(`/api/tag`, {
@@ -32,9 +32,10 @@ const Explore = () => {
           },
         })
       )
-      .then((res) => res.json())
-      .then((tags) => {
-        setTags(tags);
+      .then(res => res.json())
+      .then(tagsList => {
+        setTags(tagsList);
+        console.log(tags)
       });
   };
 
