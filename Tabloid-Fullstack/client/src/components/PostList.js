@@ -5,7 +5,6 @@ const PostList = ({ posts, approved = true }) => {
   return (
     <div>
       {posts.map((post) => {
-        console.log(post.isApproved);
         if (post.isApproved === approved) {
           return (
             <div className="m-4" key={post.id}>
