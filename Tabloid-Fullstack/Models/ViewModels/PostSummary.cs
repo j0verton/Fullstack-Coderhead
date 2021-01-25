@@ -33,5 +33,6 @@ namespace Tabloid_Fullstack.Models.ViewModels
             }
         }
 
+        public bool IsApproved { get; internal set; }
     }
 }

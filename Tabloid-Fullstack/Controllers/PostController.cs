@@ -33,6 +33,24 @@ namespace Tabloid_Fullstack.Controllers
             var posts = _repo.Get();
             return Ok(posts);
         }
+        [HttpGet("Approvals")]
+        public IActionResult GetNotApproved()
+        {
+            var posts = _repo.GetByNotApproved();
+            return Ok(posts);
+        }
+        [HttpPut("Approvals/{id}")]
+        public IActionResult ApprovePut(int id, Post post)
+        {
+            var existingPost = _repo.GetById(id);
+
+            if (id != post.Id) { return BadRequest(); }
+            if (1 != GetCurrentUserProfile().UserTypeId) { return Unauthorized(); }
+            existingPost.IsApproved = true;
+            _repo.Update(existingPost);
+            return NoContent();
+
+        }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)

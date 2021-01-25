@@ -19,6 +19,9 @@ namespace Tabloid_Fullstack.Repositories
         List<PostSummary> Search(string searchTerm);
         void RemoveTagFromPost(PostTag postTag);
         PostTag GetPostTagById(int id);
+        List<Post> GetByApproved();
+        List<Post> GetByNotApproved();
         List<PostSummary> GetPostsByTagId(int tagId);
+
     }
 }

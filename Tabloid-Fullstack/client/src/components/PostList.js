@@ -1,14 +1,18 @@
 import React from "react";
 import PostSummaryCard from "./PostSummaryCard";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, approved = true }) => {
   return (
     <div>
-      {posts.map((post) => (
-        <div className="m-4" key={post.id}>
-          <PostSummaryCard post={post} />
-        </div>
-      ))}
+      {posts.map((post) => {
+        if (post.isApproved === approved) {
+          return (
+            <div className="m-4" key={post.id}>
+              <PostSummaryCard post={post} />
+            </div>
+          );
+        }
+      })}
     </div>
   );
 };
