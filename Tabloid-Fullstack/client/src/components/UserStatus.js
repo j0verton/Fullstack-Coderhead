@@ -4,15 +4,18 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
 
+
 export const UserStatusEdit = ({ profile }) => {
-    const [pendingEdit, setPendingEdit] = useState(false)
+    const [activity, setactivity] = useState(2)
+    const [pendingStatus, setStatus] = useState(false)
     const { getToken } = useContext(UserProfileContext);
 
     const history = useHistory()
+    const showModal = (status) => { setStatus(status) }
 
+    c
 
     const updateProfile = (profile) => {
-        console.log("change requested")
         getToken().then((token) =>
 
             fetch(`/api/userprofile/${profile.firebaseUserId}`, {
@@ -26,34 +29,39 @@ export const UserStatusEdit = ({ profile }) => {
             .then(e => history.push("/profiles"))
     }
 
-    if (profile.userStatusId == 1) {
-        return <Button
-            onClick={() => {
-                updateProfile(profile)
-            }}>Deactivate</Button>
+    return (
+        <>
+            <div>
+                {!pendingStatus ?
+                    (profile.userStatusId == 1 && activity == 2 ? (
+                        <Button
+                            onClick={() => {
+                                showModal(true)
+                                setactivity(1)
+                            }}>Deactivate</Button>)
+                        : (<Button
+                            onClick={() => {
+                                showModal(true)
+                                setactivity(1)
+                            }}>Activate</Button>)
+                    ) :
+                    < Modal isOpen={pendingStatus} >
+                        <ModalHeader>Update?</ModalHeader>
+                        <ModalBody>
+                            Are you sure you want to update the status?
+        </ModalBody>
+                        <Button onClick={() => {
+                            updateProfile(profile)
+                            showModal(false)
+                            setactivity(2)
 
-    }
-    else if (profile.userStatusId == 2) {
-        return <Button
-            onClick={() => {
-                updateProfile(profile)
-            }}>Activate</Button>
-    }
+                        }}>Yes, activate</Button>
 
-    //     <Modal isOpen={pendingEdit}>
-    //         <ModalHeader>Update{profile.displayName}?</ModalHeader>
-    //         <ModalBody>
-    //             Are you sure you want to update the status?
-    // </ModalBody>
-    //         <ModalFooter>
-    //             <Button onClick={(e) => setPendingEdit(false)}>No, Cancel</Button>
-    //             <Button
-    //                 className="btn btn-outline-danger"
-    //                 onClick={(e) => updateProfile(profile)}
-    //             >
-    //                 Yes, update
-    // </Button>
-    //         </ModalFooter>
-    //     </Modal>
+                    </Modal >
+                }
+
+            </div >
+        </>
+    )
 }
 export default UserStatusEdit;
