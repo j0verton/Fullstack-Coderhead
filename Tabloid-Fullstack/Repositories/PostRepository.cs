@@ -24,7 +24,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(p => p.Category)
                 .Where(p => p.IsApproved)
                 .Where(p => p.PublishDateTime <= DateTime.Now)
-                .OrderByDescending(p => p.CreateDateTime)
+                .OrderByDescending(p => p.PublishDateTime)
                 .Select(p => new PostSummary()
                 {
                     Id = p.Id,
