@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
 
 
-export const UserStatusEdit = ({ profile }) => {
+export const UserStatusEdit = ({ profile }, { PauseState }, { RefreshState }) => {
     const [activity, setactivity] = useState(2)
     const [pendingStatus, setStatus] = useState(false)
     const { getToken } = useContext(UserProfileContext);
@@ -13,7 +13,7 @@ export const UserStatusEdit = ({ profile }) => {
     const history = useHistory()
     const showModal = (status) => { setStatus(status) }
 
-    c
+
 
     const updateProfile = (profile) => {
         getToken().then((token) =>
@@ -38,25 +38,37 @@ export const UserStatusEdit = ({ profile }) => {
                             onClick={() => {
                                 showModal(true)
                                 setactivity(1)
+                                PauseState()
                             }}>Deactivate</Button>)
                         : (<Button
                             onClick={() => {
                                 showModal(true)
                                 setactivity(1)
+                                PauseState()
                             }}>Activate</Button>)
                     ) :
                     < Modal isOpen={pendingStatus} >
-                        <ModalHeader>Update?</ModalHeader>
-                        <ModalBody>
-                            Are you sure you want to update the status?
+                        {
+                            <div>
+                                <ModalHeader>Deactivate Account?</ModalHeader>
+                                <ModalBody>
+                                    Are you sure you change {profile.displayName}'s account?
         </ModalBody>
-                        <Button onClick={() => {
-                            updateProfile(profile)
-                            showModal(false)
-                            setactivity(2)
+                                <Button onClick={() => {
+                                    updateProfile(profile)
+                                    showModal(false)
+                                    setactivity(2)
 
-                        }}>Yes, activate</Button>
 
+                                }}>Yes</Button> : <Button
+                                    onClick={() => {
+                                        showModal(false)
+                                        setactivity(2)
+
+                                    }}>Cancel</Button>
+
+                            </div>
+                        }
                     </Modal >
                 }
 
