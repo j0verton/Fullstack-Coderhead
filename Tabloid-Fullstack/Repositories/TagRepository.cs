@@ -46,10 +46,7 @@ namespace Tabloid_Fullstack.Repositories
         {
             var tag = GetById(id);
             var middleTable = _context.PostTag.Where(pt => pt.TagId == tag.Id).ToList();
-            foreach (var t in middleTable)
-            {
-                _context.PostTag.Remove(t);
-            }
+            _context.PostTag.RemoveRange(middleTable);
             _context.Tag.Remove(tag);
             _context.SaveChanges();
         }
