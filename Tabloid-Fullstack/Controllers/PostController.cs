@@ -145,6 +145,7 @@ namespace Tabloid_Fullstack.Controllers
             return Ok(posts);
         }
 
+
         private UserProfile GetCurrentUserProfile()
         {
             try

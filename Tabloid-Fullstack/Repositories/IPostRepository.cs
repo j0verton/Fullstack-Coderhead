@@ -21,5 +21,7 @@ namespace Tabloid_Fullstack.Repositories
         PostTag GetPostTagById(int id);
         List<Post> GetByApproved();
         List<Post> GetByNotApproved();
+        List<PostSummary> GetPostsByTagId(int tagId);
+
     }
 }

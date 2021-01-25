@@ -154,27 +154,78 @@ namespace Tabloid_Fullstack.Repositories
 
         public List<PostSummary> Search(string searchTerm)
 
-        {
-            return _context.Post
-                .Include(p => p.Category)
-                .Where(p => p.IsApproved)
-                .Where(p => p.PublishDateTime <= DateTime.Now)
-                .Where(p => p.Title.Contains(searchTerm) || p.Category.Name.Contains(searchTerm))
-                .OrderByDescending(p => p.PublishDateTime)
-                .Select(p => new PostSummary()
-                {
-                    Id = p.Id,
-                    ImageLocation = p.ImageLocation,
-                    Title = p.Title,
-                    AuthorId = p.UserProfileId,
-                    AuthorName = p.UserProfile.DisplayName,
-                    AbbreviatedText = p.Content.Substring(0, 200),
-                    PublishDateTime = p.PublishDateTime,
-                    Category = p.Category,
-                    Content = p.Content
-                })
-                .ToList();
-
+            {
+                return _context.Post
+                    .Include(p => p.Category)
+                    .Where(p => p.IsApproved)
+                    .Where(p => p.PublishDateTime <= DateTime.Now)
+                    .Where(p => p.Title.Contains(searchTerm) || p.Category.Name.Contains(searchTerm))
+                    .OrderByDescending(p => p.PublishDateTime)
+                    .Select(p => new PostSummary()
+                    {
+                        Id = p.Id,
+                        ImageLocation = p.ImageLocation,
+                        Title = p.Title,
+                        AuthorId = p.UserProfileId,
+                        AuthorName = p.UserProfile.DisplayName,
+                        AbbreviatedText = p.Content.Substring(0, 200),
+                        PublishDateTime = p.PublishDateTime,
+                        Category = p.Category,
+                        Content = p.Content
+                    })
+                    .ToList();
+        
         }
+
+
+        public List<PostSummary> GetPostsByTagId(int tagId)
+        {
+            return _context.PostTag
+            .Include(pt => pt.Post)
+            .ThenInclude(p => p.Category)
+            .Where(pt => pt.TagId == tagId)
+                    .Where(pt => pt.Post.IsApproved)
+                    .Where(pt => pt.Post.PublishDateTime <= DateTime.Now)
+                    .OrderByDescending(pt => pt.Post.PublishDateTime)
+                    .Select(pt => new PostSummary()
+                    {
+                        Id = pt.Post.Id,
+                        ImageLocation = pt.Post.ImageLocation,
+                        Title = pt.Post.Title,
+                        AuthorId = pt.Post.UserProfileId,
+                        AuthorName = pt.Post.UserProfile.DisplayName,
+                        AbbreviatedText = pt.Post.Content.Substring(0, 200),
+                        PublishDateTime = pt.Post.PublishDateTime,
+                        Category = pt.Post.Category,
+                        Content = pt.Post.Content
+                    })
+                    .ToList();
+        }
+
+
+        //public List<PostSummary> GetPostsByTagId(int tagId) {
+        //    return _context.Post
+        //    .Include(p => p.Category)
+        //       .Include(p => p.PostTags)
+        //            .Where(p => p.IsApproved)
+        //            .Where(p => p.PublishDateTime <= DateTime.Now)
+        //            .Where(p => p.PostTags.Tag.TagId == tagId)
+        //       .ThenInclude(pt => pt.Tag)
+        //       .ThenInclude(t => t.Id)
+        //            .OrderByDescending(p => p.PublishDateTime)
+        //            .Select(p => new PostSummary()
+        //            {
+        //                Id = p.Id,
+        //                ImageLocation = p.ImageLocation,
+        //                Title = p.Title,
+        //                AuthorId = p.UserProfileId,
+        //                AuthorName = p.UserProfile.DisplayName,
+        //                AbbreviatedText = p.Content.Substring(0, 200),
+        //                PublishDateTime = p.PublishDateTime,
+        //                Category = p.Category,
+        //                Content = p.Content
+        //            })
+        //            .ToList();
+        //}
     }
 }
