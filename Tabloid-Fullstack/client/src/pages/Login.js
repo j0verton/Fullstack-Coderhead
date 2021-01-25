@@ -19,6 +19,7 @@ const Login = () => {
     login(email, password)
       .then((user) => {
         setLoading(false);
+        //put logic here for act/deactivate message
         toast.info(`Welcome back ${user.displayName}`);
         history.push("/");
       })

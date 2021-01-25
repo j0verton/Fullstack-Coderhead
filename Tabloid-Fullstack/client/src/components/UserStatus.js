@@ -5,7 +5,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
 
 
-export const UserStatusEdit = ({ profile }) => {
+export const UserStatusEdit = ({ profile, getProfiles }) => {
     const [activity, setactivity] = useState(2)
     const [pendingStatus, setStatus] = useState(false)
     const { getToken } = useContext(UserProfileContext);
@@ -25,7 +25,8 @@ export const UserStatusEdit = ({ profile }) => {
                 },
                 body: JSON.stringify(profile),
             }))
-            .then(showModal(false))
+            .then(e => getProfiles())
+            .then(e => showModal(false))
     }
 
     return (
@@ -41,7 +42,6 @@ export const UserStatusEdit = ({ profile }) => {
                         : (<Button
                             onClick={() => {
                                 showModal(true)
-                                setactivity(1)
                             }}>Activate</Button>)
                     ) :
                     < Modal isOpen={pendingStatus} >
@@ -53,7 +53,7 @@ export const UserStatusEdit = ({ profile }) => {
         </ModalBody>
                                 <Button onClick={() => {
                                     updateProfile(profile)
-
+                                    setactivity(2)
 
                                 }}>Yes</Button> : <Button
                                     onClick={() => {

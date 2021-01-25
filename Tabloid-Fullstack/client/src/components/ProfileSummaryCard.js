@@ -5,11 +5,9 @@ import UserStatusEdit from "./UserStatus"
 
 import "./PostSummaryCard.css";
 
-const PostSummaryCard = ({ profile, pendingStatus }) => {
+const PostSummaryCard = ({ profile, getProfiles }) => {
   const [card, setCardState] = useState(true)
 
-  const PauseState = () => setCardState(false)
-  const RefreshState = () => setCardState(true)
   return (
     <div>
       {card ?
@@ -20,7 +18,7 @@ const PostSummaryCard = ({ profile, pendingStatus }) => {
             <CardSubtitle tag="h6" className="mb-2 text-muted">Role: {profile.userType.name}</CardSubtitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">Name: {profile.firstName} {profile.lastName}</CardSubtitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">Created on: {formatDate(profile.createDateTime)}</CardSubtitle>
-            <UserStatusEdit profile={profile} pauseState={PauseState} refreshState={RefreshState} />
+            <UserStatusEdit profile={profile} getProfiles={getProfiles} />
 
           </CardBody>
         </Card > : null

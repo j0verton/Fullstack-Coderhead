@@ -28,6 +28,7 @@ namespace Tabloid_Fullstack.Controllers
      //   [Authorize] will be authorized only to admin
         public IActionResult GetAllUsers()
         {
+
             var profiles = _repo.GetProfiles();
             return Ok(profiles);
         }
