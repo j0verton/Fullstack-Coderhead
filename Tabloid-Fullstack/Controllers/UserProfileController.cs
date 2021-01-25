@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Tabloid_Fullstack.Models;
 using Tabloid_Fullstack.Repositories;
- 
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,6 +54,11 @@ namespace Tabloid_Fullstack.Controllers
         [HttpPut("{firebaseUserId}")]
         public IActionResult UpdateStatus(string firebaseUserId, UserProfile userProfile)
         {
+            var user = GetCurrentUserProfile();
+            if (user.UserTypeId != 1) 
+            {
+                return Unauthorized();
+            }
             var currentProfileStatus = _repo.GetByFirebaseUserId(firebaseUserId);
             if(currentProfileStatus.UserTypeId != 1)
             {
@@ -75,6 +82,18 @@ namespace Tabloid_Fullstack.Controllers
             }
             return NoContent();
 
+        }
+        private UserProfile GetCurrentUserProfile()
+        {
+            try
+            {
+                var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return _repo.GetByFirebaseUserId(firebaseUserId);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
