@@ -14,6 +14,7 @@ import Tags from "../pages/Tags";
 import MyPostList from "../components/MyPostList";
 import PostEdit from "../components/PostEdit";
 import Subscription from "../pages/Subscription";
+import Approval from "../pages/Approval";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -26,6 +27,17 @@ const ApplicationViews = () => {
       </Route>
       <Route path="/explore">
         {isLoggedIn ? <Explore /> : <Redirect to="/login" />}
+      </Route>
+      <Route path="/approval">
+        {isLoggedIn ? (
+          isAdmin() ? (
+            <Approval />
+          ) : (
+            <Redirect to="/" />
+          )
+        ) : (
+          <Redirect to="/login" />
+        )}
       </Route>
       <Route path="/mypost">
         {isLoggedIn ? <MyPostList /> : <Redirect to="/login" />}

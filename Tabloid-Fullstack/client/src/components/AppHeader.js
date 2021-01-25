@@ -79,6 +79,11 @@ const AppHeader = () => {
                         Tags
                       </NavLink>
                     </NavItem>
+                    <NavItem>
+                      <NavLink to="/approval" tag={Link}>
+                        Post Approval
+                      </NavLink>
+                    </NavItem>
                   </>
                 )}
                 {isAdmin() && (

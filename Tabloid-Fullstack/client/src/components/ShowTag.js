@@ -107,7 +107,7 @@ const ShowTag = ({ tag, getTags }) => {
       <Modal isOpen={pendingDelete}>
         <ModalHeader>Delete {tag.name}?</ModalHeader>
         <ModalBody>
-          Are you sure you want to delete this category? This action cannot be
+          Are you sure you want to delete this tag? This action cannot be
           undone.
         </ModalBody>
         <ModalFooter>
