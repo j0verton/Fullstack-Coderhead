@@ -38,12 +38,17 @@ namespace Tabloid_Fullstack.Controllers
             return NoContent();
         }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    _repo.DeleteTagFromPost(id);
-        //    return NoContent();
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var existingPostTag = _repo.GetPostTagById(id);
+            var currentUser = GetCurrentUserProfile();
+            if (existingPostTag == null) { return BadRequest(); }
+            var existingPost = _repo.GetById(existingPostTag.PostId);
+            if (existingPost.UserProfileId != currentUser.Id && currentUser.UserTypeId != 1) { return Unauthorized(); }
+            _repo.RemoveTagFromPost(existingPostTag);
+            return NoContent();
+        }
 
         private UserProfile GetCurrentUserProfile()
         {
