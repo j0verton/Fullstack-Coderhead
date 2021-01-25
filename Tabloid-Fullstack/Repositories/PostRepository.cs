@@ -130,5 +130,30 @@ namespace Tabloid_Fullstack.Repositories
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+
+        public List<PostSummary> Search(string searchTerm) 
+
+            {
+                return _context.Post
+                    .Include(p => p.Category)
+                    .Where(p => p.IsApproved)
+                    .Where(p => p.PublishDateTime <= DateTime.Now)
+                    .Where(p => p.Title.Contains(searchTerm) || p.Category.Name.Contains(searchTerm))
+                    .OrderByDescending(p => p.PublishDateTime)
+                    .Select(p => new PostSummary()
+                    {
+                        Id = p.Id,
+                        ImageLocation = p.ImageLocation,
+                        Title = p.Title,
+                        AuthorId = p.UserProfileId,
+                        AuthorName = p.UserProfile.DisplayName,
+                        AbbreviatedText = p.Content.Substring(0, 200),
+                        PublishDateTime = p.PublishDateTime,
+                        Category = p.Category,
+                        Content = p.Content
+                    })
+                    .ToList();
+        
+        } 
     }
 }

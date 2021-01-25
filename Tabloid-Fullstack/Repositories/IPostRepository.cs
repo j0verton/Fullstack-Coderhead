@@ -16,6 +16,7 @@ namespace Tabloid_Fullstack.Repositories
         void AddReaction(PostReaction postReaction);
         List<PostReaction> GetPostReactionsByPost(int postId);
         void AddTagToPost(PostTag postTag);
+        List<PostSummary> Search(string searchTerm);
         void RemoveTagFromPost(PostTag postTag);
         PostTag GetPostTagById(int id);
     }
