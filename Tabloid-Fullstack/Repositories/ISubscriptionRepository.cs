@@ -9,5 +9,6 @@ namespace Tabloid_Fullstack.Repositories
     public interface ISubscriptionRepository
     {
         void Add(Subscription subscription);
+        List<Post> GetByAuthor(int id);
     }
 }
