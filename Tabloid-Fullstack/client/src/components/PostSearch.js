@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, Form, Input, Label } from 'reactstrap';
+import { Alert, Button, Form, Input, Label } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const PostSearch = ({ setPosts, tags }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const { getCurrentUser, getToken } = useContext(UserProfileContext)
-
+    const [searchEmpty, setSearchEmpty] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
         return getToken().then((token) => {
@@ -37,9 +37,12 @@ const PostSearch = ({ setPosts, tags }) => {
                 .then((posts) => {
                     console.log(posts)
                     if (posts.length === 0) {
-
+                        setSearchEmpty(true)
+                        setPosts(posts);
+                    } else {
+                        setSearchEmpty(false)
+                        setPosts(posts);
                     }
-                    setPosts(posts);
                 });
         })
 
@@ -57,6 +60,7 @@ const PostSearch = ({ setPosts, tags }) => {
 
                 )}
             </Input>
+            {searchEmpty ? <Alert>No Results</Alert> : null}
         </Form>
     );
 };
