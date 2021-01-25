@@ -27,7 +27,7 @@ const PostSearch = ({ setPosts, tags }) => {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Input placeholder="Search by title" onChange={e => setSearchTerm(e.target.value)} />
+            <Input placeholder="Search by title or category" onChange={e => setSearchTerm(e.target.value)} />
             <Label for="Select">Search By Tag</Label>
             <Button type="submit">Search</Button>
             <Input type="select" name="select" id="exampleSelect">
@@ -37,12 +37,7 @@ const PostSearch = ({ setPosts, tags }) => {
                 }
 
                 )}
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
             </Input>
-            <Input placeholder="Search by title or category" onChange={e => setSearchTerm(e.target.value)} />
         </Form>
     );
 };
