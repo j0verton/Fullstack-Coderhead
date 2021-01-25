@@ -205,29 +205,5 @@ namespace Tabloid_Fullstack.Repositories
         }
 
 
-        //public List<PostSummary> GetPostsByTagId(int tagId) {
-        //    return _context.Post
-        //    .Include(p => p.Category)
-        //       .Include(p => p.PostTags)
-        //            .Where(p => p.IsApproved)
-        //            .Where(p => p.PublishDateTime <= DateTime.Now)
-        //            .Where(p => p.PostTags.Tag.TagId == tagId)
-        //       .ThenInclude(pt => pt.Tag)
-        //       .ThenInclude(t => t.Id)
-        //            .OrderByDescending(p => p.PublishDateTime)
-        //            .Select(p => new PostSummary()
-        //            {
-        //                Id = p.Id,
-        //                ImageLocation = p.ImageLocation,
-        //                Title = p.Title,
-        //                AuthorId = p.UserProfileId,
-        //                AuthorName = p.UserProfile.DisplayName,
-        //                AbbreviatedText = p.Content.Substring(0, 200),
-        //                PublishDateTime = p.PublishDateTime,
-        //                Category = p.Category,
-        //                Content = p.Content
-        //            })
-        //            .ToList();
-        //}
     }
 }
