@@ -24,7 +24,6 @@ const PostSearch = ({ setPosts, tags }) => {
     };
 
     const handleSelect = e => {
-        console.log(e.target.value)
         return getToken().then((token) => {
             fetch(`/api/posttag/${e.target.value}`, {
                 method: 'GET',
@@ -35,7 +34,6 @@ const PostSearch = ({ setPosts, tags }) => {
             })
                 .then((res) => res.json())
                 .then((posts) => {
-                    console.log(posts)
                     if (posts.length === 0) {
                         setSearchEmpty(true)
                         setPosts(posts);

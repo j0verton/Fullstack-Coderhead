@@ -35,7 +35,6 @@ const Explore = () => {
       .then(res => res.json())
       .then(tagsList => {
         setTags(tagsList);
-        console.log(tags)
       });
   };
 
