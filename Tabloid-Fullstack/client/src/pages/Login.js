@@ -19,9 +19,8 @@ const Login = () => {
     login(email, password)
       .then((user) => {
         setLoading(false);
-        //put logic here for act/deactivate message
-        toast.info(`Welcome back ${user.displayName}`);
-        history.push("/");
+        user.userStatusId == 2 ? toast.info('That account in inactive')
+          : toast.info(`Welcome back ${user.displayName}`, history.push("/"));
       })
       .catch((err) => {
         setLoading(false);
