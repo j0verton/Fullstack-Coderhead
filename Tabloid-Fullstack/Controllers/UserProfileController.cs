@@ -61,10 +61,6 @@ namespace Tabloid_Fullstack.Controllers
                 return Unauthorized();
             }
             var currentProfileStatus = _repo.GetByFirebaseUserId(firebaseUserId);
-            if(currentProfileStatus.UserTypeId != 1)
-            {
-                return Unauthorized();
-            }
             if (firebaseUserId != userProfile.FirebaseUserId)
             {
                 return BadRequest();
