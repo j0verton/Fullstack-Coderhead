@@ -33,7 +33,7 @@ export const UserStatusEdit = ({ profile, getProfiles }) => {
         <>
             <div>
                 {!pendingStatus ?
-                    (profile.userStatusId == 1 && activity == 2 ? (
+                    (profile.userStatusId == 1 ? (
                         <Button
                             onClick={() => {
                                 showModal(true)
@@ -53,7 +53,7 @@ export const UserStatusEdit = ({ profile, getProfiles }) => {
         </ModalBody>
                                 <Button onClick={() => {
                                     updateProfile(profile)
-                                    setactivity(2)
+
 
                                 }}>Yes</Button> : <Button
                                     onClick={() => {
