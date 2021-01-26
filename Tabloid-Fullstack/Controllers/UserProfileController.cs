@@ -80,6 +80,34 @@ namespace Tabloid_Fullstack.Controllers
             return NoContent();
 
         }
+        [HttpPut("typeEdit/{firebaseUserId}")]
+        public IActionResult UpdateType(string firebaseUserId, UserProfile userProfile)
+        {
+            var user = GetCurrentUserProfile();
+            if (user.UserTypeId != 1)
+            {
+                return Unauthorized();
+            }
+            var currentProfileStatus = _repo.GetByFirebaseUserId(firebaseUserId);
+            if (firebaseUserId != userProfile.FirebaseUserId)
+            {
+                return BadRequest();
+            }
+            if (userProfile.UserTypeId == 2)
+            {
+                currentProfileStatus.UserTypeId = 1;
+                _repo.Update(currentProfileStatus);
+                return NoContent();
+            }
+            else if (userProfile.UserTypeId == 1)
+            {
+                currentProfileStatus.UserTypeId = 2;
+                _repo.Update(currentProfileStatus);
+                return NoContent();
+            }
+            return NoContent();
+
+        }
         private UserProfile GetCurrentUserProfile()
         {
             try
