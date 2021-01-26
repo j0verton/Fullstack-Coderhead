@@ -5,6 +5,7 @@ import Explore from "../pages/Explore";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PostDetails from "../pages/PostDetails";
+import AuthorManager from "./HomePage/AuthorManager"
 import CategoryManager from "../pages/CategoryManager";
 import { CommentForm } from "./Comments/CommentForm";
 import ProfileManager from "./UserProfile/ProfileManager";
@@ -23,7 +24,7 @@ const ApplicationViews = () => {
   return (
     <Switch>
       <Route path="/" exact>
-        {isLoggedIn ? <p>Home</p> : <Redirect to="/login" />}
+        {isLoggedIn ? <AuthorManager /> : <Redirect to="/login" />}
       </Route>
       <Route path="/explore">
         {isLoggedIn ? <Explore /> : <Redirect to="/login" />}
