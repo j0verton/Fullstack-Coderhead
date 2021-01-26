@@ -23,7 +23,6 @@ const ApprovePostList = ({ posts, approved = true, GetPosts }) => {
     <div>
       {posts.map((post) => {
         if (post.isApproved === approved) {
-          console.log(post.authorName);
           return (
             <div className="m-4" key={post.id}>
               <PostSummaryCard post={post} />{" "}
