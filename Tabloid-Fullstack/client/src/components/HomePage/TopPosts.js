@@ -1,5 +1,12 @@
 import React from 'react'
 
-const TopPosts = () => {
+const TopPosts = ({ posts }) => {
 
+    return (
+        <div>
+
+        </div>
+    )
 }
+
+export default TopPosts;
