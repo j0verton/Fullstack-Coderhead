@@ -1,16 +1,11 @@
-import { getByTestId } from '@testing-library/react';
-import React, { useEffect, useState, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
+import { UserProfileContext, getUserProfile } from "../../providers/UserProfileProvider";
 
 
 export const UserStatusEdit = ({ profile, getProfiles }) => {
-    const [activity, setactivity] = useState(2)
     const [pendingStatus, setStatus] = useState(false)
     const { getToken } = useContext(UserProfileContext);
-
-    const history = useHistory()
     const showModal = (status) => { setStatus(status) }
 
 
@@ -37,7 +32,6 @@ export const UserStatusEdit = ({ profile, getProfiles }) => {
                         <Button
                             onClick={() => {
                                 showModal(true)
-                                setactivity(1)
                             }}>Deactivate</Button>)
                         : (<Button
                             onClick={() => {
