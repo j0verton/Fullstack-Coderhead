@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
-import formatDate from "../utils/dateFormatter";
+import formatDate from "../../utils/dateFormatter";
 import UserStatusEdit from "./UserStatus"
+import UserTypeEdit from "./UserTypeEdit"
 
-import "./PostSummaryCard.css";
+import "../PostSummaryCard.css";
 
 const PostSummaryCard = ({ profile, getProfiles }) => {
   const [card, setCardState] = useState(true)
@@ -19,7 +20,7 @@ const PostSummaryCard = ({ profile, getProfiles }) => {
             <CardSubtitle tag="h6" className="mb-2 text-muted">Name: {profile.firstName} {profile.lastName}</CardSubtitle>
             <CardSubtitle tag="h6" className="mb-2 text-muted">Created on: {formatDate(profile.createDateTime)}</CardSubtitle>
             <UserStatusEdit profile={profile} getProfiles={getProfiles} />
-
+            <UserTypeEdit profile={profile} getProfiles={getProfiles} />
           </CardBody>
         </Card > : null
       }

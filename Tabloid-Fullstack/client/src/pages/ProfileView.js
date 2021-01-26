@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react"
 import { Input, Progress } from "reactstrap";
-import ProfileSummaryCard from "../components/ProfileSummaryCard"
+import ProfileSummaryCard from "../components/UserProfile/ProfileSummaryCard"
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 const ProfileView = () => {
