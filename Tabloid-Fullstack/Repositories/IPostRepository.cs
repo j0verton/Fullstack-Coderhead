@@ -20,7 +20,7 @@ namespace Tabloid_Fullstack.Repositories
         void RemoveTagFromPost(PostTag postTag);
         PostTag GetPostTagById(int id);
         List<Post> GetByApproved();
-        List<Post> GetByNotApproved();
+        List<PostSummary> GetByNotApproved();
         List<PostSummary> GetPostsByTagId(int tagId);
 
     }

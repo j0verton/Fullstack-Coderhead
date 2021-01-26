@@ -51,7 +51,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Where(p => p.Id == id)
                 .FirstOrDefault();
         }
-        public List<Post> GetByNotApproved()
+        public List<PostSummary> GetByNotApproved()
         {
             return _context.Post
                 .Include(p => p.UserProfile)
@@ -59,6 +59,19 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(p => p.PostTags)
                 .ThenInclude(pt => pt.Tag)
                 .Where(p => p.IsApproved == false)
+                .Select(p => new PostSummary()
+                {
+                    Id = p.Id,
+                    ImageLocation = p.ImageLocation,
+                    Title = p.Title,
+                    AuthorId = p.UserProfileId,
+                    AuthorName = p.UserProfile.DisplayName,
+                    AbbreviatedText = p.Content.Substring(0, 200),
+                    PublishDateTime = p.PublishDateTime,
+                    Category = p.Category,
+                    Content = p.Content,
+                    IsApproved = p.IsApproved
+                })
                 .ToList();
         }
         public List<Post> GetByApproved()
