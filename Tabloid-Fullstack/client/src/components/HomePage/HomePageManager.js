@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useEffect }
 import { Container, Row, Col } from 'reactstrap';
 
 
