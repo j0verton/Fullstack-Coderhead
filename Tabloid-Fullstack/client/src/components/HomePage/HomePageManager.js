@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useEffect }
 import { Container, Row, Col } from 'reactstrap';
 
-const AuthorManager = () => {
+
+
+
+const HomePageManager = () => {
 
     return (
         <Container>
@@ -18,4 +22,4 @@ const AuthorManager = () => {
     )
 
 }
-export default AuthorManager;
+export default HomePageManager;
