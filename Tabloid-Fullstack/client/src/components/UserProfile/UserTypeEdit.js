@@ -1,23 +1,19 @@
-import { getByTestId } from '@testing-library/react';
-import React, { useEffect, useState, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { UserProfileContext, getUserProfile } from "../providers/UserProfileProvider";
+import React, { useState, useContext } from 'react';
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
-export const UserStatusEdit = ({ profile, getProfiles }) => {
-    const [activity, setactivity] = useState(2)
+export const UserTypeEdit = ({ profile, getProfiles }) => {
+    //setStatus is for the status of the modal (showing or not showing)
     const [pendingStatus, setStatus] = useState(false)
     const { getToken } = useContext(UserProfileContext);
-
-    const history = useHistory()
     const showModal = (status) => { setStatus(status) }
 
-
-    const updateProfile = (profile) => {
+    //to update the user type, only a profile is passed
+    const updateType = (profile) => {
         getToken().then((token) =>
 
-            fetch(`/api/userprofile/${profile.firebaseUserId}`, {
+            fetch(`/api/userprofile/typeEdit/${profile.firebaseUserId}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,26 +29,26 @@ export const UserStatusEdit = ({ profile, getProfiles }) => {
         <>
             <div>
                 {!pendingStatus ?
-                    (profile.userStatusId == 1 ? (
+                    (profile.userTypeId == 1 ? (
                         <Button
                             onClick={() => {
                                 showModal(true)
-                                setactivity(1)
-                            }}>Deactivate</Button>)
+                            }}>Demote to Author</Button>)
                         : (<Button
                             onClick={() => {
                                 showModal(true)
-                            }}>Activate</Button>)
+                            }}>Promote to Admin</Button>)
                     ) :
                     < Modal isOpen={pendingStatus} >
                         {
                             <div>
-                                <ModalHeader>{profile.userStatusId == 1 ? "Deactivate" : "Activate"} Account?</ModalHeader>
+                                <ModalHeader>{profile.userTypeId == 1 ? "Demote" : "Promote"} user?</ModalHeader>
                                 <ModalBody>
-                                    Are you sure you want to {profile.userStatusId == 1 ? "Deactivate" : "Activate"} {profile.displayName}'s account?
-        </ModalBody>
+                                    Are you sure you want to {profile.userTypeId == 1 ? (`demote ${profile.displayName}'s account to author?`) : (
+                                        `promote ${profile.displayName}'s account to admin?`)}
+                                </ModalBody>
                                 <Button onClick={() => {
-                                    updateProfile(profile)
+                                    updateType(profile)
 
 
                                 }}>Yes</Button> : <Button
@@ -69,4 +65,4 @@ export const UserStatusEdit = ({ profile, getProfiles }) => {
         </>
     )
 }
-export default UserStatusEdit;
+export default UserTypeEdit;

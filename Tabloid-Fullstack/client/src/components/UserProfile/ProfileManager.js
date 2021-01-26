@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import ProfileList from "../components/ProfileList"
+import ProfileList from "./ProfileList"
 
 const ProfileManager = () => {
     const [userProfile, setUserProfile] = useState([]);
