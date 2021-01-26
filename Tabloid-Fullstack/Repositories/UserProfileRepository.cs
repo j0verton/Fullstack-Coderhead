@@ -53,5 +53,11 @@ namespace Tabloid_Fullstack.Repositories
             _context.Entry(userProfile).State = EntityState.Modified;
             _context.SaveChanges();
         }
+        public void UpdateImg(string url)
+        {
+            _context. Entry().State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
     }
 }
