@@ -37,9 +37,6 @@ const HomePageManager = () => {
 
 
             </Row>
-            <Row>
-                <h2>A sample of our authors</h2>
-            </Row>
         </Container >
     )
 
