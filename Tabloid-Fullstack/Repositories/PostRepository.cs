@@ -40,6 +40,30 @@ namespace Tabloid_Fullstack.Repositories
                 })
                 .ToList();
         }
+        //retrieves the four most recent posts for the homepage
+        public List<PostSummary> GetTopFourPosts()
+        {
+            return _context.Post
+                .Include(p => p.Category)
+                .Where(p => p.IsApproved)
+                .Where(p => p.PublishDateTime <= DateTime.Now)
+                .OrderByDescending(p => p.PublishDateTime)
+                .Select(p => new PostSummary()
+                {
+                    Id = p.Id,
+                    ImageLocation = p.ImageLocation,
+                    Title = p.Title,
+                    AuthorId = p.UserProfileId,
+                    AuthorName = p.UserProfile.DisplayName,
+                    AbbreviatedText = p.Content.Substring(0, 200),
+                    PublishDateTime = p.PublishDateTime,
+                    Category = p.Category,
+                    Content = p.Content,
+                    IsApproved = p.IsApproved
+                })
+                .Take(4)
+                .ToList();
+        }
 
         public Post GetById(int id)
         {
@@ -216,6 +240,7 @@ namespace Tabloid_Fullstack.Repositories
                     })
                     .ToList();
         }
+
 
 
     }
