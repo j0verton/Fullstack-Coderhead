@@ -3,6 +3,7 @@ import { Input, Progress } from "reactstrap";
 import ProfileSummaryCard from "../components/UserProfile/ProfileSummaryCard"
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import firebase from "firebase/app";
+import "firebase/storage";
 
 const ProfileView = () => {
 
@@ -12,7 +13,7 @@ const ProfileView = () => {
     const [loadingProgress, setLoadingProgress] = useState(0);
 
     useEffect(() => {
-        getCurrentUserProfile()
+        // getCurrentUserProfile()
 
     }, [])
 
@@ -33,33 +34,28 @@ const ProfileView = () => {
     }
 
     const uploadImage = async e => {
-        setLoading(true)
+        console.log("uploading", e.target.files[0])
+        setIsLoading(true)
         const file = e.target.files[0]
         let storageRef = firebase.storage().ref(`ProfilePictures/${file.name}`)
+        // const storageRef = firebase.storage().ref();
+        // const fileRef = storageRef.child(`${file.name}`)
+        // fileRef.put(file)
         let task = storageRef.put(file)
         task.on('state_changed',
             function progess(snapshot) {
 
                 let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setLoadingProgress(percentage)
-            }
-        )
-        const data = new FormData()
-        data.append('file', files[0])
-        data.append('upload_preset', "tunelist")
+            },
+            function error(err) {
 
-        const response = await fetch(
-            'https://api.cloudinary.com/v1_1/banjo/image/upload',
-            {
-                method: 'POST',
-                body: data
+            },
+            function complete() {
+
             }
         )
-        const responseImage = await response.json()
-        await addPhoto(responseImage.url)
-        // let photos = await getPhotosByUserId(localStorage.getItem("tunes_user")) 
-        // setImages(photos)
-        setLoading(false)
+        setIsLoading(false)
     }
 
     return (
@@ -70,7 +66,7 @@ const ProfileView = () => {
                     <ProfileSummaryCard profile={profile} />
                     {
                         isLoading ?
-                            <Progress /> : null
+                            <Progress value={loadingProgress} /> : null
                     }
                     <Input
                         type="file"

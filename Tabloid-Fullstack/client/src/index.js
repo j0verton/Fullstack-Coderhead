@@ -4,10 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
-  storageBucket: process.env.REACT_APP_FIREBASE_BUCKET
+  storageBucket: process.env.REACT_APP_FIREBASE_BUCKET,
 };
 firebase.initializeApp(firebaseConfig);
 
