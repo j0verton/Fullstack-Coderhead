@@ -98,6 +98,18 @@ const PostDetails = () => {
       return !tagsOnPost.find((t) => t.id === tag.id);
     });
   };
+  const Unapprove = (_) => {
+    return getToken().then((token) =>
+      fetch(`/api/post/approvals/${post.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(post),
+      })
+    );
+  };
 
   const subscribe = (author) => {
     return getToken()
@@ -120,7 +132,7 @@ const PostDetails = () => {
   if (!post) return null;
   if (
     post.isApproved === false &&
-    post.userProfileId != user.id &&
+    post.userProfileId !== user.id &&
     !isAdmin()
   ) {
     history.push("/");
@@ -132,6 +144,19 @@ const PostDetails = () => {
         className="post-details__jumbo"
         style={{ backgroundImage: `url('${post.imageLocation}')` }}
       ></Jumbotron>
+      {isAdmin() ? (
+        post.isApproved ? (
+          <Button onClick={(e) => Unapprove().then(getPost)}>
+            Unapprove Post
+          </Button>
+        ) : (
+          <Button onClick={(e) => Unapprove().then(getPost)}>
+            Approve Post
+          </Button>
+        )
+      ) : (
+        ""
+      )}
       <div className="container">
         <h1>{post.title}</h1>
         <h5 className="text-danger">{post.category.name}</h5>
