@@ -43,6 +43,27 @@ namespace Tabloid_Fullstack.Repositories
             }
             return completeList;
         }
+
+        public Subscription GetSubscription(int userId, int authorId)
+        {
+            return _context.Subscription
+                .Where(s => s.SubscriberUserProfileId == userId)
+                .Where(s => s.ProviderUserProfileId == authorId)
+                .FirstOrDefault();
+        }
+
+        public Subscription GetById(int id)
+        {
+            return _context.Subscription
+                .Where(s => s.Id == id)
+                .FirstOrDefault();
+        }
+
+        public void Update(Subscription subscription)
+        {
+            _context.Entry(subscription).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }
 

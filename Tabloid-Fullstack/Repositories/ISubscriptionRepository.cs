@@ -10,5 +10,8 @@ namespace Tabloid_Fullstack.Repositories
     {
         void Add(Subscription subscription);
         List<Post> GetByAuthor(int id);
+        Subscription GetById(int id);
+        Subscription GetSubscription(int id1, int id2);
+        void Update(Subscription subscription);
     }
 }
