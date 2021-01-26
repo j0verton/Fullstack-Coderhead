@@ -42,14 +42,23 @@ namespace Tabloid_Fullstack.Controllers
         [HttpPut("Approvals/{id}")]
         public IActionResult ApprovePut(int id, Post post)
         {
+            if (1 != GetCurrentUserProfile().UserTypeId) { return Unauthorized(); }
             var existingPost = _repo.GetById(id);
 
             if (id != post.Id) { return BadRequest(); }
-            if (1 != GetCurrentUserProfile().UserTypeId) { return Unauthorized(); }
-            existingPost.IsApproved = true;
-            _repo.Update(existingPost);
-            return NoContent();
-
+            if (existingPost.IsApproved == true)
+            {
+                existingPost.IsApproved = false;
+                _repo.Update(existingPost);
+                return NoContent();
+            }
+            if (existingPost.IsApproved == false)
+            {
+                existingPost.IsApproved = true;
+                _repo.Update(existingPost);
+                return NoContent();
+            }
+            return BadRequest();
         }
 
         [HttpGet("{id}")]
