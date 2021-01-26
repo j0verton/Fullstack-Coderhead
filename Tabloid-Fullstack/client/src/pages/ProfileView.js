@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react"
-import { Card, Input, Progress, CardBody, CardSubtitle, CardImg, CardTitle, } from "reactstrap";
+import { Card, Input, Progress, CardBody, CardSubtitle, CardImg, CardTitle, Media, Col } from "reactstrap";
 import formatDate from "../utils/dateFormatter";
 
 import ProfileSummaryCard from "../components/UserProfile/ProfileSummaryCard"
@@ -9,28 +9,33 @@ import "firebase/storage";
 
 const ProfileView = () => {
 
-    const { getToken } = useContext(UserProfileContext);
-    const [profile, setProfile] = useState({ displayName: "", userType: { name: "" }, createDateTime: new Date(), firebaseUserId: localStorage.getItem("firebaseUserId") });
+    const { getToken, getCurrentUser, getUserProfile } = useContext(UserProfileContext);
+    const [profile, setProfile] = useState(getCurrentUser());
     const [isLoading, setIsLoading] = useState(false);
     const [loadingProgress, setLoadingProgress] = useState(0);
 
     useEffect(() => {
-        // getCurrentUserProfile()
+        getCurrentUserProfile()
 
     }, [])
 
     const getCurrentUserProfile = () => {
-        const userFbId = localStorage.getItem("firebaseUserId")
+        const user = localStorage.getItem("userProfile")
+        debugger
         getToken()
             .then((token) =>
-                fetch(`/api/userprofile/${userFbId}`, {
+                fetch(`/api/userprofile/${user.firebaseUserId}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
-                    .then(res => res.json())
+                    .then(res => {
+                        console.log("res", res)
+                        return res.json()
+                    })
                     .then(profile => {
+                        debugger
                         console.log(profile)
                         setProfile(profile)
                     }));
@@ -62,6 +67,7 @@ const ProfileView = () => {
     }
 
     const saveUserProfileImg = (url) => {
+        console.log(url)
         getToken()
             .then((token) =>
                 fetch(`/api/userprofile/img`, {
@@ -73,8 +79,8 @@ const ProfileView = () => {
                 })
                     .then(res => res.json())
                     .then(profile => {
-                        console.log(profile)
-                        setProfile(profile)
+                        console.log('response', profile)
+                        getCurrentUserProfile()
                     }));
     }
 
@@ -83,10 +89,13 @@ const ProfileView = () => {
         <>
 
 
-            <div>
-                <Card >
+            <Col sm="12" md={{ size: 6, offset: 3 }}>
+                {/* <Img top width="10%" src={`${profile.imageLocation}`} alt="avatar" /> */}
+                <Card className="mx-20">
+                    <Media left href="#">
+                        <Media object src={`${profile.imageLocation}`} alt="Generic placeholder image" />
+                    </Media>
                     <CardBody>
-                        <CardImg top width="50px" src={`${profile.imageLocation}`} alt="avatar" />
                         <CardTitle tag="h5">{profile.displayName}</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">Role: {profile.userType.name}</CardSubtitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">Name: {profile.firstName} {profile.lastName}</CardSubtitle>
@@ -94,16 +103,16 @@ const ProfileView = () => {
                         {
                             isLoading ? <>
                                 <div className="text-center">{loadingProgress}%</div>
-                                <Progress value={loadingProgress} /> </> : null
+                                <Progress className="mb-2" value={loadingProgress} /> </> : null
                         }
-                        <Input
+                        <Input className="mb-2"
                             type="file"
                             id="profilePicUpload"
                             placeholder="Upload a Profile Picture"
                             onChange={uploadImage} />
                     </CardBody>
                 </Card >
-            </div>
+            </Col>
 
         </>
     )
