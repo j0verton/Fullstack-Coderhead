@@ -61,6 +61,8 @@ const AppHeader = () => {
                   <NavLink to="/mypost" tag={Link}>
                     My Post
                   </NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink to="/myprofile" tag={Link}>
                     My Profile
                   </NavLink>
