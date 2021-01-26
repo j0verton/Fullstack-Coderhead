@@ -20,9 +20,10 @@ const ProfileView = () => {
     }, [])
 
     const getCurrentUserProfile = () => {
+        const userFbId = localStorage.getItem("firebaseUserId")
         getToken()
             .then((token) =>
-                fetch(`/api/userprofile/${profile.firebaseUserId}`, {
+                fetch(`/api/userprofile/${userFbId}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -51,8 +52,11 @@ const ProfileView = () => {
 
             },
             function complete() {
-                task.snapshot.ref.getDownloadURL().then
+                task.snapshot.ref.getDownloadURL()
+                    .then(saveUserProfileImg)
+                    .then(getCurrentUserProfile)
                 setIsLoading(false)
+
             }
         )
     }
@@ -60,11 +64,12 @@ const ProfileView = () => {
     const saveUserProfileImg = (url) => {
         getToken()
             .then((token) =>
-                fetch(`/api/userprofile/${profile.firebaseUserId}/img`, {
-                    method: "PATCH",
+                fetch(`/api/userprofile/img`, {
+                    method: "PUT",
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
+                    body: JSON.stringify(url),
                 })
                     .then(res => res.json())
                     .then(profile => {

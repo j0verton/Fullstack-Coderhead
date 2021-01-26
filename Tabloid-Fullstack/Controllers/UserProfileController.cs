@@ -39,11 +39,13 @@ namespace Tabloid_Fullstack.Controllers
             return Ok(_repo.GetByFirebaseUserId(firebaseUserId));
         }
 
-        [HttpGet("{firebaseUserId}/img")]
+        [HttpPut("/img")]
         public IActionResult UpdateImg(string url)
         {
-
-            _repo.UpdateImg(url)
+            var user = GetCurrentUserProfile();
+            user.ImageLocation = url;
+            _repo.Update(user);
+            
             return Ok();
         }
 
