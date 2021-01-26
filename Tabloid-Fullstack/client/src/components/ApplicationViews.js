@@ -15,6 +15,7 @@ import MyPostList from "../components/MyPostList";
 import PostEdit from "../components/PostEdit";
 import Subscription from "../pages/Subscription";
 import Approval from "../pages/Approval";
+import ProfileView from "../pages/ProfileView";
 
 const ApplicationViews = () => {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -33,11 +34,14 @@ const ApplicationViews = () => {
           isAdmin() ? (
             <Approval />
           ) : (
-            <Redirect to="/" />
-          )
+              <Redirect to="/" />
+            )
         ) : (
-          <Redirect to="/login" />
-        )}
+            <Redirect to="/login" />
+          )}
+      </Route>
+      <Route path="/myprofile">
+        {isLoggedIn ? <ProfileView /> : <Redirect to="/login" />}
       </Route>
       <Route path="/mypost">
         {isLoggedIn ? <MyPostList /> : <Redirect to="/login" />}
@@ -59,11 +63,11 @@ const ApplicationViews = () => {
           isAdmin() ? (
             <CategoryManager />
           ) : (
-            <Redirect to="/" />
-          )
+              <Redirect to="/" />
+            )
         ) : (
-          <Redirect to="/login" />
-        )}
+            <Redirect to="/login" />
+          )}
       </Route>
       <Route path="/comment/:postId">
         {isLoggedIn ? <CommentForm /> : <Redirect to="/login" />}
@@ -73,11 +77,11 @@ const ApplicationViews = () => {
           isAdmin() ? (
             <Tags />
           ) : (
-            <Redirect to="/" />
-          )
+              <Redirect to="/" />
+            )
         ) : (
-          <Redirect to="/login" />
-        )}
+            <Redirect to="/login" />
+          )}
       </Route>
       <Route path="/Create/Tags">
         {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
@@ -87,11 +91,11 @@ const ApplicationViews = () => {
           isAdmin() ? (
             <ProfileManager />
           ) : (
-            <Redirect to="/" />
-          )
+              <Redirect to="/" />
+            )
         ) : (
-          <Redirect to="/login" />
-        )}
+            <Redirect to="/login" />
+          )}
       </Route>
       <Route path="/login">
         <Login />

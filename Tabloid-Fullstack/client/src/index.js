@@ -7,6 +7,7 @@ import firebase from "firebase/app";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
+  storageBucket: process.env.REACT_APP_FIREBASE_BUCKET
 };
 firebase.initializeApp(firebaseConfig);
 
