@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { UserProfileContext, getUserProfile } from "../../providers/UserProfileProvider";
+import { UserProfileContext } from "../../providers/UserProfileProvider";
 
 
 export const UserStatusEdit = ({ profile, getProfiles }) => {
