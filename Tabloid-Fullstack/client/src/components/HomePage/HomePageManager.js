@@ -9,20 +9,29 @@ const HomePageManager = () => {
     const [posts, setTopPosts] = useState([]);
 
     useEffect(() => {
-        getTopPosts()
+        getRecentAuthors()
+        getRecentPosts()
     }, [])
 
 
-    //getTopPosts will be passed and called at the end to refresh
-    const getTopPosts = () => {
-        fetch("/api/homepage")
+    //getRecentPosts will be passed and called at the end to refresh
+    const getRecentPosts = () => {
+        fetch("/api/homepage/recentPosts")
+            .then((res) => res.json())
+            .then((posts) => {
+                setTopPosts(posts)
+            });
+    }
+    //
+    const getRecentAuthors = () => {
+        fetch("/api/homepage/recentAuthors")
             .then((res) => res.json())
             .then((posts) => {
                 setTopPosts(posts)
             });
     }
     return (
-        <Container>
+        <Container fluid={true}>
             <Row>
                 <Col><h1>Welcome back!</h1></Col>
             </Row>

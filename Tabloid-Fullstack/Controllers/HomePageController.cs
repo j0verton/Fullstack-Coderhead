@@ -19,14 +19,21 @@ namespace Tabloid_Fullstack.Controllers
             _postRepo = postRepository;
         }
     
-       [HttpGet]
-       public IActionResult GetTopPosts()
+       [HttpGet("recentPosts")]
+       public IActionResult GetRecentPosts()
         {
             //gets top posts to display on HomePage
             var posts = _postRepo.GetTopFourPosts();
             return Ok(posts);
         }
 
+        [HttpGet("recentAuthors")]
+        public IActionResult GetRecentAuthors()
+        {
+            //gets top posts to display on HomePage
+            var posts = _postRepo.GetTopFourPosts();
+            return Ok(posts);
+        }
 
 
     }
