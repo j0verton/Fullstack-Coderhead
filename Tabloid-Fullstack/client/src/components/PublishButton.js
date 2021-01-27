@@ -20,7 +20,12 @@ const PublishButton = ({ post, getMyPost }) => {
                     body: JSON.stringify(post),
                 })
             )
-            .then(getMyPost);
+            .then(() => {
+                getToken()
+                    .then((token) =>
+                        getMyPost(token)
+                    )
+            })
     };
     return (<>
         {

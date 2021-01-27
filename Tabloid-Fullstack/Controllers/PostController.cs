@@ -85,8 +85,15 @@ namespace Tabloid_Fullstack.Controllers
         [HttpGet("mypost")]
         public IActionResult GetMyPost()
         {
-            var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
-            return Ok(posts);
+            try
+            {
+                var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         [HttpPost]
@@ -144,7 +151,7 @@ namespace Tabloid_Fullstack.Controllers
             existingPost.PublishDateTime = DateTime.Now;
 
             _repo.Update(existingPost);
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("mypost/{id}")]
