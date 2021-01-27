@@ -22,7 +22,9 @@ namespace Tabloid_Fullstack.Repositories
         {
             return _context.Post
                 .Include(p => p.Category)
+                .Include(p => p.UserProfile)
                 .Where(p => p.IsApproved)
+                .Where(p => p.UserProfile.UserStatusId == 1)
                 .Where(p => p.PublishDateTime <= DateTime.Now)
                 .OrderByDescending(p => p.PublishDateTime)
                 .Select(p => new PostSummary()
@@ -46,6 +48,7 @@ namespace Tabloid_Fullstack.Repositories
             return _context.Post
                 .Include(p => p.Category)
                 .Where(p => p.IsApproved)
+                .Where(p => p.UserProfile.UserStatusId == 1)
                 .Where(p => p.PublishDateTime <= DateTime.Now)
                 .OrderByDescending(p => p.PublishDateTime)
                 .Select(p => new PostSummary()
@@ -73,6 +76,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(p => p.PostTags)
                 .ThenInclude(pt => pt.Tag)
                 .Where(p => p.Id == id)
+                .Where(p => p.UserProfile.UserStatusId == 1)
                 .FirstOrDefault();
         }
         public List<PostSummary> GetByNotApproved()
@@ -83,6 +87,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(p => p.PostTags)
                 .ThenInclude(pt => pt.Tag)
                 .Where(p => p.IsApproved == false)
+                .Where(p => p.UserProfile.UserStatusId == 1)
                 .Select(p => new PostSummary()
                 {
                     Id = p.Id,
@@ -106,6 +111,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(p => p.PostTags)
                 .ThenInclude(pt => pt.Tag)
                 .Where(p => p.IsApproved == true)
+                .Where(p => p.UserProfile.UserStatusId == 1)
                 .ToList();
         }
 
@@ -117,6 +123,7 @@ namespace Tabloid_Fullstack.Repositories
                .Include(p => p.PostTags)
                .ThenInclude(pt => pt.Tag)
                .Where(p => p.UserProfileId == id)
+               .Where(p => p.UserProfile.UserStatusId == 1)
                .ToList();
         }
 
@@ -181,10 +188,8 @@ namespace Tabloid_Fullstack.Repositories
         {
             var post = GetById(id);
             var reactions = _context.PostReaction.Where(pr => pr.PostId == post.Id).ToList();
-            foreach (var r in reactions)
-            {
-                _context.PostReaction.Remove(r);
-            }
+
+            _context.PostReaction.RemoveRange(reactions);
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
@@ -197,6 +202,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Where(p => p.IsApproved)
                 .Where(p => p.PublishDateTime <= DateTime.Now)
                 .Where(p => p.Title.Contains(searchTerm) || p.Category.Name.Contains(searchTerm))
+                .Where(p => p.UserProfile.UserStatusId == 1)
                 .OrderByDescending(p => p.PublishDateTime)
                 .Select(p => new PostSummary()
                 {
@@ -240,8 +246,5 @@ namespace Tabloid_Fullstack.Repositories
                     })
                     .ToList();
         }
-
-
-
     }
 }
