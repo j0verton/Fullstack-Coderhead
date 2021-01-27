@@ -32,8 +32,6 @@ const HomePageManager = () => {
                 setRecentAuthors(authors)
             });
     }
-
-    console.log(authors)
     return (
         <Container fluid={true}>
             <Row>
