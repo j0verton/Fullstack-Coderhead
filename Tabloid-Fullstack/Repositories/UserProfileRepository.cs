@@ -53,5 +53,13 @@ namespace Tabloid_Fullstack.Repositories
             _context.Entry(userProfile).State = EntityState.Modified;
             _context.SaveChanges();
         }
+
+        public int AdminCount()
+        {
+            return _context.UserProfile
+                .Where(up => up.UserTypeId == 1)
+                .Where(up => up.UserStatusId == 1)
+                .Count();
+        }
     }
 }

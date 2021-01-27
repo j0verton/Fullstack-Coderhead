@@ -19,8 +19,15 @@ const PostDetails = () => {
   const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
   const [tagsList, setTagsList] = useState([]);
+  const [subscription, setSubscription] = useState({})
   const { getToken } = useContext(UserProfileContext);
   const history = useHistory();
+
+  useEffect(() => {
+    getTags();
+    getPost()
+      .then(getSubscription);
+  }, []);
 
   const getTags = (_) => {
     getToken()
@@ -52,6 +59,7 @@ const PostDetails = () => {
         setPost(data.post);
         setReactionCounts(data.reactionCounts);
         setComments(data.comments);
+        return data.post.userProfileId;
       });
   };
 
@@ -124,10 +132,41 @@ const PostDetails = () => {
         }))
   }
 
-  useEffect(() => {
-    getTags();
-    getPost();
-  }, []);
+  const unsubscribe = (author) => {
+    return getToken()
+      .then((token) =>
+        fetch(`/api/subscription/${subscription.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ subscriberUserProfileId: user.id, providerUserProfileId: author })
+        }))
+  }
+
+  const getSubscription = (userProfileId) => {
+    return getToken()
+      .then((token) =>
+        fetch(`/api/subscription/user/${userProfileId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+
+        }).then(res => res.json())
+          .then(setSubscription))
+  }
+
+  const isSubscribed = () => {
+    if (subscription.beginDateTime != null && subscription.endDateTime === null) {
+      return false;
+    }
+    else {
+      return true;
+    }
+
+  }
 
   if (!post) return null;
   if (
@@ -214,7 +253,8 @@ const PostDetails = () => {
             : tags.map((tag) => `${tag.tag.name} `)}
         </div>
         <div>
-          <Button color="danger" onClick={(e) => subscribe(post.userProfileId)}>Subscribe</Button>
+          {isSubscribed() ? <Button color="danger" onClick={(e) => { subscribe(post.userProfileId).then((e) => getSubscription(post.userProfileId)) }}>Subscribe</Button> :
+            <Button color="secondary" onClick={(e) => { unsubscribe(post.userProfileId).then((e) => getSubscription(post.userProfileId)) }}>Unsubscribe</Button>}
         </div>
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} getPost={getPost} />

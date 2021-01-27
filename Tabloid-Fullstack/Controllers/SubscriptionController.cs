@@ -25,9 +25,20 @@ namespace Tabloid_Fullstack.Controllers
         [HttpPost]
         public IActionResult Post(Subscription subscription)
         {
-            subscription.BeginDateTime = DateTime.Now;
-            _subRepo.Add(subscription);
-            return Ok(subscription);
+            var existing = _subRepo.GetSubscription(subscription.SubscriberUserProfileId, subscription.ProviderUserProfileId);
+            if (existing == null)
+            {
+                subscription.BeginDateTime = DateTime.Now;
+                _subRepo.Add(subscription);
+                return Ok(subscription);
+            }
+            else
+            {
+                existing.EndDateTime = null;
+                existing.BeginDateTime = DateTime.Now;
+                _subRepo.Update(existing);
+                return Ok(existing);
+            }
         }
 
         [HttpGet]
@@ -36,6 +47,34 @@ namespace Tabloid_Fullstack.Controllers
             var user = GetCurrentUserProfile();
             var posts = _subRepo.GetByAuthor(user.Id);
             return Ok(posts);
+        }
+
+        [HttpGet("user/{id}")]
+        public IActionResult GetSubscriptionId(int id)
+        {
+            var user = GetCurrentUserProfile();
+            Subscription subscription = _subRepo.GetSubscription(user.Id, id);
+            return Ok(subscription);
+
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateSubscription(int id)
+        {
+            var subscription = _subRepo.GetById(id);
+            if (subscription.EndDateTime == null)
+            {
+                subscription.EndDateTime = DateTime.Now;
+                _subRepo.Update(subscription);
+                return NoContent();
+            }
+            else
+            {
+                subscription.EndDateTime = null;
+                _subRepo.Update(subscription);
+                return NoContent();
+            }
+
         }
 
         private UserProfile GetCurrentUserProfile()
