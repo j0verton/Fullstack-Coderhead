@@ -124,6 +124,7 @@ namespace Tabloid_Fullstack.Controllers
             existingPost.Title = post.Title;
             existingPost.Content = post.Content;
             existingPost.CategoryId = post.CategoryId;
+            existingPost.ImageLocation = post.ImageLocation;
 
             _repo.Update(existingPost);
             return NoContent();
@@ -149,7 +150,7 @@ namespace Tabloid_Fullstack.Controllers
         {
             var existingPost = _repo.GetById(id);
 
-            if (existingPost.UserProfileId != GetCurrentUserProfile().Id || GetCurrentUserProfile().UserTypeId != 1)
+            if (existingPost.UserProfileId != GetCurrentUserProfile().Id && GetCurrentUserProfile().UserTypeId != 1)
             {
                 return Unauthorized();
             }

@@ -61,7 +61,7 @@ const PostEdit = (props) => {
     console.log("uploading", e.target.files[0])
     setIsLoading(true)
     const file = e.target.files[0]
-    let storageRef = firebase.storage().ref(`ProfilePictures/${file.name}`)
+    let storageRef = firebase.storage().ref(`PostHeaders/${file.name}${new Date().getTime()}`)
     let task = storageRef.put(file)
     task.on('state_changed',
       function progess(snapshot) {
@@ -87,6 +87,7 @@ const PostEdit = (props) => {
   };
 
   const updatePost = (post) => {
+    post.imageLocation = imageLocation
     getToken()
       .then((token) =>
         fetch(`/api/post/mypost/${post.id}`, {
