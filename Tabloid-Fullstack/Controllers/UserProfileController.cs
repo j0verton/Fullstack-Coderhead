@@ -25,7 +25,7 @@ namespace Tabloid_Fullstack.Controllers
         }
 
         [HttpGet]
-     //   [Authorize] will be authorized only to admin
+        //   [Authorize] will be authorized only to admin
         public IActionResult GetAllUsers()
         {
 
@@ -56,7 +56,7 @@ namespace Tabloid_Fullstack.Controllers
         public IActionResult UpdateStatus(string firebaseUserId, UserProfile userProfile)
         {
             var user = GetCurrentUserProfile();
-            if (user.UserTypeId != 1) 
+            if (user.UserTypeId != 1)
             {
                 return Unauthorized();
             }
