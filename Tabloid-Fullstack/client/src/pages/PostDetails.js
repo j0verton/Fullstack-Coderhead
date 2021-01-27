@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Input, Jumbotron } from "reactstrap";
+import { Button, Input, Jumbotron, Media } from "reactstrap";
 import PostReactions from "../components/PostReactions";
 import formatDate from "../utils/dateFormatter";
 import "./PostDetails.css";
@@ -26,7 +26,7 @@ const PostDetails = () => {
   useEffect(() => {
     getTags();
     getPost()
-    .then(getSubscription);
+      .then(getSubscription);
   }, []);
 
   const getTags = (_) => {
@@ -121,50 +121,48 @@ const PostDetails = () => {
 
   const subscribe = (author) => {
     return getToken()
-    .then((token) => 
-    fetch('/api/subscription', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({subscriberUserProfileId: user.id, providerUserProfileId: author})
-    }))
+      .then((token) =>
+        fetch('/api/subscription', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ subscriberUserProfileId: user.id, providerUserProfileId: author })
+        }))
   }
 
   const unsubscribe = (author) => {
     return getToken()
-    .then((token) => 
-    fetch(`/api/subscription/${subscription.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({subscriberUserProfileId: user.id, providerUserProfileId: author})
-    }))
+      .then((token) =>
+        fetch(`/api/subscription/${subscription.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ subscriberUserProfileId: user.id, providerUserProfileId: author })
+        }))
   }
 
   const getSubscription = (userProfileId) => {
     return getToken()
-    .then((token) => 
-    fetch(`/api/subscription/user/${userProfileId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      .then((token) =>
+        fetch(`/api/subscription/user/${userProfileId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
 
-    }).then(res => res.json())
-      .then(setSubscription))
+        }).then(res => res.json())
+          .then(setSubscription))
   }
 
   const isSubscribed = () => {
-    if (subscription.beginDateTime != null && subscription.endDateTime === null)
-    {
+    if (subscription.beginDateTime != null && subscription.endDateTime === null) {
       return false;
     }
-    else
-    {
+    else {
       return true;
     }
 
@@ -182,22 +180,22 @@ const PostDetails = () => {
   return (
     <div>
       <Jumbotron
-        className="post-details__jumbo"
-        style={{ backgroundImage: `url('${post.imageLocation}')` }}
-      ></Jumbotron>
+        className="post-details__jumbo">
+        <Media src={post.imageLocation} />
+      </Jumbotron>
       {isAdmin() ? (
         post.isApproved ? (
           <Button onClick={(e) => Unapprove().then(getPost)}>
             Unapprove Post
           </Button>
         ) : (
-          <Button onClick={(e) => Unapprove().then(getPost)}>
-            Approve Post
-          </Button>
-        )
+            <Button onClick={(e) => Unapprove().then(getPost)}>
+              Approve Post
+            </Button>
+          )
       ) : (
-        ""
-      )}
+          ""
+        )}
       <div className="container">
         <h1>{post.title}</h1>
         <h5 className="text-danger">{post.category.name}</h5>
@@ -235,28 +233,28 @@ const PostDetails = () => {
             </Button>{" "}
           </>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         <div>
           Tags:{" "}
           {checkUser() || isAdmin()
             ? tags.map((tag) => {
-                return (
-                  <>
-                    <Link
-                      onClick={(e) => Delete(tag).then(getPost).then(getTags)}
-                    >
-                      {tag.tag.name}
-                    </Link>{" "}
-                  </>
-                );
-              })
+              return (
+                <>
+                  <Link
+                    onClick={(e) => Delete(tag).then(getPost).then(getTags)}
+                  >
+                    {tag.tag.name}
+                  </Link>{" "}
+                </>
+              );
+            })
             : tags.map((tag) => `${tag.tag.name} `)}
         </div>
         <div>
-        {isSubscribed() ? <Button color="danger" onClick={(e) => {subscribe(post.userProfileId).then((e) => getSubscription(post.userProfileId))}}>Subscribe</Button> :
-        <Button color="secondary" onClick={(e) => {unsubscribe(post.userProfileId).then((e) => getSubscription(post.userProfileId))}}>Unsubscribe</Button>}
+          {isSubscribed() ? <Button color="danger" onClick={(e) => { subscribe(post.userProfileId).then((e) => getSubscription(post.userProfileId)) }}>Subscribe</Button> :
+            <Button color="secondary" onClick={(e) => { unsubscribe(post.userProfileId).then((e) => getSubscription(post.userProfileId)) }}>Unsubscribe</Button>}
         </div>
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} getPost={getPost} />
