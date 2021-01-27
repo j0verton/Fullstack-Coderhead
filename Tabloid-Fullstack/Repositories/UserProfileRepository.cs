@@ -54,6 +54,7 @@ namespace Tabloid_Fullstack.Repositories
 
         public void Add(UserProfile userProfile)
         {
+            userProfile.UserStatusId = 1;
             _context.Add(userProfile);
             _context.SaveChanges();
         }
