@@ -1,7 +1,7 @@
 import React from 'react'
 import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
+    Card, CardImg, CardBody,
+    CardTitle, CardSubtitle, Link
 } from 'reactstrap';
 import formatDate from "../../utils/dateFormatter";
 
