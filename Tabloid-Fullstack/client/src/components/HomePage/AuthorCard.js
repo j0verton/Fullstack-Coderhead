@@ -8,7 +8,7 @@ import formatDate from "../../utils/dateFormatter";
 const AuthorCard = ({ author }) => {
     return (
         <div>
-            <Card>
+            <Card border="none" style={{ width: '11rem', border: 'none' }}>
                 <CardImg top width="100%" src={author.imageLocation} alt="Card image cap" />
                 <CardBody>
                     <CardTitle tag="h5">{author.displayName}</CardTitle>

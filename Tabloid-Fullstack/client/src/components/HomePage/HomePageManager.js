@@ -37,7 +37,7 @@ const HomePageManager = () => {
     return (
         <Container fluid={true}>
             <Row>
-                <Col xs="7" >
+                <Col xs="6" >
                     <h2>Most Recent Posts</h2>
                     {posts.map((post) => {
                         return <PostSummaryCard post={post} />
@@ -53,7 +53,7 @@ const HomePageManager = () => {
                         }
                     </CardDeck>
                 </Col>
-
+                <Col xs="1"></Col>
             </Row>
         </Container >
     )
