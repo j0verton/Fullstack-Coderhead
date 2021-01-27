@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Button
@@ -47,10 +47,12 @@ const MyPostList = (props) => {
     return (
         <div>
             {posts.map((post) => {
-                return (<Card>
+                return (<Card key={post.id}>
                     <CardImg top width="100%" src={post.imageLocation} alt={post.name} />
                     <CardBody>
-                        <CardTitle tag="h5">{post.title}</CardTitle>
+                        <Link to={`/post/${post.id}`}>
+                            <CardTitle tag="h5">{post.title}</CardTitle>
+                        </Link>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{post.category.name}</CardSubtitle>
                         <CardText>{post.content}</CardText>
                         <Button onClick={e => history.push(`/post/edit/${post.id}`)}>Edit</Button>
