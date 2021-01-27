@@ -32,6 +32,7 @@ namespace Tabloid_Fullstack.Repositories
                 .Include(up => up.Post
                     .Where(p => p.IsApproved))
                 .Where(up => up.Post != null)
+                .OrderByDescending(up => up.CreateDateTime)
                 .Take(10)
                 .ToList();
         }
