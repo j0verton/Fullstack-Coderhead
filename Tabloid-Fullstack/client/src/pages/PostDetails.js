@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Input, Jumbotron } from "reactstrap";
+import { Button, Input, Jumbotron, Media } from "reactstrap";
 import PostReactions from "../components/PostReactions";
 import formatDate from "../utils/dateFormatter";
 import "./PostDetails.css";
@@ -113,15 +113,15 @@ const PostDetails = () => {
 
   const subscribe = (author) => {
     return getToken()
-    .then((token) => 
-    fetch('/api/subscription', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({subscriberUserProfileId: user.id, providerUserProfileId: author})
-    }))
+      .then((token) =>
+        fetch('/api/subscription', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ subscriberUserProfileId: user.id, providerUserProfileId: author })
+        }))
   }
 
   useEffect(() => {
@@ -141,22 +141,22 @@ const PostDetails = () => {
   return (
     <div>
       <Jumbotron
-        className="post-details__jumbo"
-        style={{ backgroundImage: `url('${post.imageLocation}')` }}
-      ></Jumbotron>
+        className="post-details__jumbo">
+        <Media src={post.imageLocation} />
+      </Jumbotron>
       {isAdmin() ? (
         post.isApproved ? (
           <Button onClick={(e) => Unapprove().then(getPost)}>
             Unapprove Post
           </Button>
         ) : (
-          <Button onClick={(e) => Unapprove().then(getPost)}>
-            Approve Post
-          </Button>
-        )
+            <Button onClick={(e) => Unapprove().then(getPost)}>
+              Approve Post
+            </Button>
+          )
       ) : (
-        ""
-      )}
+          ""
+        )}
       <div className="container">
         <h1>{post.title}</h1>
         <h5 className="text-danger">{post.category.name}</h5>
@@ -194,27 +194,27 @@ const PostDetails = () => {
             </Button>{" "}
           </>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         <div>
           Tags:{" "}
           {checkUser() || isAdmin()
             ? tags.map((tag) => {
-                return (
-                  <>
-                    <Link
-                      onClick={(e) => Delete(tag).then(getPost).then(getTags)}
-                    >
-                      {tag.tag.name}
-                    </Link>{" "}
-                  </>
-                );
-              })
+              return (
+                <>
+                  <Link
+                    onClick={(e) => Delete(tag).then(getPost).then(getTags)}
+                  >
+                    {tag.tag.name}
+                  </Link>{" "}
+                </>
+              );
+            })
             : tags.map((tag) => `${tag.tag.name} `)}
         </div>
         <div>
-        <Button color="danger" onClick={(e) => subscribe(post.userProfileId)}>Subscribe</Button>
+          <Button color="danger" onClick={(e) => subscribe(post.userProfileId)}>Subscribe</Button>
         </div>
         <div className="my-4">
           <PostReactions postReactions={reactionCounts} getPost={getPost} />
