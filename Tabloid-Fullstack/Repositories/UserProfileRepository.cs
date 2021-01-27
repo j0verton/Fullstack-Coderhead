@@ -17,13 +17,23 @@ namespace Tabloid_Fullstack.Repositories
         {
             _context = context;
         }
-
+        //remember you took posts out of GetProfiles
         public List<UserProfile> GetProfiles()
         {
             return _context.UserProfile
                 .Include(up => up.UserType)
-                .Include(up => up.Post)
                 .OrderBy(up => up.DisplayName)
+                .ToList();
+        }
+        public List<UserProfile> GetAuthorProfiles()
+        {
+            return _context.UserProfile
+            .Include(up => up.UserType)
+                .Include(up => up.Post
+                    .Where(p => p.IsApproved))
+                .Where(up => up.Post.Count >= 1)
+                .OrderByDescending(up => up.CreateDateTime)
+                .Take(10)
                 .ToList();
         }
         public UserProfile GetProfileById(int id)
@@ -45,6 +55,7 @@ namespace Tabloid_Fullstack.Repositories
 
         public void Add(UserProfile userProfile)
         {
+            userProfile.UserStatusId = 1;
             _context.Add(userProfile);
             _context.SaveChanges();
         }
