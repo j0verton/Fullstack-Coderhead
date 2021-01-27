@@ -29,8 +29,9 @@ namespace Tabloid_Fullstack.Repositories
         {
             return _context.UserProfile
             .Include(up => up.UserType)
-                .Include(up => up.Post)
-                .OrderBy(up => up.CreateDateTime)
+                .Include(up => up.Post
+                    .Where(p => p.IsApproved))
+                .Where(up => up.Post != null)
                 .Take(10)
                 .ToList();
         }

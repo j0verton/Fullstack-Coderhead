@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, CardDeck } from 'reactstrap';
 import PostSummaryCard from '../PostSummaryCard';
+import AuthorCard from './AuthorCard'
 
 
 
 
 const HomePageManager = () => {
-    const [posts, setTopPosts] = useState([]);
+    const [posts, setRecentPosts] = useState([]);
+    const [authors, setRecentAuthors] = useState([]);
 
     useEffect(() => {
         getRecentAuthors()
@@ -19,31 +21,38 @@ const HomePageManager = () => {
         fetch("/api/homepage/recentPosts")
             .then((res) => res.json())
             .then((posts) => {
-                setTopPosts(posts)
+                setRecentPosts(posts)
             });
     }
     //
     const getRecentAuthors = () => {
         fetch("/api/homepage/recentAuthors")
             .then((res) => res.json())
-            .then((posts) => {
-                setTopPosts(posts)
+            .then((authors) => {
+                setRecentAuthors(authors)
             });
     }
+
+    console.log(authors)
     return (
         <Container fluid={true}>
             <Row>
-                <Col><h1>Welcome back!</h1></Col>
-            </Row>
-            <Row>
-                <Col xs="2"> <h4>Our Recent Authors</h4></Col>
-                <Col xs="10" >
+                <Col xs="7" >
                     <h2>Most Recent Posts</h2>
                     {posts.map((post) => {
                         return <PostSummaryCard post={post} />
                     })}
                 </Col>
-
+                <Col xs="1"></Col>
+                <Col xs="4"> <h4>Our Recent Authors</h4>
+                    <CardDeck>
+                        {
+                            authors.map((author) => {
+                                return <AuthorCard author={author} />
+                            })
+                        }
+                    </CardDeck>
+                </Col>
 
             </Row>
         </Container >
