@@ -107,6 +107,7 @@ export function UserProfileProvider(props) {
         getToken,
         getCurrentUser,
         isAdmin,
+        getUserProfile
       }}
     >
       {isFirebaseReady ? (

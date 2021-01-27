@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Tabloid_Fullstack.Models;
+using Tabloid_Fullstack.Models.ViewModels;
 using Tabloid_Fullstack.Repositories;
 
 
@@ -37,6 +38,16 @@ namespace Tabloid_Fullstack.Controllers
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             return Ok(_repo.GetByFirebaseUserId(firebaseUserId));
+        }
+
+        [HttpPut("img/")]
+        public IActionResult UpdateImg(ImageUrl url)
+        {
+            var user = GetCurrentUserProfile();
+            user.ImageLocation = url.ImageLocation;
+            _repo.Update(user);
+            
+            return Ok(user);
         }
 
         [HttpPost]

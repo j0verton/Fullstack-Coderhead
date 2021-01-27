@@ -85,14 +85,22 @@ namespace Tabloid_Fullstack.Controllers
         [HttpGet("mypost")]
         public IActionResult GetMyPost()
         {
-            var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
-            return Ok(posts);
+            try
+            {
+                var posts = _repo.GetByUserId(GetCurrentUserProfile().Id);
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         [HttpPost]
         public IActionResult Post(Post post)
         {
             var user = GetCurrentUserProfile();
+            
             post.CreateDateTime = DateTime.Now;
             if (user.UserTypeId == 1) { post.IsApproved = true; }
             else { post.IsApproved = false; }
@@ -125,9 +133,25 @@ namespace Tabloid_Fullstack.Controllers
             existingPost.Title = post.Title;
             existingPost.Content = post.Content;
             existingPost.CategoryId = post.CategoryId;
+            existingPost.ImageLocation = post.ImageLocation;
 
             _repo.Update(existingPost);
             return NoContent();
+        }
+
+        [HttpPut("mypost/publish/{id}")]
+        public IActionResult Publish(int id)
+        {
+            var existingPost = _repo.GetById(id);
+
+            if (existingPost.UserProfileId != GetCurrentUserProfile().Id)
+            {
+                return Unauthorized();
+            }
+            existingPost.PublishDateTime = DateTime.Now;
+
+            _repo.Update(existingPost);
+            return Ok();
         }
 
         [HttpDelete("mypost/{id}")]
@@ -135,7 +159,7 @@ namespace Tabloid_Fullstack.Controllers
         {
             var existingPost = _repo.GetById(id);
 
-            if (existingPost.UserProfileId != GetCurrentUserProfile().Id || GetCurrentUserProfile().UserTypeId != 1)
+            if (existingPost.UserProfileId != GetCurrentUserProfile().Id && GetCurrentUserProfile().UserTypeId != 1)
             {
                 return Unauthorized();
             }
