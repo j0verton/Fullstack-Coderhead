@@ -5,6 +5,7 @@ import {
     CardTitle, CardSubtitle, Button
 } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import PublishButton from './PublishButton';
 
 const MyPostList = (props) => {
 
@@ -26,18 +27,19 @@ const MyPostList = (props) => {
                 Authorization: `Bearer ${token}`,
             },
         })
-        .then(res => res.json())
-        .then(p => setPosts(p))
+            .then(res => res.json())
+            .then(p => setPosts(p))
     }
 
     const deletePost = (id) => {
         getToken().then((token) => {
-        return fetch(`/api/post/mypost/${id}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })})
+            return fetch(`/api/post/mypost/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        })
             .then(_ => getToken()
                 .then(getMyPost))
     }
@@ -46,13 +48,14 @@ const MyPostList = (props) => {
         <div>
             {posts.map((post) => {
                 return (<Card>
-                    {/* <CardImg top width="100%" src={post.imageLocation} alt={post.name} /> */}
+                    <CardImg top width="100%" src={post.imageLocation} alt={post.name} />
                     <CardBody>
                         <CardTitle tag="h5">{post.title}</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{post.category.name}</CardSubtitle>
                         <CardText>{post.content}</CardText>
                         <Button onClick={e => history.push(`/post/edit/${post.id}`)}>Edit</Button>
                         <Button onClick={e => deletePost(post.id)}>Delete</Button>
+                        <PublishButton post={post} getMyPost={getMyPost} />
                     </CardBody>
                 </Card>)
             })}

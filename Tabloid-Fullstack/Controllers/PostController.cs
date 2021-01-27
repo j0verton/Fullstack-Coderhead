@@ -92,6 +92,7 @@ namespace Tabloid_Fullstack.Controllers
         [HttpPost]
         public IActionResult Post(Post post)
         {
+            
             post.CreateDateTime = DateTime.Now;
             post.IsApproved = true;
             post.UserProfileId = GetCurrentUserProfile().Id;
@@ -123,6 +124,21 @@ namespace Tabloid_Fullstack.Controllers
             existingPost.Title = post.Title;
             existingPost.Content = post.Content;
             existingPost.CategoryId = post.CategoryId;
+
+            _repo.Update(existingPost);
+            return NoContent();
+        }
+
+        [HttpPut("mypost/publish/{id}")]
+        public IActionResult Publish(int id)
+        {
+            var existingPost = _repo.GetById(id);
+
+            if (existingPost.UserProfileId != GetCurrentUserProfile().Id)
+            {
+                return Unauthorized();
+            }
+            existingPost.PublishDateTime = DateTime.Now;
 
             _repo.Update(existingPost);
             return NoContent();
