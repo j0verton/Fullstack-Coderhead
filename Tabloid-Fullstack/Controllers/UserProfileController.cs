@@ -73,6 +73,11 @@ namespace Tabloid_Fullstack.Controllers
             }
             else if (userProfile.UserStatusId == 1)
             {
+                if (_repo.AdminCount() <= 1)
+                {
+                    return Unauthorized();
+                }
+
                 currentProfileStatus.UserStatusId = 2;
                 _repo.Update(currentProfileStatus);
                 return NoContent();
@@ -101,6 +106,11 @@ namespace Tabloid_Fullstack.Controllers
             }
             else if (userProfile.UserTypeId == 1)
             {
+                if (_repo.AdminCount() <= 1)
+                {
+                    return Unauthorized();
+                }
+
                 currentProfileStatus.UserTypeId = 2;
                 _repo.Update(currentProfileStatus);
                 return NoContent();
