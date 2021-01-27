@@ -27,6 +27,7 @@ const ApprovePostList = ({ posts, approved = true, GetPosts }) => {
             <div className="m-4" key={post.id}>
               <PostSummaryCard post={post} />{" "}
               <Button
+                color="info"
                 onClick={(e) => {
                   ApprovePost(post).then(GetPosts);
                 }}

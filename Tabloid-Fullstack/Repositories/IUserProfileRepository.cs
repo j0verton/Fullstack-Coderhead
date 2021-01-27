@@ -9,5 +9,6 @@ namespace Tabloid_Fullstack.Repositories
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         void Update(UserProfile userProfile);
         List<UserProfile> GetAuthorProfiles();
+        int AdminCount();
     }
 }
