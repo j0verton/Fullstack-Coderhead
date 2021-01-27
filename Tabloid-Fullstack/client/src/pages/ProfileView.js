@@ -21,22 +21,18 @@ const ProfileView = () => {
 
     const getCurrentUserProfile = () => {
         const user = localStorage.getItem("userProfile")
-        debugger
         getToken()
             .then((token) =>
-                fetch(`/api/userprofile/${user.firebaseUserId}`, {
+                fetch(`/api/userprofile/${getCurrentUser().firebaseUserId}`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                     .then(res => {
-                        console.log("res", res)
                         return res.json()
                     })
                     .then(profile => {
-                        debugger
-                        console.log(profile)
                         setProfile(profile)
                     }));
     }
@@ -74,8 +70,14 @@ const ProfileView = () => {
                     method: "PUT",
                     headers: {
                         Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(url),
+                    body:
+                        JSON.stringify({
+                            imageLocation: url
+                        }
+                        ),
+
                 })
                     .then(res => res.json())
                     .then(profile => {

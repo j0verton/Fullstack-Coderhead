@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText, Progress } from 'reactstrap';
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import firebase from "firebase/app";
 
 const PostForm = (props) => {
 
     const [post, setPost] = useState({})
     const [categories, setCategories] = useState([])
+    const [imageLocation, setImageLocation] = useState()
+    const [isLoading, setIsLoading] = useState(false);
+    const [loadingProgress, setLoadingProgress] = useState(0);
     const { getToken } = useContext(UserProfileContext);
 
     const history = useHistory()
@@ -22,6 +26,30 @@ const PostForm = (props) => {
             .then(res => res.json())
             .then(cat => setCategories(cat))
     }, [])
+
+    const uploadImage = async e => {
+        console.log("uploading", e.target.files[0])
+        setIsLoading(true)
+        const file = e.target.files[0]
+        let storageRef = firebase.storage().ref(`ProfilePictures/${file.name}`)
+        let task = storageRef.put(file)
+        task.on('state_changed',
+            function progess(snapshot) {
+
+                let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setLoadingProgress(percentage)
+            },
+            function error(err) {
+
+            },
+            function complete() {
+                task.snapshot.ref.getDownloadURL()
+                    .then()
+                setIsLoading(false)
+
+            }
+        )
+    }
 
     const handleChange = (e) => {
         const newPost = { ...post }
@@ -62,6 +90,19 @@ const PostForm = (props) => {
                         </option>
                     ))}
                 </Input>
+            </FormGroup>
+            <FormGroup>
+                {
+                    isLoading ? <>
+                        <div className="text-center">{loadingProgress}%</div>
+                        <Progress className="mb-2" value={loadingProgress} /> </> : null
+                }
+                <Input className="mb-2"
+                    type="file"
+                    id="profilePicUpload"
+                    placeholder="Upload a Profile Picture"
+                    onChange={(e) => handleChange(e)}
+                />
             </FormGroup>
             <Button
                 onClick={e => {
