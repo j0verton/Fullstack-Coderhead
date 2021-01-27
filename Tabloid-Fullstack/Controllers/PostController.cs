@@ -92,9 +92,11 @@ namespace Tabloid_Fullstack.Controllers
         [HttpPost]
         public IActionResult Post(Post post)
         {
+            var user = GetCurrentUserProfile();
             post.CreateDateTime = DateTime.Now;
-            post.IsApproved = true;
-            post.UserProfileId = GetCurrentUserProfile().Id;
+            if (user.UserTypeId == 1) { post.IsApproved = true; }
+            else { post.IsApproved = false; }
+            post.UserProfileId = user.Id;
             _repo.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
