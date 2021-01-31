@@ -1,10 +1,7 @@
 # Tabloid - Fullstack
 
 Tabloid is an article sharing app, built by a team of 4 with:
--**React**
--**C#/.Net**
--**Entity Framework**
--**and SQL Server**
+**React**,  **C#/.Net**, **Entity Framework**, **and SQL Server**
 
 **I worked on:**
 * displaying a post's estimated read time
