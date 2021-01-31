@@ -1,6 +1,6 @@
 # Tabloid - Fullstack
 
-Tabloid is an article sharing app, built by a team of 4 in 2 3 day sprints with:
+Tabloid is an article sharing app, built by a team of 4 in a series of 2 3 day sprints with:
 **React**,  **C#/.Net**, **Entity Framework**, **and SQL Server**
 
 **I worked on:**
