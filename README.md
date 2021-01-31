@@ -1,5 +1,22 @@
 # Tabloid - Fullstack
 
+Tabloid is a FullStack article sharing app, built by a team of 4 with:
+-React
+-C#/.Net
+-Entity Framework
+-and SQL Server
+
+I worked on 
+-displaying a post's estimated read time
+-search by title or category component
+-search by tag component
+-using firebase to store post header images and user profile images
+-adding reactions to posts
+-Creating, Updating, and Deleting comments on posts
+-displaying comments on a post's details page
+
+
+
 ### Getting Started
 
 1. Pull down this repo
@@ -14,7 +31,7 @@
    - Once firebase creates a UID for these users, copy the UID from firebase and update the `FirebaseUserId` column for the same users in your SQL Server database.
    - Go to the Storage Tab, and click the "get started" button.
    - click 'Next' and then 'Done'
-   - Add folders for "PostHeaders" and "ProfilePictures" in your storagebucket by clicking the "folder+" icon
+   - Add folders for "PostHeaders" and "ProfilePictures" in your Storagebucket by clicking the "folder+" icon
    - Click the Gear icon in the sidebar to go to Project Settings. You'll need the information on this page for the next few steps
 
 4. `cd` into Tabloid-Fullstack/Tabloid-Fullstack and enter `touch appsettings.Local.json`
