@@ -7,13 +7,13 @@ Tabloid is an article sharing app, built by a team of 4 with:
 -**and SQL Server**
 
 **I worked on:**
--displaying a post's estimated read time
--search by title or category component
--search by tag component
--using firebase to store post header images and user profile images
--adding reactions to posts
--Creating, Updating, and Deleting comments on posts
--displaying comments on a post's details page
+* displaying a post's estimated read time
+* search by title or category component
+* search by tag component
+* using firebase to store post header images and user profile images
+* adding reactions to posts
+* creating, Updating, and Deleting comments on posts
+* displaying comments on a post's details page
 
 
 
